@@ -5,241 +5,529 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cleo's Claude Starter Kit</title>
 <meta name="description" content="A friendly, visual guide to setting up Claude with the tools that make it feel like your own assistant — no coding required.">
-<link rel="canonical" href="https://cleo-claude-guide.pages.dev/">
+<link rel="canonical" href="https://guide.cleomackstaller.com/">
 <meta property="og:title" content="Cleo's Claude Starter Kit">
 <meta property="og:description" content="A friendly, visual guide to Claude tools — from one-click connectors to a team of AI helpers.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧰</text></svg>">
 <style>
-  /* ===== Notion-style, LIGHT ONLY. Forced light even if the viewer's OS/app is dark. ===== */
   :root{
     color-scheme: light !important;
-    --bg:#ffffff;
-    --bg-soft:#f7f6f3;
-    --bg-soft2:#f1efe9;
-    --card:#ffffff;
-    --ink:#37352f;
-    --ink-soft:#6b6a65;
-    --ink-faint:#9b9a97;
-    --line:#e9e7e1;
-    --line-strong:#dcd9d1;
-    --accent:#2b7cc9;
-    --accent-hover:#1f66ad;
-    --accent-soft:#eaf2fb;
-    --easy:#4a8a5c; --easy-bg:#e9f2ec;
-    --med:#9a7420; --med-bg:#f8efd6;
-    --techy:#c0532f; --techy-bg:#fae9e2;
-    --purple:#7d5aa6; --purple-bg:#f1ebf8;
-    --radius:11px; --radius-sm:7px;
-    --font:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji",sans-serif;
+    --paper:#ffffff; --paper-2:#f7f6f3; --paper-3:#efeee9;
+    --ink:#181b22; --ink-2:#3b404b; --ink-3:#6a7080; --ink-4:#9aa1af;
+    --line:#e8e7e1; --line-2:#dbdad2;
+    --accent:#0f6e5f; --accent-2:#0b5548; --accent-tint:#e9f2ef; --accent-ink:#0c4a3f;
+    --easy:#5c7a63; --easy-bg:#eef2ec; --med:#94743a; --med-bg:#f4efe3; --techy:#a05a45; --techy-bg:#f4ebe6;
+    --purple:#6a5aa6; --purple-bg:#efecf6;
+    --radius:12px; --radius-sm:8px; --radius-lg:16px;
+    --shadow-sm:0 1px 2px rgba(20,22,30,.05);
+    --shadow:0 1px 2px rgba(20,22,30,.05),0 10px 26px -16px rgba(20,22,30,.18);
+    --shadow-lg:0 2px 6px rgba(20,22,30,.05),0 30px 60px -24px rgba(20,22,30,.30);
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
-    --maxw:900px;
+    --maxw:1120px;
   }
-  /* If the Artifact runtime forces a dark theme, keep everything light anyway. */
   :root[data-theme="dark"]{ color-scheme: light !important; }
-
   *{ box-sizing:border-box; }
-  html{ background:var(--bg); }
-  body{
-    margin:0; background:var(--bg); color:var(--ink); overflow-x:clip;
-    font-family:var(--font); font-size:16px; line-height:1.6;
-    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-  }
+  html{ background:var(--paper); -webkit-text-size-adjust:100%; }
+  body{ margin:0; background:var(--paper); color:var(--ink-2); font-family:var(--sans); font-size:16.5px; line-height:1.62; overflow-x:clip; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
   a{ color:var(--accent); text-decoration:none; }
-  a:hover{ text-decoration:underline; }
-  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:5px; }
-  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
-  h1,h2,h3{ margin:0; font-weight:700; line-height:1.2; letter-spacing:-.015em; text-wrap:balance; }
+  a:hover{ color:var(--accent-2); text-decoration:underline; }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 26px; }
+  h1,h2{ font-family:var(--serif); font-weight:600; line-height:1.12; letter-spacing:-.012em; color:var(--ink); margin:0; text-wrap:balance; }
+  h3{ font-family:var(--sans); font-weight:600; color:var(--ink); margin:0; letter-spacing:-.005em; }
+  em{ font-style:italic; }
+  svg.ic{ width:18px; height:18px; flex:0 0 auto; }
+  .eyebrow{ font-family:var(--mono); font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
 
-  /* ---- nav ---- */
-  .nav{ position:sticky; top:0; z-index:50; background:rgba(255,255,255,.9); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
-  .nav-inner{ display:flex; align-items:center; gap:4px 16px; padding:11px 24px; max-width:var(--maxw); margin:0 auto; flex-wrap:wrap; }
-  .nav-brand{ font-weight:700; font-size:.95rem; color:var(--ink); margin-right:auto; display:flex; align-items:center; gap:8px; }
-  .nav-brand .ic{ font-size:1.05rem; }
-  .nav a.lnk{ font-size:.85rem; font-weight:500; color:var(--ink-soft); }
-  .nav a.lnk:hover{ text-decoration:none; color:var(--ink); }
+  /* ---- header / nav ---- */
+  .nav{ position:sticky; top:0; z-index:50; background:rgba(255,255,255,.86); backdrop-filter:saturate(1.4) blur(10px); border-bottom:1px solid var(--line); }
+  .nav-inner{ display:flex; align-items:center; gap:6px 15px; max-width:var(--maxw); margin:0 auto; padding:13px 26px; flex-wrap:wrap; }
+  .nav-brand{ display:flex; align-items:center; gap:9px; font-weight:700; font-size:.95rem; color:var(--ink); margin-right:auto; letter-spacing:-.01em; }
+  .nav-brand .mark{ width:26px; height:26px; border-radius:7px; background:var(--accent); color:#fff; display:grid; place-items:center; }
+  .nav-brand .mark svg.ic{ width:15px; height:15px; }
+  .nav a.lnk{ font-size:.86rem; font-weight:500; color:var(--ink-3); letter-spacing:-.005em; }
+  .nav a.lnk:hover{ color:var(--ink); text-decoration:none; }
+  .seg{ display:inline-flex; border:1px solid var(--line-2); border-radius:8px; overflow:hidden; flex:0 0 auto; margin-left:4px; background:var(--paper); }
+  .seg button{ border:0; background:transparent; color:var(--ink-3); font:inherit; font-size:.78rem; font-weight:600; padding:5px 13px; cursor:pointer; transition:background .13s,color .13s; }
+  .seg button.act{ background:var(--accent); color:#fff; }
+  .seg button:not(.act):hover{ background:var(--paper-2); color:var(--ink); }
 
-  /* ---- hero (Notion page header) ---- */
-  .hero{ padding:52px 0 8px; }
-  .page-ic{ font-size:3rem; line-height:1; }
-  .hero h1{ font-size:clamp(2rem,5vw,2.9rem); margin:16px 0 0; }
-  .hero .sub{ font-size:1.12rem; color:var(--ink-soft); max-width:52ch; margin:12px 0 0; }
+  /* ---- hero ---- */
+  .hero{ position:relative; overflow:hidden; border-bottom:1px solid var(--line); background:linear-gradient(180deg,var(--paper-2),var(--paper) 62%); }
+  .hero::before{ content:""; position:absolute; top:-40%; right:-10%; width:60%; height:120%; background:radial-gradient(closest-side, var(--accent-tint), transparent 70%); opacity:.7; pointer-events:none; }
+  .hero-grid{ position:relative; display:grid; grid-template-columns:1.05fr .95fr; gap:52px; align-items:center; padding:66px 0 60px; }
+  @media (max-width:860px){ .hero-grid{ grid-template-columns:1fr; gap:36px; padding:48px 0 44px; } }
+  .hero h1{ font-size:clamp(2.5rem,5.2vw,3.8rem); margin:18px 0 0; }
+  .hero-sub{ font-size:clamp(1.05rem,2vw,1.24rem); color:var(--ink-2); margin:20px 0 0; max-width:34ch; }
+  .hero-cta{ display:flex; gap:12px; flex-wrap:wrap; margin-top:28px; }
+  .hero-trust{ display:flex; align-items:center; gap:9px; margin:22px 0 0; color:var(--ink-3); font-size:.9rem; }
+  .hero-trust svg.ic{ color:var(--accent); }
+  .hero-shot{ position:relative; }
+  .hero-shot .mock-win{ box-shadow:var(--shadow-lg); }
+  .hero-shot::after{ content:""; position:absolute; inset:auto 8% -14px 8%; height:24px; background:rgba(20,22,30,.14); filter:blur(16px); border-radius:50%; z-index:-1; }
+  .trust-strip{ border-top:1px solid var(--line); background:var(--paper); }
+  .trust-strip .wrap{ display:flex; align-items:center; gap:12px 26px; flex-wrap:wrap; padding:16px 26px; }
+  .trust-strip .tl{ font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-4); }
+  .trust-strip .item{ display:inline-flex; align-items:center; gap:7px; color:var(--ink-3); font-size:.86rem; font-weight:500; }
+  .trust-strip .item svg.ic{ width:16px; height:16px; color:var(--ink-4); }
 
-  /* ---- callout (Notion) ---- */
-  .callout{ display:flex; gap:14px; align-items:flex-start; background:var(--accent-soft); border:1px solid #d5e6f6; border-radius:var(--radius); padding:18px 20px; margin:26px 0 0; }
-  .callout.gray{ background:var(--bg-soft); border-color:var(--line); }
-  .callout.green{ background:var(--easy-bg); border-color:#d3e7d9; }
-  .callout.amber{ background:var(--med-bg); border-color:#ecdcae; }
-  .callout .cico{ font-size:1.3rem; line-height:1.5; flex:0 0 auto; }
-  .callout .cbody{ min-width:0; }
-  .callout .cbody :first-child{ margin-top:0; }
-  .callout p{ margin:9px 0 0; }
-  .callout .lbl{ font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
-  .callout.gray .lbl{ color:var(--ink-faint); }
-  .callout h3{ font-size:1.05rem; }
+  /* ---- buttons ---- */
+  .btn{ display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:.9rem; padding:9px 16px; border-radius:9px; border:1px solid var(--accent); color:#fff; background:var(--accent); transition:background .14s,border-color .14s,transform .14s,box-shadow .14s; }
+  .btn:hover{ text-decoration:none; background:var(--accent-2); border-color:var(--accent-2); color:#fff; }
+  .btn svg.ic{ width:16px; height:16px; }
+  .btn.ghost{ background:var(--paper); color:var(--ink); border-color:var(--line-2); }
+  .btn.ghost:hover{ background:var(--paper-2); color:var(--ink); border-color:var(--ink-4); }
+  .btn.lg{ padding:12px 22px; font-size:.98rem; border-radius:10px; }
+  .btn.lg:hover{ box-shadow:var(--shadow); }
 
   /* ---- sections ---- */
-  section.block{ padding:40px 0 4px; scroll-margin-top:70px; }
+  section.block{ padding:56px 0 6px; scroll-margin-top:72px; }
   @media (max-width:640px){ section.block{ scroll-margin-top:150px; } }
-  .sec-head{ display:flex; align-items:center; gap:11px; margin:0 0 4px; padding-bottom:12px; border-bottom:1px solid var(--line); }
-  .sec-head .dot{ width:9px; height:9px; border-radius:50%; background:var(--accent); flex:0 0 auto; }
-  .sec-head h2{ font-size:1.5rem; }
-  .sec-sub{ color:var(--ink-soft); max-width:66ch; margin:16px 0 22px; }
+  .sec-head{ display:flex; align-items:center; gap:14px; margin:0 0 3px; padding-bottom:16px; border-bottom:1px solid var(--line); }
+  .sec-head .dot{ width:4px; height:24px; border-radius:3px; background:var(--accent); flex:0 0 auto; }
+  .sec-head h2{ font-size:clamp(1.5rem,3vw,1.95rem); }
+  .sec-sub{ color:var(--ink-3); max-width:70ch; margin:20px 0 26px; font-size:1.02rem; }
   .sec-sub strong{ color:var(--ink); font-weight:600; }
 
-  /* ---- info panels ---- */
-  .panels{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:4px; }
+  /* ---- panels / glossary ---- */
+  .panels{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
   @media (max-width:720px){ .panels{ grid-template-columns:1fr; } }
-  .panel{ background:var(--bg-soft); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; }
-  .panel h3{ font-size:1rem; margin-bottom:8px; display:flex; align-items:center; gap:9px; }
-  .panel p{ margin:0; color:var(--ink-soft); font-size:.94rem; }
-  .glossary{ display:grid; gap:11px; }
+  .panel{ background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius); padding:22px 24px; }
+  .panel h3{ font-size:1.04rem; margin-bottom:10px; display:flex; align-items:center; gap:9px; }
+  .panel h3 svg.ic{ color:var(--accent); }
+  .panel p{ margin:0; color:var(--ink-3); font-size:.95rem; }
+  .glossary{ display:grid; gap:13px; }
   .gitem{ display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start; }
-  .gitem .term{ font-weight:700; color:var(--ink); font-size:.92rem; min-width:100px; }
-  .gitem .def{ color:var(--ink-soft); font-size:.9rem; }
+  .gitem .term{ font-weight:600; color:var(--ink); font-size:.92rem; min-width:104px; }
+  .gitem .def{ color:var(--ink-3); font-size:.9rem; }
 
-  /* ---- badges / tags ---- */
-  .badge{ display:inline-flex; align-items:center; gap:6px; font-size:.76rem; font-weight:600; padding:3px 9px; border-radius:5px; }
-  .badge .bdot{ width:7px; height:7px; border-radius:50%; }
-  .b-easy{ color:var(--easy); background:var(--easy-bg);} .b-easy .bdot{ background:var(--easy);}
-  .b-med{ color:var(--med); background:var(--med-bg);} .b-med .bdot{ background:var(--med);}
-  .b-techy{ color:var(--techy); background:var(--techy-bg);} .b-techy .bdot{ background:var(--techy);}
-  .legend{ display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
-  .oneclick{ font-size:.74rem; font-weight:600; color:var(--easy); background:var(--easy-bg); padding:3px 9px; border-radius:5px; }
-  .haveit{ font-size:.74rem; font-weight:600; color:var(--purple); background:var(--purple-bg); padding:3px 9px; border-radius:5px; }
+  /* ---- level micro-labels & chips ---- */
+  .badge{ display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:.66rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; padding:0; background:none; }
+  .badge .bdot{ width:6px; height:6px; border-radius:50%; }
+  .b-easy{ color:var(--easy);} .b-easy .bdot{ background:var(--easy);}
+  .b-med{ color:var(--med);} .b-med .bdot{ background:var(--med);}
+  .b-techy{ color:var(--techy);} .b-techy .bdot{ background:var(--techy);}
+  .legend{ display:flex; gap:16px; flex-wrap:wrap; margin-top:4px; }
+  .oneclick,.haveit{ font-family:var(--mono); font-size:.64rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:3px 8px; border-radius:5px; }
+  .oneclick{ color:var(--easy); background:var(--easy-bg); }
+  .haveit{ color:var(--purple); background:var(--purple-bg); }
 
   /* ---- card grid ---- */
-  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
-  .grid.tri{ grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); }
-  .card{ display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px; transition:border-color .15s ease, box-shadow .15s ease; }
-  .card:hover{ border-color:var(--line-strong); box-shadow:0 1px 2px rgba(15,15,15,.04),0 8px 20px -14px rgba(15,15,15,.2); }
-  .card-top{ display:flex; align-items:flex-start; gap:11px; }
-  .card-ic{ flex:0 0 auto; width:40px; height:40px; border-radius:9px; display:grid; place-items:center; font-size:1.2rem; background:var(--bg-soft); border:1px solid var(--line); }
-  .card-tt{ flex:1; min-width:0; }
-  .card h3{ font-size:1.04rem; }
-  .card .badge{ margin-top:6px; }
-  .card .what{ color:var(--ink-soft); font-size:.92rem; margin:9px 0 0; }
-  .why{ margin:11px 0 0; font-size:.88rem; color:#2f5f83; background:var(--accent-soft); border:1px solid #dcebf9; padding:9px 11px; border-radius:var(--radius-sm); }
-  .why b{ color:#245176; }
-  .how{ margin:12px 0 0; }
-  .how-lbl{ font-family:var(--mono); font-size:.66rem; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-faint); font-weight:600; margin-bottom:6px; }
-  .path{ font-size:.88rem; color:var(--ink); }
-  .path code{ font-family:var(--mono); font-size:.82em; background:var(--bg-soft2); padding:2px 6px; border-radius:5px; border:1px solid var(--line); }
-  .kbd{ font-family:var(--mono); font-size:.8em; background:#fff; border:1px solid var(--line-strong); border-bottom-width:2px; border-radius:5px; padding:2px 6px; color:var(--ink); }
-
-  .cmd{ position:relative; margin-top:6px; background:var(--bg-soft); border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; }
-  .cmd pre{ margin:0; padding:10px 42px 10px 12px; overflow-x:auto; font-family:var(--mono); font-size:.78rem; line-height:1.5; color:var(--ink); }
-  .cmd .copy{ position:absolute; top:6px; right:6px; width:28px; height:28px; border-radius:6px; border:1px solid var(--line); background:#fff; color:var(--ink-soft); cursor:pointer; display:grid; place-items:center; font-size:.82rem; transition:all .13s ease; }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:16px; align-items:start; }
+  .grid.tri{ grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); }
+  .card{ display:flex; flex-direction:column; background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:20px; transition:border-color .15s,box-shadow .15s,transform .15s; }
+  .card:hover{ border-color:var(--line-2); box-shadow:var(--shadow); transform:translateY(-2px); }
+  .card-top{ display:flex; align-items:center; gap:12px; }
+  .card-ic{ flex:0 0 auto; width:38px; height:38px; border-radius:9px; display:grid; place-items:center; background:var(--paper-2); border:1px solid var(--line); color:var(--ink-2); }
+  .card-ic svg.ic{ width:19px; height:19px; }
+  .card-tt{ flex:1; min-width:0; display:flex; flex-direction:column; gap:5px; }
+  .card h3{ font-size:1.02rem; }
+  .card .what{ color:var(--ink-3); font-size:.92rem; margin:11px 0 0; }
+  .why{ margin:12px 0 0; font-size:.9rem; color:var(--ink-2); background:var(--paper-2); border-left:2.5px solid var(--accent); padding:10px 13px; border-radius:0 var(--radius-sm) var(--radius-sm) 0; }
+  .why b{ color:var(--accent-ink); font-weight:600; }
+  .how{ margin:14px 0 0; }
+  .how-lbl{ font-family:var(--mono); font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-4); font-weight:600; margin-bottom:7px; }
+  .path{ font-size:.9rem; color:var(--ink-2); }
+  .path code,.kbd{ font-family:var(--mono); font-size:.82em; background:var(--paper-2); padding:2px 6px; border-radius:5px; border:1px solid var(--line); }
+  .kbd{ border-bottom-width:2px; border-color:var(--line-2); color:var(--ink); }
+  .cmd{ position:relative; margin-top:7px; background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; }
+  .cmd pre{ margin:0; padding:11px 44px 11px 13px; overflow-x:auto; font-family:var(--mono); font-size:.78rem; line-height:1.6; color:var(--ink); }
+  .cmd .copy{ position:absolute; top:7px; right:7px; width:28px; height:28px; border-radius:6px; border:1px solid var(--line-2); background:var(--paper); color:var(--ink-3); cursor:pointer; display:grid; place-items:center; font-size:.82rem; transition:all .13s; }
   .cmd .copy:hover{ color:var(--accent); border-color:var(--accent); }
   .cmd .copy.ok{ color:#fff; background:var(--easy); border-color:var(--easy); }
+  .card-foot{ margin-top:auto; padding-top:16px; display:flex; gap:9px; flex-wrap:wrap; align-items:center; }
 
-  .card-foot{ margin-top:auto; padding-top:15px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-  .btn{ display:inline-flex; align-items:center; gap:6px; font-weight:600; font-size:.84rem; padding:7px 13px; border-radius:7px; border:1px solid var(--accent); color:#fff; background:var(--accent); transition:all .13s ease; }
-  .btn:hover{ text-decoration:none; background:var(--accent-hover); border-color:var(--accent-hover); }
-  .btn.ghost{ background:#fff; color:var(--ink-soft); border-color:var(--line-strong); }
-  .btn.ghost:hover{ background:var(--bg-soft); color:var(--ink); }
+  /* ---- callouts ---- */
+  .callout{ display:flex; gap:14px; align-items:flex-start; background:var(--paper-2); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:0 var(--radius) var(--radius) 0; padding:18px 22px; margin:24px 0 0; }
+  .callout.green{ border-left-color:var(--easy); }
+  .callout.amber{ border-left-color:var(--med); background:var(--med-bg); border-color:#ece2cd; }
+  .callout.gray{ border-left-color:var(--ink-4); }
+  .callout .cico{ flex:0 0 auto; width:34px; height:34px; border-radius:9px; display:grid; place-items:center; background:var(--paper); border:1px solid var(--line); color:var(--accent); }
+  .callout.amber .cico{ color:var(--med); } .callout.green .cico{ color:var(--easy); } .callout.gray .cico{ color:var(--ink-3); }
+  .callout .cico svg.ic{ width:18px; height:18px; }
+  .callout .cbody{ min-width:0; }
+  .callout .cbody :first-child{ margin-top:0; }
+  .callout p{ margin:9px 0 0; color:var(--ink-2); }
+  .callout .lbl{ font-family:var(--mono); font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-4); }
+  .callout h3{ font-size:1.06rem; }
+  .steps{ margin:11px 0 0; padding-left:20px; }
+  .steps li{ margin:6px 0; color:var(--ink-2); font-size:.94rem; }
+  .steps code{ font-family:var(--mono); font-size:.84em; background:var(--paper-2); padding:2px 6px; border-radius:5px; border:1px solid var(--line); }
 
-  /* tables */
-  .tblwrap{ margin-top:6px; overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); }
+  /* ---- signed aside ---- */
+  .aside-note{ display:flex; gap:15px; align-items:flex-start; margin:8px 0 4px; padding:18px 22px; border:1px solid var(--line); border-radius:var(--radius); background:var(--paper); }
+  .aside-note .avatar{ flex:0 0 auto; width:38px; height:38px; border-radius:50%; background:var(--accent); color:#fff; display:grid; place-items:center; font-weight:700; font-family:var(--serif); }
+  .aside-note p{ margin:0; color:var(--ink-2); font-size:.98rem; }
+  .aside-note .sig{ margin-top:5px; font-size:.82rem; color:var(--ink-4); }
+
+  /* ---- mockups ---- */
+  .mock-win{ border:1px solid var(--line); border-radius:11px; overflow:hidden; background:var(--paper); max-width:100%; font-size:13px; box-shadow:var(--shadow); }
+  .mock-bar{ display:flex; align-items:center; gap:6px; padding:8px 12px; background:var(--paper-2); border-bottom:1px solid var(--line); }
+  .mock-dot{ width:9px; height:9px; border-radius:50%; flex:0 0 auto; background:var(--line-2); }
+  .mock-bar .mock-dot:nth-child(1){ background:#e0a99b; } .mock-bar .mock-dot:nth-child(2){ background:#e3c78f; } .mock-bar .mock-dot:nth-child(3){ background:#a9c9a9; }
+  .mock-title{ font-size:11.5px; font-weight:600; color:var(--ink-3); margin-left:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .mock-body{ padding:13px 14px; display:flex; flex-direction:column; gap:9px; }
+  .mock-chat{ display:flex; flex-direction:column; gap:9px; }
+  .mock-bubble{ max-width:88%; padding:9px 12px; border-radius:13px; font-size:12.5px; line-height:1.45; overflow-wrap:anywhere; }
+  .mock-bubble.u{ background:var(--accent); color:#fff; margin-left:auto; border-bottom-right-radius:4px; }
+  .mock-bubble.ai{ background:var(--paper-2); border:1px solid var(--line); margin-right:auto; border-bottom-left-radius:4px; color:var(--ink-2); }
+  .mock-term{ background:var(--paper-2); border:1px solid var(--line); border-radius:8px; padding:11px 13px; font-family:var(--mono); font-size:11.5px; line-height:1.7; color:var(--ink); overflow-wrap:anywhere; }
+  .mock-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 0; border-bottom:1px solid var(--line); font-size:12.5px; color:var(--ink-2); }
+  .mock-row:last-child{ border-bottom:0; }
+  .mock-toggle{ width:34px; height:20px; border-radius:10px; background:var(--line-2); position:relative; flex:0 0 auto; }
+  .mock-toggle::after{ content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.18); transition:left .15s; }
+  .mock-toggle.on{ background:var(--accent); } .mock-toggle.on::after{ left:16px; }
+  .mock-dialog{ border:1px solid var(--line); border-radius:12px; background:var(--paper); padding:15px 17px; max-width:340px; font-size:12.5px; display:flex; flex-direction:column; gap:9px; box-shadow:var(--shadow-lg); color:var(--ink-2); }
+  .mock-btn{ display:inline-block; padding:5px 12px; border-radius:7px; font-size:12px; font-weight:600; background:var(--accent); color:#fff; }
+  .mock-btn~.mock-btn{ background:var(--paper-2); color:var(--ink); border:1px solid var(--line); }
+  .mock-tag{ display:inline-block; font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-3); background:var(--paper-3); border:1px solid var(--line); border-radius:5px; padding:2px 7px; margin-bottom:5px; }
+  .mock-ok{ color:var(--accent); font-weight:600; font-size:12px; }
+  .mock-muted{ color:var(--ink-4); font-size:12px; }
+  .mock-email{ border:1px solid var(--line); border-radius:11px; background:var(--paper); padding:14px 16px; font-size:12.5px; max-width:100%; box-shadow:var(--shadow); color:var(--ink-2); }
+  .mock-email-head{ color:var(--ink-3); font-size:12px; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:9px; display:flex; flex-direction:column; gap:2px; }
+  .mock-split{ display:grid; grid-template-columns:1fr 1fr; gap:11px; max-width:100%; }
+  @media (max-width:480px){ .mock-split{ grid-template-columns:1fr; } }
+  .mock-split-pane{ border:1px solid var(--line); border-radius:11px; background:var(--paper); padding:12px 13px; font-size:12.5px; min-width:0; display:flex; flex-direction:column; gap:4px; align-items:flex-start; color:var(--ink-2); }
+  .mock-tree{ list-style:none; margin:0; padding:0; font-size:12.5px; color:var(--ink-2); }
+  .mock-tree li{ padding:3px 0; }
+  .mock-tree ul{ list-style:none; margin:4px 0 0; padding-left:14px; border-left:2px dashed var(--line-2); }
+
+  /* ---- see-it expander ---- */
+  .seeit{ margin:14px 0 0; border:1px solid var(--line); border-radius:10px; background:var(--paper-2); overflow:hidden; }
+  .seeit>summary{ cursor:pointer; padding:9px 13px; font-size:.8rem; font-weight:600; color:var(--accent); list-style:none; display:flex; align-items:center; gap:8px; transition:background .12s; }
+  .seeit>summary::-webkit-details-marker{ display:none; }
+  .seeit>summary::before{ content:"\25B8"; display:inline-block; transition:transform .15s; color:var(--ink-4); }
+  .seeit[open]>summary::before{ transform:rotate(90deg); }
+  .seeit>summary:hover{ background:var(--paper-3); }
+  .seeit-body{ padding:5px 13px 14px; }
+
+  /* ---- tooltips ---- */
+  .jt{ border-bottom:1px dotted var(--ink-4); cursor:help; position:relative; }
+  .jt::after{ display:none; content:attr(data-tip); position:absolute; left:0; bottom:100%; transform:translateY(-6px); background:var(--ink); color:#fff; padding:8px 11px; border-radius:8px; font-size:12px; font-weight:400; line-height:1.45; width:max-content; max-width:min(250px,80vw); pointer-events:none; z-index:60; white-space:normal; box-shadow:var(--shadow); }
+  .jt:hover::after,.jt:focus::after{ display:block; }
+  .jt.r::after{ left:auto; right:0; }
+
+  /* ---- tables ---- */
+  .tblwrap{ margin-top:8px; overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); }
   table.tbl{ border-collapse:collapse; width:100%; min-width:520px; font-size:.9rem; }
-  table.tbl th, table.tbl td{ text-align:left; padding:10px 13px; border-bottom:1px solid var(--line); vertical-align:top; }
-  table.tbl thead th{ background:var(--bg-soft); font-weight:700; color:var(--ink); font-size:.82rem; }
+  table.tbl th,table.tbl td{ text-align:left; padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-2); }
+  table.tbl thead th{ background:var(--paper-2); font-weight:600; color:var(--ink); font-size:.8rem; letter-spacing:.02em; }
   table.tbl tbody tr:last-child td{ border-bottom:0; }
   table.tbl td:first-child{ font-weight:600; color:var(--ink); white-space:nowrap; }
-  table.tbl .yes{ color:var(--easy); font-weight:700; }
-  table.tbl .no{ color:var(--ink-soft); }
-  table.tbl code{ font-family:var(--mono); font-size:.85em; background:var(--bg-soft2); padding:1px 5px; border-radius:4px; border:1px solid var(--line); }
-  .steps{ margin:10px 0 0; padding-left:20px; }
-  .steps li{ margin:5px 0; color:var(--ink); font-size:.92rem; }
-  .steps code{ font-family:var(--mono); font-size:.84em; background:var(--bg-soft2); padding:2px 6px; border-radius:5px; border:1px solid var(--line); }
+  table.tbl .yes{ color:var(--accent); font-weight:700; }
+  table.tbl .no{ color:var(--ink-3); }
+  table.tbl code{ font-family:var(--mono); font-size:.85em; background:var(--paper-2); padding:1px 5px; border-radius:4px; border:1px solid var(--line); }
 
-  /* timeline */
-  .winbox{ margin-top:8px; background:var(--bg-soft); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; }
+  /* ---- timeline ---- */
+  .winbox{ margin-top:10px; background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px; }
   .timeline{ margin:12px 0 4px; }
-  .tl-row{ display:grid; grid-template-columns:80px 1fr; gap:12px; align-items:center; margin:8px 0; }
-  .tl-row .lab{ font-family:var(--mono); font-size:.74rem; color:var(--ink-soft); font-weight:600; text-align:right; }
-  .bar{ min-height:26px; border-radius:6px; display:flex; align-items:center; padding:5px 10px; font-size:.74rem; font-weight:600; color:#fff; line-height:1.25; }
-  .bar.bad{ background:#cf6a48; }
-  .bar.good{ background:#4a8a5c; }
-  .bar.pre{ background:#d9a441; color:#3a2c0d; }
-  ul.clean{ margin:12px 0 0; padding-left:0; list-style:none; display:grid; gap:8px; }
-  ul.clean li{ display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:start; color:var(--ink-soft); font-size:.94rem; }
+  .tl-row{ display:grid; grid-template-columns:82px 1fr; gap:12px; align-items:center; margin:8px 0; }
+  .tl-row .lab{ font-family:var(--mono); font-size:.74rem; color:var(--ink-3); font-weight:600; text-align:right; }
+  .bar{ min-height:26px; border-radius:6px; display:flex; align-items:center; padding:5px 11px; font-size:.74rem; font-weight:600; color:#fff; line-height:1.25; }
+  .bar.bad{ background:#b5735c; } .bar.good{ background:var(--accent); } .bar.pre{ background:#c99a52; color:#3a2c0d; }
+  ul.clean{ margin:13px 0 0; padding-left:0; list-style:none; display:grid; gap:9px; }
+  ul.clean li{ display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:start; color:var(--ink-2); font-size:.94rem; }
   ul.clean li .tick{ color:var(--accent); font-weight:700; }
 
-  footer{ margin-top:48px; border-top:1px solid var(--line); }
-  .foot-in{ padding:30px 0 46px; }
-  .foot-links{ display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 20px; }
-  .foot-links a{ font-size:.84rem; font-weight:500; color:var(--ink-soft); border:1px solid var(--line); padding:6px 12px; border-radius:6px; background:var(--bg-soft); }
-  .foot-links a:hover{ text-decoration:none; color:var(--accent); border-color:var(--accent); }
-  .signoff{ color:var(--ink-faint); font-size:.85rem; }
+  /* ---- simple/advanced ---- */
+  .adv{ display:none; }
+  body.mode-advanced .adv{ display:revert; }
 
-  /* ===== mockup kit ===== */
-  .mock-win{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--bg);max-width:100%;font-size:13px;box-shadow:0 1px 2px rgba(15,15,15,.05)}
-  .mock-bar{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--bg-soft);border-bottom:1px solid var(--line)}
-  .mock-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;background:var(--line-strong)}
-  .mock-bar .mock-dot:nth-child(1){background:#e8927c}
-  .mock-bar .mock-dot:nth-child(2){background:#eec97e}
-  .mock-bar .mock-dot:nth-child(3){background:#9ccf9f}
-  .mock-title{font-size:11.5px;font-weight:600;color:var(--ink-soft);margin-left:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .mock-body{padding:11px 12px;display:flex;flex-direction:column;gap:8px}
-  .mock-chat{display:flex;flex-direction:column;gap:8px}
-  .mock-bubble{max-width:88%;padding:8px 11px;border-radius:12px;font-size:12.5px;line-height:1.45;overflow-wrap:anywhere}
-  .mock-bubble.u{background:var(--accent);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
-  .mock-bubble.ai{background:var(--bg-soft);border:1px solid var(--line);margin-right:auto;border-bottom-left-radius:4px}
-  .mock-term{background:var(--bg-soft);border:1px solid var(--line);border-radius:7px;padding:10px 12px;font-family:var(--mono);font-size:11.5px;line-height:1.65;color:var(--ink);overflow-wrap:anywhere}
-  .mock-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px}
-  .mock-row:last-child{border-bottom:0}
-  .mock-toggle{width:34px;height:20px;border-radius:10px;background:var(--line-strong);position:relative;flex:0 0 auto}
-  .mock-toggle::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.18);transition:left .15s}
-  .mock-toggle.on{background:var(--easy)}
-  .mock-toggle.on::after{left:16px}
-  .mock-dialog{border:1px solid var(--line);border-radius:11px;background:var(--bg);padding:14px 16px;max-width:340px;font-size:12.5px;display:flex;flex-direction:column;gap:8px;box-shadow:0 6px 22px -10px rgba(15,15,15,.22)}
-  .mock-btn{display:inline-block;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;background:var(--accent);color:#fff}
-  .mock-btn~.mock-btn{background:var(--bg-soft);color:var(--ink);border:1px solid var(--line)}
-  .mock-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);background:var(--bg-soft2);border:1px solid var(--line);border-radius:5px;padding:2px 7px;margin-bottom:4px}
-  .mock-ok{color:var(--easy);font-weight:600;font-size:12px}
-  .mock-muted{color:var(--ink-faint);font-size:12px}
-  .mock-email{border:1px solid var(--line);border-radius:9px;background:var(--bg);padding:13px 15px;font-size:12.5px;max-width:100%;box-shadow:0 1px 2px rgba(15,15,15,.05)}
-  .mock-email-head{color:var(--ink-soft);font-size:12px;border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:9px;display:flex;flex-direction:column;gap:2px}
-  .mock-split{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:100%}
-  @media (max-width:480px){.mock-split{grid-template-columns:1fr}}
-  .mock-split-pane{border:1px solid var(--line);border-radius:9px;background:var(--bg);padding:11px 12px;font-size:12.5px;min-width:0;display:flex;flex-direction:column;gap:4px;align-items:flex-start}
-  .mock-tree{list-style:none;margin:0;padding:0;font-size:12.5px}
-  .mock-tree li{padding:3px 0}
-  .mock-tree ul{list-style:none;margin:4px 0 0;padding-left:14px;border-left:2px dashed var(--line)}
+  /* ---- footer ---- */
+  footer{ margin-top:60px; border-top:1px solid var(--line); background:var(--paper-2); }
+  .foot-in{ max-width:var(--maxw); margin:0 auto; padding:44px 26px 52px; }
+  .foot-top{ display:flex; justify-content:space-between; gap:28px; flex-wrap:wrap; align-items:flex-start; }
+  .foot-brand{ display:flex; align-items:center; gap:10px; font-weight:700; color:var(--ink); }
+  .foot-brand .mark{ width:28px; height:28px; border-radius:8px; background:var(--accent); color:#fff; display:grid; place-items:center; }
+  .foot-brand .mark svg.ic{ width:16px; height:16px; }
+  .foot-tag{ color:var(--ink-3); font-size:.92rem; margin:12px 0 0; max-width:40ch; }
+  .foot-links{ display:flex; gap:10px; flex-wrap:wrap; }
+  .foot-links a{ font-size:.85rem; font-weight:500; color:var(--ink-3); border:1px solid var(--line); padding:7px 13px; border-radius:8px; background:var(--paper); }
+  .foot-links a:hover{ text-decoration:none; color:var(--accent); border-color:var(--line-2); }
+  .signoff{ margin:26px 0 0; padding-top:20px; border-top:1px solid var(--line); color:var(--ink-4); font-size:.84rem; }
 
-  /* see-it expander */
-  .grid{align-items:start}
-  .seeit{margin:12px 0 0;border:1px solid var(--line);border-radius:9px;background:var(--bg-soft);overflow:hidden}
-  .seeit>summary{cursor:pointer;padding:8px 12px;font-size:.82rem;font-weight:600;color:var(--accent);list-style:none;display:flex;align-items:center;gap:7px;transition:background .12s}
-  .seeit>summary::-webkit-details-marker{display:none}
-  .seeit>summary::before{content:"\25B8";display:inline-block;transition:transform .15s}
-  .seeit[open]>summary::before{transform:rotate(90deg)}
-  .seeit>summary:hover{background:var(--bg-soft2)}
-  .seeit-body{padding:4px 12px 12px}
-
-  /* tooltips */
-  .jt{border-bottom:1px dotted var(--ink-faint);cursor:help;position:relative}
-  .jt::after{display:none;content:attr(data-tip);position:absolute;left:0;bottom:100%;transform:translateY(-6px);background:var(--ink);color:#fff;padding:7px 10px;border-radius:7px;font-size:12px;font-weight:400;line-height:1.4;width:max-content;max-width:min(250px,80vw);pointer-events:none;z-index:60;white-space:normal}
-  .jt:hover::after,.jt:focus::after{display:block}
-  .jt.r::after{left:auto;right:0}
-
-  /* simple / advanced */
-  .adv{display:none}
-  body.mode-advanced .adv{display:revert}
-  .seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:7px;overflow:hidden;flex:0 0 auto;margin-left:6px}
-  .seg button{border:0;background:var(--bg);color:var(--ink-soft);font:inherit;font-size:.78rem;font-weight:600;padding:5px 12px;cursor:pointer;transition:background .12s,color .12s}
-  .seg button.act{background:var(--accent);color:#fff}
-  .seg button:not(.act):hover{background:var(--bg-soft)}
-
-  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } .card:hover{ transform:none; } }
 </style>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="i-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3" y="4" width="18" height="16" rx="2"/>
+<path d="M7 9l3.5 3L7 15"/>
+<path d="M12.5 15h4.5"/>
+</symbol>
+
+<symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M7 18h10.5a3.5 3.5 0 0 0 .5-6.96 5 5 0 0 0-9.71-1.7A4.5 4.5 0 0 0 7 18z"/>
+</symbol>
+
+<symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="3"/>
+<path d="M12 3v2.5M12 18.5V21M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M3 12h2.5M18.5 12H21M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/>
+</symbol>
+
+<symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3" y="5" width="18" height="14" rx="2"/>
+<path d="M4 6.5l8 6.5 8-6.5"/>
+</symbol>
+
+<symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M14.5 4.5l4 4L7 20l-4.5 1 1-4.5z"/>
+<path d="M13 6l4 4"/>
+</symbol>
+
+<symbol id="i-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6z"/>
+<path d="M19 17l.7 2.3L22 20l-2.3.7-.7 2.3-.7-2.3L16 20l2.3-.7z"/>
+</symbol>
+
+<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="9"/>
+<path d="M3 12h18M12 3c2.5 2.5 3.7 5.8 3.7 9s-1.2 6.5-3.7 9c-2.5-2.5-3.7-5.8-3.7-9s1.2-6.5 3.7-9z"/>
+</symbol>
+
+<symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M9.5 14.5l5-5"/>
+<path d="M11 6.5l1.3-1.3a3.6 3.6 0 0 1 5.1 5.1L16 11.7M13 17.5l-1.3 1.3a3.6 3.6 0 0 1-5.1-5.1L8 12.3"/>
+</symbol>
+
+<symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="9" y="3" width="6" height="11" rx="3"/>
+<path d="M5.5 11a6.5 6.5 0 0 0 13 0"/>
+<path d="M12 17.5V21M9 21h6"/>
+</symbol>
+
+<symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 3a9 8 0 1 0 0 16c1.1 0 1.8-.9 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.7-1.8 1.8-1.8H17a4 4 0 0 0 4-4c0-3.9-4-6-9-6z"/>
+<circle cx="7.5" cy="11" r="1"/>
+<circle cx="9.5" cy="7.5" r="1"/>
+<circle cx="14.5" cy="7.5" r="1"/>
+</symbol>
+
+<symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="9"/>
+<circle cx="12" cy="12" r="5"/>
+<circle cx="12" cy="12" r="1"/>
+</symbol>
+
+<symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="7" cy="18" r="2"/>
+<circle cx="7" cy="6" r="2"/>
+<circle cx="17" cy="15" r="2"/>
+<path d="M7 8v8"/>
+<path d="M7 8a6 6 0 0 0 6 6h2"/>
+</symbol>
+
+<symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="9" cy="8" r="3"/>
+<path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/>
+<path d="M16 5.5c1.5.3 2.5 1.6 2.5 3s-1 2.7-2.5 3"/>
+<path d="M17.5 14c2 .4 3 1.9 3 4"/>
+</symbol>
+
+<symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3" y="4" width="18" height="16" rx="2"/>
+<path d="M3 9.5h18"/>
+<path d="M9.5 9.5V20"/>
+</symbol>
+
+<symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 5h16v11H9l-5 4z"/>
+</symbol>
+
+<symbol id="i-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6.5 3h7l4 4v13.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V3.5a.5.5 0 0 1 .5-.5z"/>
+<path d="M13.5 3v4h4"/>
+<path d="M9 13h6M9 16.5h6"/>
+</symbol>
+
+<symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3.5" y="5" width="17" height="15" rx="2"/>
+<path d="M8 3v4M16 3v4M3.5 10h17"/>
+</symbol>
+
+<symbol id="i-bar-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 20V10M11 20V4M18 20v-7"/>
+<path d="M3 20h18"/>
+</symbol>
+
+<symbol id="i-line-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M3 20h18M3 20V4"/>
+<path d="M4.5 15.5l4.5-5 3.5 3 6-7"/>
+</symbol>
+
+<symbol id="i-presentation" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3" y="4" width="18" height="12" rx="1.5"/>
+<path d="M8 20l4-4 4 4"/>
+<path d="M8.5 12l2-3 2 2 3-3.5"/>
+</symbol>
+
+<symbol id="i-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="6" y="4.5" width="12" height="16" rx="2"/>
+<path d="M9.5 4.5V3.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1"/>
+<path d="M9 12h6M9 16h6"/>
+</symbol>
+
+<symbol id="i-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/>
+</symbol>
+
+<symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 5.5A2 2 0 0 1 6 4h6v16H6a2 2 0 0 0-2 1.5z"/>
+<path d="M20 5.5A2 2 0 0 0 18 4h-6v16h6a2 2 0 0 1 2 1.5z"/>
+</symbol>
+
+<symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 20h9"/>
+<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>
+</symbol>
+
+<symbol id="i-mail-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M3 10.5l9-6 9 6V19a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>
+<path d="M3 10.5l7.3 5a2.7 2.7 0 0 0 3.4 0l7.3-5"/>
+</symbol>
+
+<symbol id="i-gauge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 15a8 8 0 1 1 16 0"/>
+<path d="M12 15l3.5-4.5"/>
+<path d="M4 15h1.5M18.5 15H20M6.5 8.5l1 1M17.5 8.5l-1 1"/>
+</symbol>
+
+<symbol id="i-plug" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M9 2.5v4M15 2.5v4"/>
+<path d="M6.5 6.5h11v4a5.5 5.5 0 0 1-11 0z"/>
+<path d="M12 16v3M12 19a2.5 2.5 0 0 0-2.5 2.5"/>
+</symbol>
+
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="11" cy="11" r="7"/>
+<path d="M20.5 20.5l-4.3-4.3"/>
+</symbol>
+
+<symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="5" y="11" width="14" height="9" rx="2"/>
+<path d="M8 11V7.5a4 4 0 0 1 8 0V11"/>
+</symbol>
+
+<symbol id="i-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M14.5 6.5a4 4 0 0 0-5.4 5.4L4 17l3 3 5.1-5.1a4 4 0 0 0 5.4-5.4l-3 3-2-2z"/>
+</symbol>
+
+<symbol id="i-cursor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6 3.5l5.5 15 2-6 6-2z"/>
+</symbol>
+
+<symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3.5" y="4.5" width="17" height="15" rx="2"/>
+<circle cx="8.5" cy="9.5" r="1.5"/>
+<path d="M4 17l5-5 3 3 4-4.5 4 4.5"/>
+</symbol>
+
+<symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M3.5 6.5a1 1 0 0 1 1-1h4.5l2 2.5h8.5a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/>
+</symbol>
+
+<symbol id="i-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="6" cy="6" r="2.2"/>
+<circle cx="18" cy="18" r="2.2"/>
+<path d="M6 8.2v3.3a3.5 3.5 0 0 0 3.5 3.5h5a3.5 3.5 0 0 0 3.5-3.5"/>
+</symbol>
+
+<symbol id="i-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="9"/>
+<path d="M8.5 14.5c1 1.3 2.2 2 3.5 2s2.5-.7 3.5-2"/>
+<path d="M8.5 9.5h.01M15.5 9.5h.01"/>
+</symbol>
+
+<symbol id="i-compare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M8 4L4 8l4 4"/>
+<path d="M4 8h11.5a4.5 4.5 0 0 1 0 9H14"/>
+<path d="M16 16l4 4 4-4" transform="translate(-4)"/>
+</symbol>
+
+<symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M13 3L5 13.5h6L11 21l8-10.5h-6z"/>
+</symbol>
+
+<symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="6" y="6" width="12" height="12" rx="2"/>
+<rect x="9.5" y="9.5" width="5" height="5" rx="1"/>
+<path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>
+</symbol>
+
+<symbol id="i-puzzle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M9 4.5h3.5a1.5 1.5 0 0 1 0 3 1.5 1.5 0 0 0 0 3H16a1 1 0 0 1 1 1v3.5a1 1 0 0 1-1 1h-3a1.5 1.5 0 0 0 0 3 1.5 1.5 0 0 1 0 3H9a1 1 0 0 1-1-1v-3a1.5 1.5 0 0 0-3 0 1.5 1.5 0 0 1-3 0V14a1 1 0 0 1 1-1h3a1.5 1.5 0 0 0 0-3 1.5 1.5 0 0 1 0-3H8a1 1 0 0 1 1-1z"/>
+</symbol>
+
+<symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="9"/>
+<path d="M15 9l-2 6-6 2 2-6z"/>
+</symbol>
+
+<symbol id="i-thread" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="5.5" cy="6" r="2"/>
+<circle cx="18.5" cy="18" r="2"/>
+<path d="M7.3 7.3C10 10 8 13 12 14s2.5 2.5 4.7 3.2"/>
+</symbol>
+
+<symbol id="i-wand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 20L15 9"/>
+<path d="M15 4l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/>
+<path d="M18.5 13.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z"/>
+</symbol>
+
+<symbol id="i-lightbulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M9 18h6"/>
+<path d="M9.5 21h5"/>
+<path d="M12 3a6 6 0 0 0-3.5 10.9c.5.4.9 1 1 1.6l.1.5h4.8l.1-.5c.1-.6.5-1.2 1-1.6A6 6 0 0 0 12 3z"/>
+</symbol>
+
+<symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 3.5L21.5 20h-19z"/>
+<path d="M12 9.5v4.5M12 17h.01"/>
+</symbol>
+
+<symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="8" cy="15" r="4"/>
+<path d="M11 12l7-7M15 5l3 3M17.5 6.5l2 2"/>
+</symbol>
+
+<symbol id="i-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 15c-2.5 0-5-2.5-5-7 0-3 2-5.5 5-5.5s5 2.5 5 5.5c0 4.5-2.5 7-5 7z"/>
+<circle cx="12" cy="8.5" r="1.5"/>
+<path d="M9 14.5L6.5 17v3l2.5-1.5M15 14.5l2.5 2.5v3l-2.5-1.5"/>
+</symbol>
+
+<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="9"/>
+<path d="M12 7v5l3.5 2"/>
+</symbol>
+
+<symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 3.5l7 3v5.5c0 4.5-3 7.5-7 8.5-4-1-7-4-7-8.5V6.5z"/>
+</symbol>
+
+<symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="9"/>
+<path d="M12 11v5.5M12 7.5h.01"/>
+</symbol>
+
+<symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 12h16M13.5 5.5L20 12l-6.5 6.5"/>
+</symbol>
+
+<symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M9 4.5H5a1.5 1.5 0 0 0-1.5 1.5v13A1.5 1.5 0 0 0 5 20.5h13a1.5 1.5 0 0 0 1.5-1.5v-4"/>
+<path d="M13.5 3.5H20v6.5M20 3.5l-9 9"/>
+</symbol>
+</svg>
 
 
 <nav class="nav">
   <div class="nav-inner">
-    <span class="nav-brand"><span class="ic">🧰</span> Cleo's Claude Starter Kit</span>
+    <span class="nav-brand"><span class="mark"><svg class="ic" aria-hidden="true"><use href="#i-sparkle"></use></svg></span> Cleo&#39;s Claude Starter Kit</span>
     <a class="lnk" href="#start">Start</a>
     <a class="lnk" href="#comfort">Comfort</a>
     <a class="lnk" href="#everyday">Everyday</a>
@@ -257,20 +545,21 @@
 </nav>
 
 <header class="hero">
-  <div class="wrap">
-    <div class="page-ic">🧰</div>
-    <h1>Cleo's Claude Starter Kit</h1>
-    <p class="sub">A hand-picked kit of add-ons that make Claude feel like your own assistant — no coding required.</p>
-    <div class="callout">
-      <span class="cico">👋</span>
-      <div class="cbody">
-        <span class="lbl">A quick note from Marshal</span>
-        <p>Hey Cleo — you don't need to be technical to get a <em>lot</em> more out of Claude. This is the kit I actually use, arranged easiest → fanciest, with copy-and-paste steps for each.</p>
-        <p><b>The one secret worth knowing:</b> you never have to set any of this up alone. Paste any link from this page into Claude and say <em>"walk me through installing this, step by step"</em> — it'll happily do it with you. Start at the top, one thing at a time.</p>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">A guide for Berkeley Credit</span>
+      <h1>Give Cleo back her afternoons</h1>
+      <p class="hero-sub">Claude drafts broker updates, valuation chasers and completion packs in your voice, in seconds — so the team spends less time on repetitive admin and more time on the deals that need judgement.</p>
+      <div class="hero-cta">
+        <a class="btn lg" href="#start">Start here <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+        <a class="btn ghost lg" href="#working">See how it works</a>
       </div>
+      <p class="hero-trust"><svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg> Nothing is sent, filed, or changed without a human saying yes first. Your data stays yours, and every action is reviewed before it goes anywhere.</p>
     </div>
+    <div class="hero-shot"><div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Claude</span></div><div class="mock-body"><div class="mock-chat"><div class="mock-bubble u">Draft a friendly chase to the broker about the outstanding valuation on 14 Elm Street — warm but firm.</div><div class="mock-bubble ai">Here's a draft — it's saved in your Gmail drafts to review:<br><br><em>Subject: Valuation update — 14 Elm Street</em><br><em>Hi Tom, just checking in on the valuation report...</em><br><br><span class="mock-ok">✓ Draft created — nothing sends until you hit Send</span></div></div></div></div></div>
   </div>
 </header>
+<div class="trust-strip"><div class="wrap"><span class="tl">Works with the tools you already use</span><span class="item"><svg class="ic" aria-hidden="true"><use href="#i-mail"></use></svg>Gmail</span><span class="item"><svg class="ic" aria-hidden="true"><use href="#i-folder"></use></svg>Google Drive</span><span class="item"><svg class="ic" aria-hidden="true"><use href="#i-edit"></use></svg>Notion</span><span class="item"><svg class="ic" aria-hidden="true"><use href="#i-github"></use></svg>GitHub</span><span class="item"><svg class="ic" aria-hidden="true"><use href="#i-cloud"></use></svg>Cloudflare</span></div></div>
 
 <main class="wrap">
 
@@ -278,9 +567,10 @@
   <section class="block" id="start">
     <div class="sec-head"><span class="dot"></span><h2>Start here</h2></div>
     <p class="sec-sub">You've <strong>already got the desktop app</strong> ✅ — so you're set up. Two spots worth finding inside it: <strong>Settings → Connectors</strong> (the one-click tool shelf) and <strong>Scheduled tasks</strong> (we'll use that in Tips). You've also got <strong>GitHub</strong> and <strong>Cloudflare</strong> accounts — there are cards for both under <a href="#accounts">Accounts</a>.</p>
+    <div class="aside-note"><div class="avatar">M</div><div><p>Cleo — this is built around the work you already do; have a look and tell me what's missing.</p><p class="sig">— Marshal</p></div></div>
 
     <div class="callout green">
-      <span class="cico">🪄</span>
+      <span class="cico"><svg class="ic" aria-hidden="true"><use href="#i-wand"></use></svg></span>
       <div class="cbody">
         <h3>The move that makes all of this easy</h3>
         <p>For anything that looks fiddly, paste the tool's link into Claude and say: <em>"Please install this for me and tell me if you need anything."</em> Claude runs the steps itself — your job is mostly to say yes and grab a login when it asks.</p>
@@ -288,9 +578,6 @@
     </div>
 
     
-    <p class="sec-sub" style="margin:22px 0 10px"><strong>Here's the feel of it</strong> — you ask in plain English, Claude does the fiddly part:</p>
-<div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Claude</span></div><div class="mock-body"><div class="mock-chat"><div class="mock-bubble u">Draft a friendly chase to the broker about the outstanding valuation on 14 Elm Street — warm but firm.</div><div class="mock-bubble ai">Here's a draft — it's saved in your Gmail drafts to review:<br><br><em>Subject: Valuation update — 14 Elm Street</em><br><em>Hi Tom, just checking in on the valuation report...</em><br><br><span class="mock-ok">✓ Draft created — nothing sends until you hit Send</span></div></div></div></div>
-
     <div class="panels" style="margin-top:20px">
       <div class="panel">
         <h3>🔑 Plain-English glossary</h3>
@@ -321,7 +608,7 @@
     <div class="grid">
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🎙️</div><div class="card-tt"><h3>FluidVoice</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-mic"></use></svg></div><div class="card-tt"><h3>FluidVoice</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">Talk to Claude out loud and it types for you — accurate, and it runs entirely on your Mac.</p>
         <p class="why"><b>Why you'll like it:</b> describing a client situation by voice is far quicker than typing, and your hands stay free.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
@@ -332,7 +619,7 @@
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">📋</div><div class="card-tt"><h3>FlashClip</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-clipboard"></use></svg></div><div class="card-tt"><h3>FlashClip</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">A clipboard with a memory. Everything you copy is kept, so you can paste something from ten copies ago.</p>
         <p class="why"><b>Why you'll like it:</b> keep your best prompts and stock replies one shortcut away instead of retyping them.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
@@ -344,7 +631,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🔋</div><div class="card-tt"><h3>OpenUsage</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-gauge"></use></svg></div><div class="card-tt"><h3>OpenUsage</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">A tiny menu-bar meter showing how much Claude you have left in the current window — no login, no setup.</p>
         <p class="why"><b>Why you'll like it:</b> never get surprised by a limit mid-task. It also powers the morning trick in Tips.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
@@ -354,7 +641,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🔐</div><div class="card-tt"><h3>1Password</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-lock"></use></svg></div><div class="card-tt"><h3>1Password</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">A vault for passwords and those free "API keys" some tools ask for. You may already have it through work.</p>
         <p class="why"><b>Why you'll like it:</b> in finance you handle sensitive logins daily — keep them here, never in a note or email. An add-on lets Claude use a key safely without ever showing it in the chat.</p>
         <div class="how"><div class="how-lbl">▹ Optional: let Claude use it</div>
@@ -377,7 +664,7 @@ brew install --cask flashclip">⧉</button></div>
     <div class="grid">
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">✉️</div><div class="card-tt"><h3>Gmail</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-mail"></use></svg></div><div class="card-tt"><h3>Gmail</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">Claude reads, sorts, and drafts email for you — always as a draft you approve before anything sends.</p>
         <p class="why"><b>Why you'll like it:</b> "draft a friendly chase to the broker about the outstanding valuation" — done in seconds, in your voice.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div><p class="path">Desktop → <b>Settings → Connectors → Gmail → Connect</b>. <span class="oneclick">One-click</span></p></div>
@@ -389,7 +676,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">📅</div><div class="card-tt"><h3>Calendar</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-calendar"></use></svg></div><div class="card-tt"><h3>Calendar</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">Claude can see your day, find free slots, and add events when you ask.</p>
         <p class="why"><b>Why you'll like it:</b> "book a callback with the client Thursday afternoon and hold 30 minutes" without leaving the chat.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div><p class="path"><b>Google Calendar</b> is one-click. Prefer <b>Fantastical</b>? It has an official connector too — Connectors → Browse → Fantastical. <span class="oneclick">One-click</span></p></div>
@@ -397,7 +684,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🗂️</div><div class="card-tt"><h3>Google Drive &amp; Sheets</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-folder"></use></svg></div><div class="card-tt"><h3>Google Drive &amp; Sheets</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">Let Claude open your documents and spreadsheets, pull figures, and draft new ones.</p>
         <p class="why"><b>Why you'll like it:</b> point it at a loan-calc sheet and ask for a clean summary or a client-ready quote.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div><p class="path">Desktop → <b>Settings → Connectors → Google Drive</b>. <span class="oneclick">One-click</span></p></div>
@@ -405,7 +692,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🔎</div><div class="card-tt"><h3>Web search (Tavily)</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-search"></use></svg></div><div class="card-tt"><h3>Web search (Tavily)</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">Gives Claude live, current web search so answers aren't stuck in the past.</p>
         <p class="why"><b>Why you'll like it:</b> check a lender's current rates, a company at Companies House, or today's news before you reply.</p>
         <div class="how"><div class="how-lbl">▹ Step 1 — free key at tavily.com (starts <code>tvly-</code>)</div>
@@ -416,7 +703,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🌐</div><div class="card-tt"><h3>Fetch a page</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-link"></use></svg></div><div class="card-tt"><h3>Fetch a page</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">Hand Claude any web address and it reads the page for you. No key needed — it's the official one.</p>
         <p class="why"><b>Why you'll like it:</b> "read this lender's criteria page and tell me if my client fits" — paste the link, get the answer.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
@@ -426,7 +713,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">📄</div><div class="card-tt"><h3>MarkItDown</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-file-text"></use></svg></div><div class="card-tt"><h3>MarkItDown</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">Microsoft's converter: turns PDFs, Word, Excel and PowerPoint into clean text Claude reads easily (and cheaply).</p>
         <p class="why"><b>Why you'll like it:</b> valuation reports, legal packs and lender forms become searchable, summarisable text in one step.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
@@ -449,7 +736,7 @@ brew install --cask flashclip">⧉</button></div>
     <div class="grid">
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">📊</div><div class="card-tt"><h3>Documents, decks &amp; sheets</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-presentation"></use></svg></div><div class="card-tt"><h3>Documents, decks &amp; sheets</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">Turn a plain request into a real Word doc, PowerPoint deck, Excel sheet, or tidy PDF — properly formatted, not just text.</p>
         <p class="why"><b>Why you'll like it:</b> "make this into a client-ready one-page PDF" or "build a deck summarising these three deals."</p>
         <div class="how"><div class="how-lbl">▹ How to use it</div><p class="path">On the desktop app you can often just ask. <span class="haveit">Already included</span></p></div>
@@ -457,7 +744,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">📈</div><div class="card-tt"><h3>Charts &amp; dashboards</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-bar-chart"></use></svg></div><div class="card-tt"><h3>Charts &amp; dashboards</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">Anthropic's <b>data</b> plugin turns a spreadsheet into clean charts and can build a small visual dashboard.</p>
         <p class="why"><b>Why you'll like it:</b> loan figures, monthly volumes or a pipeline become a clear picture you can drop into a report.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
@@ -467,7 +754,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🎨</div><div class="card-tt"><h3>Brand &amp; theme kit</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-palette"></use></svg></div><div class="card-tt"><h3>Brand &amp; theme kit</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">Skills for a consistent look — colour palettes, fonts, a canvas for graphics, and brand-guideline helpers.</p>
         <p class="why"><b>Why you'll like it:</b> everything you make can share the same tidy, on-brand style instead of looking thrown together.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
@@ -477,7 +764,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">💅</div><div class="card-tt"><h3>ui-ux-pro-max</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-layout"></use></svg></div><div class="card-tt"><h3>ui-ux-pro-max</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">A "design brain" for building good-looking pages — 84 styles, palettes, font pairings and layout guidance.</p>
         <p class="why"><b>Why you'll like it:</b> if you ever build a web page or form, it looks professionally designed rather than plain.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
@@ -489,7 +776,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">✨</div><div class="card-tt"><h3>frontend-design</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-sparkle"></use></svg></div><div class="card-tt"><h3>frontend-design</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">An official Anthropic skill that polishes the look and feel of any web page Claude builds you.</p>
         <p class="why"><b>Why you'll like it:</b> the difference between "a page a computer made" and "a page a designer made."</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
@@ -499,7 +786,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card adv">
-        <div class="card-top"><div class="card-ic">🗺️</div><div class="card-tt"><h3>design-for-ai</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-route"></use></svg></div><div class="card-tt"><h3>design-for-ai</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">A full design workflow for a real project: research → plan → mock → build → review, with sign-off at each step.</p>
         <p class="why"><b>Why you'll like it:</b> when a project matters, it stops Claude rushing and walks it through a proper process.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
@@ -511,7 +798,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card adv">
-        <div class="card-top"><div class="card-ic">🖼️</div><div class="card-tt"><h3>Figma</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-image"></use></svg></div><div class="card-tt"><h3>Figma</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Connect Claude to your Figma files so it can read your actual designs — frames, colours and components.</p>
         <p class="why"><b>Why you'll like it:</b> if a designer hands you a Figma file, Claude can turn it into a real page that matches.</p>
         <div class="how"><div class="how-lbl">▹ Turn on Dev Mode in Figma, then:</div>
@@ -521,7 +808,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card adv">
-        <div class="card-top"><div class="card-ic">🧩</div><div class="card-tt"><h3>Mobbin &amp; Stitch</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-puzzle"></use></svg></div><div class="card-tt"><h3>Mobbin &amp; Stitch</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what"><b>Mobbin</b> searches real, shipped-app screens for design inspiration; <b>Google Stitch</b> generates a UI from a sentence.</p>
         <p class="why"><b>Why you'll like it:</b> a shortcut to "what does good look like?" before you build anything.</p>
         <div class="how"><div class="how-lbl">▹ Add Mobbin (needs a Mobbin Pro plan)</div>
@@ -540,7 +827,7 @@ brew install --cask flashclip">⧉</button></div>
     <div class="grid tri">
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">📝</div><div class="card-tt"><h3>Plan mode</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-edit"></use></svg></div><div class="card-tt"><h3>Plan mode</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">Claude reads things, writes a step-by-step plan, and <b>waits for your OK</b> before changing anything.</p>
         <p class="why"><b>Why you'll like it:</b> a beginner's safety net — you see exactly what's about to happen and nothing is touched until you say yes.</p>
         <div class="how"><div class="how-lbl">▹ How to turn it on</div>
@@ -554,7 +841,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🧠</div><div class="card-tt"><h3>Pick the right model</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-cpu"></use></svg></div><div class="card-tt"><h3>Pick the right model</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">Choose which Claude "brain" answers you — a quick one for everyday jobs, a powerhouse for the important stuff.</p>
         <p class="why"><b>Why you'll like it:</b> fast answers day to day, and full power only when a task really matters (a fiddly calc, a document that must be exactly right).</p>
         <div class="how"><div class="how-lbl">▹ Switch with one line (or the desktop model picker)</div>
@@ -573,7 +860,7 @@ brew install --cask flashclip">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">👥</div><div class="card-tt"><h3>Send out a team of agents</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg></div><div class="card-tt"><h3>Send out a team of agents</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">For big jobs, Claude can split the work across several <b>helper agents</b> at once — faster, and they cross-check each other.</p>
         <p class="why"><b>Why you'll like it:</b> "check every doc in this folder for a missing signature" gets shared out and double-checked — fewer things slip through.</p>
         <div class="how"><div class="how-lbl">▹ Just ask (copy &amp; edit this)</div>
@@ -589,7 +876,7 @@ folder and flag anything incomplete</pre><button class="copy" aria-label="Copy" 
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🎯</div><div class="card-tt"><h3>Plan smart, build cheap</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-target"></use></svg></div><div class="card-tt"><h3>Plan smart, build cheap</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">Do the <b>thinking</b> with a powerful model, then let a <b>fast, cheap</b> one do the legwork — so you pay top rates only for the short planning bit.</p>
         <p class="why"><b>Why you'll like it:</b> a tricky deal doc gets a careful, approved plan first, then quick helpers carry it out — accurate <em>and</em> affordable.</p>
         <div class="how"><div class="how-lbl">▹ The recipe</div>
@@ -606,7 +893,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
 
     </div>
     <div class="callout amber" style="margin-top:16px">
-      <span class="cico">💡</span>
+      <span class="cico"><svg class="ic" aria-hidden="true"><use href="#i-lightbulb"></use></svg></span>
       <div class="cbody"><p style="margin:0"><b>One caution on the team-of-agents trick:</b> lots of helpers use more of your daily Claude allowance, so try a big job on a small slice first (one folder, not the whole drive) — and only point them at files you're allowed to share.</p></div>
     </div>
   </section>
@@ -618,7 +905,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
     <div class="grid tri">
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">📝</div><div class="card-tt"><h3>Notion</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-edit"></use></svg></div><div class="card-tt"><h3>Notion</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">Read and write your Notion pages, notes and databases straight from Claude.</p>
         <p class="why"><b>Why you'll like it:</b> "add this to my deals page in Notion" or "what did I write about that client?"</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div><p class="path">Desktop → <b>Settings → Connectors → Notion → Connect</b>. <span class="oneclick">One-click</span></p></div>
@@ -626,7 +913,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🐙</div><div class="card-tt"><h3>GitHub</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-github"></use></svg></div><div class="card-tt"><h3>GitHub</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">A filing cabinet with a time machine: dated backups of everything Claude helps you build, plus a to-do list ("issues") it can manage.</p>
         <p class="why"><b>Why you'll like it:</b> nothing's ever lost — roll back to any earlier version of a letter or sheet, and let Claude track "chase the valuation on 14 Elm St" for you.</p>
         <div class="how"><div class="how-lbl">▹ Easiest start</div>
@@ -637,7 +924,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">☁️</div><div class="card-tt"><h3>Cloudflare</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-cloud"></use></svg></div><div class="card-tt"><h3>Cloudflare</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Put a simple website online (Cloudflare Pages) or check and tidy a domain's settings — Claude handles the fiddly bits.</p>
         <p class="why"><b>Why you'll like it:</b> "put the site in this folder online" or "show me the DNS for mydomain.co.uk" in plain English.</p>
         <div class="how"><div class="how-lbl">▹ Add the official plugin, then sign in</div>
@@ -649,7 +936,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
 
     </div>
     <div class="callout amber" style="margin-top:16px">
-      <span class="cico">⚠️</span>
+      <span class="cico"><svg class="ic" aria-hidden="true"><use href="#i-alert"></use></svg></span>
       <div class="cbody"><p style="margin:0"><b>Cloudflare handles live websites &amp; email.</b> A wrong <span class="jt" tabindex="0" data-tip="DNS is the internet's address book — it points your domain name at your website and email. Changing it affects the live site.">DNS</span> change can take a real site or company email offline — so always have Claude <b>show you the change and explain it first</b>, then approve it yourself. Never let it change DNS unattended.</p></div>
     </div>
   </section>
@@ -660,7 +947,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
     <p class="sec-sub">To let Claude <strong>do</strong> more in a service you own — save file versions on GitHub, publish a site or edit DNS on Cloudflare — you give it an <strong>API key</strong>, and 1Password is the safe place to keep those keys. This is the most "grown-up" section; take it slowly, or hand any step to Claude with the 🪄 trick.</p>
 
     <div class="callout gray">
-      <span class="cico">🗝️</span>
+      <span class="cico"><svg class="ic" aria-hidden="true"><use href="#i-key"></use></svg></span>
       <div class="cbody">
         <h3>What's an API key?</h3>
         <p>Think of it as a <b>spare key-card for a building you already have an office in</b>. Your normal login is <em>you</em> walking in the front door; an API key is a limited card you print for Claude so it can do specific jobs on your behalf. Two things keep it safe: it's <b>scoped</b> (you choose exactly which doors it opens) and <b>revocable</b> (delete it any time and it stops working, your real password untouched).</p>
@@ -669,7 +956,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
 
     <div class="grid tri" style="margin-top:16px">
       <article class="card">
-        <div class="card-top"><div class="card-ic">🐙</div><div class="card-tt"><h3>Make a GitHub key</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-github"></use></svg></div><div class="card-tt"><h3>Make a GitHub key</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">A <span class="jt" tabindex="0" data-tip="A long code that acts like a limited password — it only allows the exact things you tick, and you can cancel it anytime.">"fine-grained personal access token"</span> — GitHub's safe, tightly-scoped kind.</p>
         <ol class="steps">
           <li>Go to <b>github.com/settings/personal-access-tokens</b> → <b>Generate new token</b> (fine-grained).</li>
@@ -696,7 +983,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">☁️</div><div class="card-tt"><h3>Make a Cloudflare token</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-cloud"></use></svg></div><div class="card-tt"><h3>Make a Cloudflare token</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">A scoped Cloudflare API Token — you pick which permissions and which site.</p>
         <ol class="steps">
           <li>Go to <b>dash.cloudflare.com/profile/api-tokens</b> → <b>Create Token</b>.</li>
@@ -713,21 +1000,21 @@ carry out the approved plan, using a workflow">⧉</button></div>
 
     <div class="grid tri">
       <article class="card">
-        <div class="card-top"><div class="card-ic">🔌</div><div class="card-tt"><h3>1 · The MCP connection</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-plug"></use></svg></div><div class="card-tt"><h3>1 · The MCP connection</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Claude fetches a specific secret from your vault <b>the moment it's needed</b> — you never paste anything.</p>
         <p class="why"><b>Best for:</b> letting Claude grab your GitHub/Cloudflare key mid-task in the app. It's a community add-on — ask Claude or a techy friend to install it.</p>
         <div class="card-foot"><a class="btn" href="https://github.com/jrejaud/op-mcp" target="_blank" rel="noopener">op-mcp ↗</a></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">⌨️</div><div class="card-tt"><h3>2 · The op command</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-terminal"></use></svg></div><div class="card-tt"><h3>2 · The op command</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">1Password's command-line tool feeds a key into a command using a pointer like <code>op://Vault/Item/field</code> — the real value never shows.</p>
         <p class="why"><b>Best for:</b> the safest option when Claude runs terminal commands for you. Developer-level — worth knowing it exists.</p>
         <div class="card-foot"><a class="btn" href="https://developer.1password.com/docs/cli/secret-references/" target="_blank" rel="noopener">Docs ↗</a></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🧩</div><div class="card-tt"><h3>3 · 1Password for Claude</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-puzzle"></use></svg></div><div class="card-tt"><h3>3 · 1Password for Claude</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">The browser-extension feature: when Claude hits a login, 1Password fills your username, password &amp; code <b>into the page — and Claude never sees them</b>. You approve each with Touch ID.</p>
         <p class="why"><b>Best for you:</b> everyday web sign-ins, no terminal. Desktop app → <b>Customize → Connectors → 1Password → Connect</b>. <span class="haveit">Mac · newest</span></p>
         
@@ -756,7 +1043,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
     </div>
 
     <div class="callout amber" style="margin-top:16px">
-      <span class="cico">🔒</span>
+      <span class="cico"><svg class="ic" aria-hidden="true"><use href="#i-lock"></use></svg></span>
       <div class="cbody">
         <span class="lbl">The golden rule for keys</span>
         <p>A key or token is <b>exactly like a password</b> — never paste one into a chat, an email, or anywhere public. It's shown <b>once</b>, so save it into <b>1Password</b> the moment you see it. Scope it narrowly, give it an expiry, and delete any you've stopped using. If one ever leaks, just delete it and make a new one — instant and free.</p>
@@ -767,7 +1054,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
 
   <!-- ===== APP / RESEND ===== -->
   <section class="block" id="app">
-    <div class="sec-head"><span class="dot"></span><h2>📮 For the app you're building</h2></div>
+    <div class="sec-head"><span class="dot"></span><h2>For the app you're building</h2></div>
     <p class="sec-sub">Since you're building an app for Berkeley Credit, one more tool is made for exactly that: <strong>Resend</strong> — the postman for <span class="jt" tabindex="0" data-tip="Email an app sends by itself when something happens — a receipt, a confirmation, a reminder. Different from you writing an email in Gmail.">transactional email</span>. Your Gmail is <em>your</em> inbox; Resend is how <em>the app itself</em> sends email automatically.</p>
 
     <div class="panels">
@@ -783,7 +1070,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
 
     <div class="grid" style="margin-top:16px">
       <article class="card">
-        <div class="card-top"><div class="card-ic">📧</div><div class="card-tt"><h3>What the client receives</h3><span class="badge b-easy"><span class="bdot"></span>Example</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-mail-open"></use></svg></div><div class="card-tt"><h3>What the client receives</h3><span class="badge b-easy"><span class="bdot"></span>Example</span></div></div>
         <div class="how" style="margin-top:12px">
 <div class="mock-email">
   <div class="mock-email-head">
@@ -799,7 +1086,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
         </div>
       </article>
       <article class="card">
-        <div class="card-top"><div class="card-ic">⚙️</div><div class="card-tt"><h3>How the app sends it</h3><span class="badge b-easy"><span class="bdot"></span>Example</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-gear"></use></svg></div><div class="card-tt"><h3>How the app sends it</h3><span class="badge b-easy"><span class="bdot"></span>Example</span></div></div>
         <div class="how" style="margin-top:12px">
 <div class="mock-win">
   <div class="mock-bar">
@@ -819,7 +1106,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
     </div>
 
     <div class="callout" style="margin-top:16px">
-      <span class="cico">🚀</span>
+      <span class="cico"><svg class="ic" aria-hidden="true"><use href="#i-rocket"></use></svg></span>
       <div class="cbody">
         <h3>Setting it up (10 minutes, with Claude's help)</h3>
         <ol class="steps">
@@ -844,7 +1131,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
     <p class="sec-sub">A few "Claude can use a browser" things share almost the same name, which is genuinely confusing. One question sorts them all: <strong>does it use your real, logged-in browser, or a separate blank one?</strong></p>
 
     <div class="callout">
-      <span class="cico">🧭</span>
+      <span class="cico"><svg class="ic" aria-hidden="true"><use href="#i-compass"></use></svg></span>
       <div class="cbody">
         <h3>The one thing to remember</h3>
         <p>Only the <b>Claude for Chrome extension</b> works inside <b>your real Chrome</b>, using logins you're already signed into. The desktop app's built-in browser, the terminal, and VS Code all use a <b>separate, blank browser</b> — unless you deliberately pair that extension.</p>
@@ -882,7 +1169,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
     </div>
 
     <div class="callout amber" style="margin-top:16px">
-      <span class="cico">⚠️</span>
+      <span class="cico"><svg class="ic" aria-hidden="true"><use href="#i-alert"></use></svg></span>
       <div class="cbody"><p style="margin:0"><b>Two cautions.</b> The real-Chrome extension can act in your actual accounts — so don't point it at anything high-stakes like online banking, and glance at what it's about to do. And this whole area is in <b>beta and changes fast</b>, so exact menus and shortcuts may look a little different by the time you try them.</p></div>
     </div>
 
@@ -900,7 +1187,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
     <div class="grid">
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🦸</div><div class="card-tt"><h3>Superpowers</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-bolt"></use></svg></div><div class="card-tt"><h3>Superpowers</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">A well-loved pack that teaches Claude to brainstorm properly, work step-by-step, and stop rushing.</p>
         <p class="why"><b>Why you'll like it:</b> it makes Claude ask the right questions first, so you get thought-through answers, not guesses.</p>
         <div class="how"><div class="how-lbl">▹ Paste into Claude's message box</div>
@@ -910,7 +1197,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">✍️</div><div class="card-tt"><h3>Stop Slop</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-pen"></use></svg></div><div class="card-tt"><h3>Stop Slop</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">A writing skill that strips the robotic "AI voice" out of anything Claude writes, so it sounds like a real person.</p>
         <p class="why"><b>Why you'll like it:</b> client emails and letters read warm and human — no "delve", no "in today's fast-paced world".</p>
         <div class="how"><div class="how-lbl">▹ Easiest way</div><p class="path">Paste the GitHub link into Claude and say <em>"add this as a skill for me."</em></p></div>
@@ -918,7 +1205,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">📌</div><div class="card-tt"><h3>A memory file</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-bookmark"></use></svg></div><div class="card-tt"><h3>A memory file</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">A plain note Claude reads every time, holding your preferences. Not an install — just a habit.</p>
         <p class="why"><b>Why you'll like it:</b> tell it once — "I'm at Berkeley Credit, use UK English, keep a warm professional tone" — and never repeat yourself.</p>
         <div class="how"><div class="how-lbl">▹ How to start one</div><p class="path">Tell Claude: <em>"Remember for next time: …"</em> or <em>"set up a CLAUDE.md with my preferences."</em></p></div>
@@ -926,7 +1213,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🧵</div><div class="card-tt"><h3>claude-mem</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-thread"></use></svg></div><div class="card-tt"><h3>claude-mem</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">Goes further than a memory file: it quietly remembers past sessions and brings them back next time.</p>
         <p class="why"><b>Why you'll like it:</b> pick up a case from last week without re-explaining it — Claude already has the thread.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
@@ -947,55 +1234,55 @@ carry out the approved plan, using a workflow">⧉</button></div>
     <div class="grid tri">
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🌍</div><div class="card-tt"><h3>Claude in Chrome</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-globe"></use></svg></div><div class="card-tt"><h3>Claude in Chrome</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">An official extension that lets Claude see and act in your browser — click, fill and read pages with you.</p>
         <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://claude.com/claude-for-chrome" target="_blank" rel="noopener">Get it ↗</a></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🖱️</div><div class="card-tt"><h3>Browser automation</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-cursor"></use></svg></div><div class="card-tt"><h3>Browser automation</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Lets Claude drive a website for you — fill a form, pull data from a portal.</p>
         <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/williamkapke/kapture" target="_blank" rel="noopener">Kapture ↗</a></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">📄</div><div class="card-tt"><h3>PDF form tools</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-file-text"></use></svg></div><div class="card-tt"><h3>PDF form tools</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Fill, split, merge and <span class="jt" tabindex="0" data-tip="OCR turns a scanned picture of a document into real, searchable text.">OCR</span> PDF forms — handy for lender packs. Ask Claude to pick a maintained one.</p>
         <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener">Directory ↗</a></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">💬</div><div class="card-tt"><h3>WhatsApp</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-message"></use></svg></div><div class="card-tt"><h3>WhatsApp</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Read and send WhatsApp messages through Claude. Powerful, but a couple of setup steps.</p>
         <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/lharries/whatsapp-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">📓</div><div class="card-tt"><h3>NotebookLM</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-book"></use></svg></div><div class="card-tt"><h3>NotebookLM</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Ties Claude to Google's research notebooks for digging through big piles of documents.</p>
         <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/jacob-bd/notebooklm-mcp-cli" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">📉</div><div class="card-tt"><h3>Google Analytics</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-line-chart"></use></svg></div><div class="card-tt"><h3>Google Analytics</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Ask plain-English questions about website traffic. Google's official server (pip <code>analytics-mcp</code>).</p>
         <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/googleanalytics/google-analytics-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🔧</div><div class="card-tt"><h3>Chrome DevTools</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-wrench"></use></svg></div><div class="card-tt"><h3>Chrome DevTools</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Let Claude inspect and debug a live website — speed, errors, network. The Chrome team's official server.</p>
         <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🤝</div><div class="card-tt"><h3>Second opinion (Codex)</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-compare"></use></svg></div><div class="card-tt"><h3>Second opinion (Codex)</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Brings in OpenAI's Codex as a second set of eyes when a task is tricky.</p>
         <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/openai/codex-plugin-cc" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🤗</div><div class="card-tt"><h3>Hugging Face</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-smile"></use></svg></div><div class="card-tt"><h3>Hugging Face</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Search AI models, datasets and demos. Add the hosted server at <code>huggingface.co/mcp</code> with a free token.</p>
         <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/huggingface/hf-mcp-server" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
@@ -1003,7 +1290,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
       
 
       <article class="card">
-        <div class="card-top"><div class="card-ic">🧭</div><div class="card-tt"><h3>Browse for more</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-compass"></use></svg></div><div class="card-tt"><h3>Browse for more</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
         <p class="what">Hundreds more exist. These two directories are the safe places to explore.</p>
         <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://claude.com/connectors" target="_blank" rel="noopener">Connectors ↗</a><a class="btn ghost" href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener">Directory</a></div>
       </article>
@@ -1017,15 +1304,15 @@ carry out the approved plan, using a workflow">⧉</button></div>
     <p class="sec-sub">Small things that make Claude fit your workday — plus the one line to remember given the information you handle.</p>
 
     <div class="callout" style="margin-top:4px">
-      <span class="cico">⏰</span>
+      <span class="cico"><svg class="ic" aria-hidden="true"><use href="#i-clock"></use></svg></span>
       <div class="cbody">
         <h3>Line up your 5-hour window with your day</h3>
         <p>Claude refills on a rolling <b>~5-hour window</b> that starts on your <b>first message</b> — so if you begin at 9am, you might run low mid-afternoon. The fix: have a tiny task run before you arrive, so the refill lands to suit your hours.</p>
         <div class="winbox">
           <div class="timeline">
-            <div class="tl-row"><span class="lab">9:00 first msg</span><div class="bar bad" style="width:82%">window runs 9 → 2pm · refills at 2pm 😕 mid-afternoon</div></div>
+            <div class="tl-row"><span class="lab">9:00 first msg</span><div class="bar bad" style="width:82%">window runs 9 → 2pm · refills at 2pm mid-afternoon</div></div>
             <div class="tl-row"><span class="lab">7:00 auto-task</span><div class="bar pre" style="width:34%">quiet start</div></div>
-            <div class="tl-row"><span class="lab">→ your day</span><div class="bar good" style="width:92%">window refills ~noon · fresh for the afternoon 🎉</div></div>
+            <div class="tl-row"><span class="lab">→ your day</span><div class="bar good" style="width:92%">window refills ~noon · fresh for the afternoon</div></div>
           </div>
           <ul class="clean">
             <li><span class="tick">→</span><span>Desktop app → <b>Scheduled tasks</b> → add a small morning one (even "Good morning, list today's calendar") a couple of hours before you start.</span></li>
@@ -1047,7 +1334,7 @@ carry out the approved plan, using a workflow">⧉</button></div>
     </div>
 
     <div class="callout amber" style="margin-top:16px">
-      <span class="cico">🛟</span>
+      <span class="cico"><svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg></span>
       <div class="cbody">
         <span class="lbl">One rule, because you work in finance</span>
         <p>Be thoughtful with <b>client personal and financial details</b>. Connectors that stay inside your own Gmail, Drive and Calendar are fine — that's your data in your accounts. But don't paste a client's private information into random third-party tools, and keep sensitive files local rather than uploading them somewhere new. Keep logins and keys in <b>1Password</b>. When in doubt, ask Marshal — better a quick question than a wrong guess.</p>
@@ -1058,17 +1345,20 @@ carry out the approved plan, using a workflow">⧉</button></div>
 </main>
 
 <footer>
-  <div class="wrap foot-in">
-    <h2 style="font-size:1.3rem">You've got this 🌱</h2>
-    <p class="sec-sub" style="margin-bottom:6px">Do one card, notice how it feels, then do the next. And remember — Claude itself is the friendliest instruction manual you have. Ask it anything.</p>
-    <div class="foot-links">
-      <a href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="noopener">Getting started</a>
-      <a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">Adding tools (MCP)</a>
-      <a href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">Plugins &amp; skills</a>
-      <a href="https://code.claude.com/docs/en/workflows" target="_blank" rel="noopener">Workflows</a>
-      <a href="https://claude.com/connectors" target="_blank" rel="noopener">Connector directory</a>
+  <div class="foot-in">
+    <div class="foot-top">
+      <div>
+        <span class="foot-brand"><span class="mark"><svg class="ic" aria-hidden="true"><use href="#i-sparkle"></use></svg></span> Cleo&#39;s Claude Starter Kit</span>
+        <p class="foot-tag">A practical guide to getting real work done with Claude — set up once, at your own pace.</p>
+      </div>
+      <div class="foot-links">
+        <a href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="noopener">Getting started</a>
+        <a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">Adding tools</a>
+        <a href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">Plugins &amp; skills</a>
+        <a href="https://claude.com/connectors" target="_blank" rel="noopener">Connector directory</a>
+      </div>
     </div>
-    <p class="signoff">Made for Cleo by Marshal ♥ — every tool here is one he actually uses. Nothing on this page can see your data unless you connect it yourself.</p>
+    <p class="signoff">Made for Cleo by Marshal. Every tool here is one he actually uses — and nothing on this page can see your data unless you connect it yourself.</p>
   </div>
 </footer>
 
