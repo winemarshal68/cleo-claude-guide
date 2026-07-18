@@ -1,14 +1,1120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>cleo-claude-guide</title>
-  <meta name="description" content="cleo-claude-guide">
-  <link rel="canonical" href="https://cleo-claude-guide.pages.dev/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cleo's Claude Starter Kit</title>
+<meta name="description" content="A friendly, visual guide to setting up Claude with the tools that make it feel like your own assistant — no coding required.">
+<link rel="canonical" href="https://cleo-claude-guide.pages.dev/">
+<meta property="og:title" content="Cleo's Claude Starter Kit">
+<meta property="og:description" content="A friendly, visual guide to Claude tools — from one-click connectors to a team of AI helpers.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧰</text></svg>">
+<style>
+  /* ===== Notion-style, LIGHT ONLY. Forced light even if the viewer's OS/app is dark. ===== */
+  :root{
+    color-scheme: light !important;
+    --bg:#ffffff;
+    --bg-soft:#f7f6f3;
+    --bg-soft2:#f1efe9;
+    --card:#ffffff;
+    --ink:#37352f;
+    --ink-soft:#6b6a65;
+    --ink-faint:#9b9a97;
+    --line:#e9e7e1;
+    --line-strong:#dcd9d1;
+    --accent:#2b7cc9;
+    --accent-hover:#1f66ad;
+    --accent-soft:#eaf2fb;
+    --easy:#4a8a5c; --easy-bg:#e9f2ec;
+    --med:#9a7420; --med-bg:#f8efd6;
+    --techy:#c0532f; --techy-bg:#fae9e2;
+    --purple:#7d5aa6; --purple-bg:#f1ebf8;
+    --radius:11px; --radius-sm:7px;
+    --font:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    --maxw:900px;
+  }
+  /* If the Artifact runtime forces a dark theme, keep everything light anyway. */
+  :root[data-theme="dark"]{ color-scheme: light !important; }
+
+  *{ box-sizing:border-box; }
+  html{ background:var(--bg); }
+  body{
+    margin:0; background:var(--bg); color:var(--ink); overflow-x:clip;
+    font-family:var(--font); font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  a{ color:var(--accent); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:5px; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+  h1,h2,h3{ margin:0; font-weight:700; line-height:1.2; letter-spacing:-.015em; text-wrap:balance; }
+
+  /* ---- nav ---- */
+  .nav{ position:sticky; top:0; z-index:50; background:rgba(255,255,255,.9); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+  .nav-inner{ display:flex; align-items:center; gap:4px 16px; padding:11px 24px; max-width:var(--maxw); margin:0 auto; flex-wrap:wrap; }
+  .nav-brand{ font-weight:700; font-size:.95rem; color:var(--ink); margin-right:auto; display:flex; align-items:center; gap:8px; }
+  .nav-brand .ic{ font-size:1.05rem; }
+  .nav a.lnk{ font-size:.85rem; font-weight:500; color:var(--ink-soft); }
+  .nav a.lnk:hover{ text-decoration:none; color:var(--ink); }
+
+  /* ---- hero (Notion page header) ---- */
+  .hero{ padding:52px 0 8px; }
+  .page-ic{ font-size:3rem; line-height:1; }
+  .hero h1{ font-size:clamp(2rem,5vw,2.9rem); margin:16px 0 0; }
+  .hero .sub{ font-size:1.12rem; color:var(--ink-soft); max-width:52ch; margin:12px 0 0; }
+
+  /* ---- callout (Notion) ---- */
+  .callout{ display:flex; gap:14px; align-items:flex-start; background:var(--accent-soft); border:1px solid #d5e6f6; border-radius:var(--radius); padding:18px 20px; margin:26px 0 0; }
+  .callout.gray{ background:var(--bg-soft); border-color:var(--line); }
+  .callout.green{ background:var(--easy-bg); border-color:#d3e7d9; }
+  .callout.amber{ background:var(--med-bg); border-color:#ecdcae; }
+  .callout .cico{ font-size:1.3rem; line-height:1.5; flex:0 0 auto; }
+  .callout .cbody{ min-width:0; }
+  .callout .cbody :first-child{ margin-top:0; }
+  .callout p{ margin:9px 0 0; }
+  .callout .lbl{ font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .callout.gray .lbl{ color:var(--ink-faint); }
+  .callout h3{ font-size:1.05rem; }
+
+  /* ---- sections ---- */
+  section.block{ padding:40px 0 4px; scroll-margin-top:70px; }
+  @media (max-width:640px){ section.block{ scroll-margin-top:150px; } }
+  .sec-head{ display:flex; align-items:center; gap:11px; margin:0 0 4px; padding-bottom:12px; border-bottom:1px solid var(--line); }
+  .sec-head .dot{ width:9px; height:9px; border-radius:50%; background:var(--accent); flex:0 0 auto; }
+  .sec-head h2{ font-size:1.5rem; }
+  .sec-sub{ color:var(--ink-soft); max-width:66ch; margin:16px 0 22px; }
+  .sec-sub strong{ color:var(--ink); font-weight:600; }
+
+  /* ---- info panels ---- */
+  .panels{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:4px; }
+  @media (max-width:720px){ .panels{ grid-template-columns:1fr; } }
+  .panel{ background:var(--bg-soft); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; }
+  .panel h3{ font-size:1rem; margin-bottom:8px; display:flex; align-items:center; gap:9px; }
+  .panel p{ margin:0; color:var(--ink-soft); font-size:.94rem; }
+  .glossary{ display:grid; gap:11px; }
+  .gitem{ display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start; }
+  .gitem .term{ font-weight:700; color:var(--ink); font-size:.92rem; min-width:100px; }
+  .gitem .def{ color:var(--ink-soft); font-size:.9rem; }
+
+  /* ---- badges / tags ---- */
+  .badge{ display:inline-flex; align-items:center; gap:6px; font-size:.76rem; font-weight:600; padding:3px 9px; border-radius:5px; }
+  .badge .bdot{ width:7px; height:7px; border-radius:50%; }
+  .b-easy{ color:var(--easy); background:var(--easy-bg);} .b-easy .bdot{ background:var(--easy);}
+  .b-med{ color:var(--med); background:var(--med-bg);} .b-med .bdot{ background:var(--med);}
+  .b-techy{ color:var(--techy); background:var(--techy-bg);} .b-techy .bdot{ background:var(--techy);}
+  .legend{ display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+  .oneclick{ font-size:.74rem; font-weight:600; color:var(--easy); background:var(--easy-bg); padding:3px 9px; border-radius:5px; }
+  .haveit{ font-size:.74rem; font-weight:600; color:var(--purple); background:var(--purple-bg); padding:3px 9px; border-radius:5px; }
+
+  /* ---- card grid ---- */
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+  .grid.tri{ grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); }
+  .card{ display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px; transition:border-color .15s ease, box-shadow .15s ease; }
+  .card:hover{ border-color:var(--line-strong); box-shadow:0 1px 2px rgba(15,15,15,.04),0 8px 20px -14px rgba(15,15,15,.2); }
+  .card-top{ display:flex; align-items:flex-start; gap:11px; }
+  .card-ic{ flex:0 0 auto; width:40px; height:40px; border-radius:9px; display:grid; place-items:center; font-size:1.2rem; background:var(--bg-soft); border:1px solid var(--line); }
+  .card-tt{ flex:1; min-width:0; }
+  .card h3{ font-size:1.04rem; }
+  .card .badge{ margin-top:6px; }
+  .card .what{ color:var(--ink-soft); font-size:.92rem; margin:9px 0 0; }
+  .why{ margin:11px 0 0; font-size:.88rem; color:#2f5f83; background:var(--accent-soft); border:1px solid #dcebf9; padding:9px 11px; border-radius:var(--radius-sm); }
+  .why b{ color:#245176; }
+  .how{ margin:12px 0 0; }
+  .how-lbl{ font-family:var(--mono); font-size:.66rem; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-faint); font-weight:600; margin-bottom:6px; }
+  .path{ font-size:.88rem; color:var(--ink); }
+  .path code{ font-family:var(--mono); font-size:.82em; background:var(--bg-soft2); padding:2px 6px; border-radius:5px; border:1px solid var(--line); }
+  .kbd{ font-family:var(--mono); font-size:.8em; background:#fff; border:1px solid var(--line-strong); border-bottom-width:2px; border-radius:5px; padding:2px 6px; color:var(--ink); }
+
+  .cmd{ position:relative; margin-top:6px; background:var(--bg-soft); border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; }
+  .cmd pre{ margin:0; padding:10px 42px 10px 12px; overflow-x:auto; font-family:var(--mono); font-size:.78rem; line-height:1.5; color:var(--ink); }
+  .cmd .copy{ position:absolute; top:6px; right:6px; width:28px; height:28px; border-radius:6px; border:1px solid var(--line); background:#fff; color:var(--ink-soft); cursor:pointer; display:grid; place-items:center; font-size:.82rem; transition:all .13s ease; }
+  .cmd .copy:hover{ color:var(--accent); border-color:var(--accent); }
+  .cmd .copy.ok{ color:#fff; background:var(--easy); border-color:var(--easy); }
+
+  .card-foot{ margin-top:auto; padding-top:15px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .btn{ display:inline-flex; align-items:center; gap:6px; font-weight:600; font-size:.84rem; padding:7px 13px; border-radius:7px; border:1px solid var(--accent); color:#fff; background:var(--accent); transition:all .13s ease; }
+  .btn:hover{ text-decoration:none; background:var(--accent-hover); border-color:var(--accent-hover); }
+  .btn.ghost{ background:#fff; color:var(--ink-soft); border-color:var(--line-strong); }
+  .btn.ghost:hover{ background:var(--bg-soft); color:var(--ink); }
+
+  /* tables */
+  .tblwrap{ margin-top:6px; overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); }
+  table.tbl{ border-collapse:collapse; width:100%; min-width:520px; font-size:.9rem; }
+  table.tbl th, table.tbl td{ text-align:left; padding:10px 13px; border-bottom:1px solid var(--line); vertical-align:top; }
+  table.tbl thead th{ background:var(--bg-soft); font-weight:700; color:var(--ink); font-size:.82rem; }
+  table.tbl tbody tr:last-child td{ border-bottom:0; }
+  table.tbl td:first-child{ font-weight:600; color:var(--ink); white-space:nowrap; }
+  table.tbl .yes{ color:var(--easy); font-weight:700; }
+  table.tbl .no{ color:var(--ink-soft); }
+  table.tbl code{ font-family:var(--mono); font-size:.85em; background:var(--bg-soft2); padding:1px 5px; border-radius:4px; border:1px solid var(--line); }
+  .steps{ margin:10px 0 0; padding-left:20px; }
+  .steps li{ margin:5px 0; color:var(--ink); font-size:.92rem; }
+  .steps code{ font-family:var(--mono); font-size:.84em; background:var(--bg-soft2); padding:2px 6px; border-radius:5px; border:1px solid var(--line); }
+
+  /* timeline */
+  .winbox{ margin-top:8px; background:var(--bg-soft); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; }
+  .timeline{ margin:12px 0 4px; }
+  .tl-row{ display:grid; grid-template-columns:80px 1fr; gap:12px; align-items:center; margin:8px 0; }
+  .tl-row .lab{ font-family:var(--mono); font-size:.74rem; color:var(--ink-soft); font-weight:600; text-align:right; }
+  .bar{ min-height:26px; border-radius:6px; display:flex; align-items:center; padding:5px 10px; font-size:.74rem; font-weight:600; color:#fff; line-height:1.25; }
+  .bar.bad{ background:#cf6a48; }
+  .bar.good{ background:#4a8a5c; }
+  .bar.pre{ background:#d9a441; color:#3a2c0d; }
+  ul.clean{ margin:12px 0 0; padding-left:0; list-style:none; display:grid; gap:8px; }
+  ul.clean li{ display:grid; grid-template-columns:auto 1fr; gap:10px; align-items:start; color:var(--ink-soft); font-size:.94rem; }
+  ul.clean li .tick{ color:var(--accent); font-weight:700; }
+
+  footer{ margin-top:48px; border-top:1px solid var(--line); }
+  .foot-in{ padding:30px 0 46px; }
+  .foot-links{ display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 20px; }
+  .foot-links a{ font-size:.84rem; font-weight:500; color:var(--ink-soft); border:1px solid var(--line); padding:6px 12px; border-radius:6px; background:var(--bg-soft); }
+  .foot-links a:hover{ text-decoration:none; color:var(--accent); border-color:var(--accent); }
+  .signoff{ color:var(--ink-faint); font-size:.85rem; }
+
+  /* ===== mockup kit ===== */
+  .mock-win{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--bg);max-width:100%;font-size:13px;box-shadow:0 1px 2px rgba(15,15,15,.05)}
+  .mock-bar{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--bg-soft);border-bottom:1px solid var(--line)}
+  .mock-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;background:var(--line-strong)}
+  .mock-bar .mock-dot:nth-child(1){background:#e8927c}
+  .mock-bar .mock-dot:nth-child(2){background:#eec97e}
+  .mock-bar .mock-dot:nth-child(3){background:#9ccf9f}
+  .mock-title{font-size:11.5px;font-weight:600;color:var(--ink-soft);margin-left:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mock-body{padding:11px 12px;display:flex;flex-direction:column;gap:8px}
+  .mock-chat{display:flex;flex-direction:column;gap:8px}
+  .mock-bubble{max-width:88%;padding:8px 11px;border-radius:12px;font-size:12.5px;line-height:1.45;overflow-wrap:anywhere}
+  .mock-bubble.u{background:var(--accent);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+  .mock-bubble.ai{background:var(--bg-soft);border:1px solid var(--line);margin-right:auto;border-bottom-left-radius:4px}
+  .mock-term{background:var(--bg-soft);border:1px solid var(--line);border-radius:7px;padding:10px 12px;font-family:var(--mono);font-size:11.5px;line-height:1.65;color:var(--ink);overflow-wrap:anywhere}
+  .mock-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+  .mock-row:last-child{border-bottom:0}
+  .mock-toggle{width:34px;height:20px;border-radius:10px;background:var(--line-strong);position:relative;flex:0 0 auto}
+  .mock-toggle::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.18);transition:left .15s}
+  .mock-toggle.on{background:var(--easy)}
+  .mock-toggle.on::after{left:16px}
+  .mock-dialog{border:1px solid var(--line);border-radius:11px;background:var(--bg);padding:14px 16px;max-width:340px;font-size:12.5px;display:flex;flex-direction:column;gap:8px;box-shadow:0 6px 22px -10px rgba(15,15,15,.22)}
+  .mock-btn{display:inline-block;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;background:var(--accent);color:#fff}
+  .mock-btn~.mock-btn{background:var(--bg-soft);color:var(--ink);border:1px solid var(--line)}
+  .mock-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);background:var(--bg-soft2);border:1px solid var(--line);border-radius:5px;padding:2px 7px;margin-bottom:4px}
+  .mock-ok{color:var(--easy);font-weight:600;font-size:12px}
+  .mock-muted{color:var(--ink-faint);font-size:12px}
+  .mock-email{border:1px solid var(--line);border-radius:9px;background:var(--bg);padding:13px 15px;font-size:12.5px;max-width:100%;box-shadow:0 1px 2px rgba(15,15,15,.05)}
+  .mock-email-head{color:var(--ink-soft);font-size:12px;border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:9px;display:flex;flex-direction:column;gap:2px}
+  .mock-split{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:100%}
+  @media (max-width:480px){.mock-split{grid-template-columns:1fr}}
+  .mock-split-pane{border:1px solid var(--line);border-radius:9px;background:var(--bg);padding:11px 12px;font-size:12.5px;min-width:0;display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+  .mock-tree{list-style:none;margin:0;padding:0;font-size:12.5px}
+  .mock-tree li{padding:3px 0}
+  .mock-tree ul{list-style:none;margin:4px 0 0;padding-left:14px;border-left:2px dashed var(--line)}
+
+  /* see-it expander */
+  .grid{align-items:start}
+  .seeit{margin:12px 0 0;border:1px solid var(--line);border-radius:9px;background:var(--bg-soft);overflow:hidden}
+  .seeit>summary{cursor:pointer;padding:8px 12px;font-size:.82rem;font-weight:600;color:var(--accent);list-style:none;display:flex;align-items:center;gap:7px;transition:background .12s}
+  .seeit>summary::-webkit-details-marker{display:none}
+  .seeit>summary::before{content:"\25B8";display:inline-block;transition:transform .15s}
+  .seeit[open]>summary::before{transform:rotate(90deg)}
+  .seeit>summary:hover{background:var(--bg-soft2)}
+  .seeit-body{padding:4px 12px 12px}
+
+  /* tooltips */
+  .jt{border-bottom:1px dotted var(--ink-faint);cursor:help;position:relative}
+  .jt::after{display:none;content:attr(data-tip);position:absolute;left:0;bottom:100%;transform:translateY(-6px);background:var(--ink);color:#fff;padding:7px 10px;border-radius:7px;font-size:12px;font-weight:400;line-height:1.4;width:max-content;max-width:min(250px,80vw);pointer-events:none;z-index:60;white-space:normal}
+  .jt:hover::after,.jt:focus::after{display:block}
+  .jt.r::after{left:auto;right:0}
+
+  /* simple / advanced */
+  .adv{display:none}
+  body.mode-advanced .adv{display:revert}
+  .seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:7px;overflow:hidden;flex:0 0 auto;margin-left:6px}
+  .seg button{border:0;background:var(--bg);color:var(--ink-soft);font:inherit;font-size:.78rem;font-weight:600;padding:5px 12px;cursor:pointer;transition:background .12s,color .12s}
+  .seg button.act{background:var(--accent);color:#fff}
+  .seg button:not(.act):hover{background:var(--bg-soft)}
+
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+</style>
 </head>
 <body>
-  <h1>cleo-claude-guide</h1>
-  <p>Bootstrapped via <code>nexo-create</code>. Replace this file with the real site.</p>
+
+
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="nav-brand"><span class="ic">🧰</span> Cleo's Claude Starter Kit</span>
+    <a class="lnk" href="#start">Start</a>
+    <a class="lnk" href="#comfort">Comfort</a>
+    <a class="lnk" href="#everyday">Everyday</a>
+    <a class="lnk" href="#design">Design</a>
+    <a class="lnk" href="#working">Working</a>
+    <a class="lnk" href="#accounts">Accounts</a>
+    <a class="lnk adv" href="#keys">Keys</a>
+    <a class="lnk" href="#app">App</a>
+    <a class="lnk" href="#browser">Browser</a>
+    <a class="lnk" href="#smarter">Smarter</a>
+    <a class="lnk adv" href="#advanced">Advanced</a>
+    <a class="lnk" href="#tips">Tips</a>
+    <span class="seg" role="group" aria-label="Detail level"><button type="button" data-mode="simple" class="act">Simple</button><button type="button" data-mode="advanced">Advanced</button></span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="page-ic">🧰</div>
+    <h1>Cleo's Claude Starter Kit</h1>
+    <p class="sub">A hand-picked kit of add-ons that make Claude feel like your own assistant — no coding required.</p>
+    <div class="callout">
+      <span class="cico">👋</span>
+      <div class="cbody">
+        <span class="lbl">A quick note from Marshal</span>
+        <p>Hey Cleo — you don't need to be technical to get a <em>lot</em> more out of Claude. This is the kit I actually use, arranged easiest → fanciest, with copy-and-paste steps for each.</p>
+        <p><b>The one secret worth knowing:</b> you never have to set any of this up alone. Paste any link from this page into Claude and say <em>"walk me through installing this, step by step"</em> — it'll happily do it with you. Start at the top, one thing at a time.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===== START ===== -->
+  <section class="block" id="start">
+    <div class="sec-head"><span class="dot"></span><h2>Start here</h2></div>
+    <p class="sec-sub">You've <strong>already got the desktop app</strong> ✅ — so you're set up. Two spots worth finding inside it: <strong>Settings → Connectors</strong> (the one-click tool shelf) and <strong>Scheduled tasks</strong> (we'll use that in Tips). You've also got <strong>GitHub</strong> and <strong>Cloudflare</strong> accounts — there are cards for both under <a href="#accounts">Accounts</a>.</p>
+
+    <div class="callout green">
+      <span class="cico">🪄</span>
+      <div class="cbody">
+        <h3>The move that makes all of this easy</h3>
+        <p>For anything that looks fiddly, paste the tool's link into Claude and say: <em>"Please install this for me and tell me if you need anything."</em> Claude runs the steps itself — your job is mostly to say yes and grab a login when it asks.</p>
+      </div>
+    </div>
+
+    
+    <p class="sec-sub" style="margin:22px 0 10px"><strong>Here's the feel of it</strong> — you ask in plain English, Claude does the fiddly part:</p>
+<div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Claude</span></div><div class="mock-body"><div class="mock-chat"><div class="mock-bubble u">Draft a friendly chase to the broker about the outstanding valuation on 14 Elm Street — warm but firm.</div><div class="mock-bubble ai">Here's a draft — it's saved in your Gmail drafts to review:<br><br><em>Subject: Valuation update — 14 Elm Street</em><br><em>Hi Tom, just checking in on the valuation report...</em><br><br><span class="mock-ok">✓ Draft created — nothing sends until you hit Send</span></div></div></div></div>
+
+    <div class="panels" style="margin-top:20px">
+      <div class="panel">
+        <h3>🔑 Plain-English glossary</h3>
+        <div class="glossary">
+          <div class="gitem"><span class="term">Connector</span><span class="def">A one-click tool inside the desktop app (Gmail, Notion…). Switch on, sign in, done.</span></div>
+          <div class="gitem"><span class="term">MCP</span><span class="def">The plumbing that lets Claude talk to an outside app. You never touch it — you just add the tool.</span></div>
+          <div class="gitem"><span class="term">Skill / Plugin</span><span class="def">A bundle that teaches Claude a new trick. Added with a <code style="font-family:var(--mono)">/plugin</code> command.</span></div>
+          <div class="gitem"><span class="term">API key</span><span class="def">A free password a service gives you so Claude can use it. Copy it once, paste it in. That's all.</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>🚦 The difficulty labels</h3>
+        <p style="margin-bottom:12px">Every tool below carries one, so you always know what you're in for:</p>
+        <div class="legend">
+          <span class="badge b-easy"><span class="bdot"></span>Easy — a few clicks</span>
+          <span class="badge b-med"><span class="bdot"></span>Medium — a command or a key</span>
+          <span class="badge b-techy"><span class="bdot"></span>Techy — ask Claude to help</span>
+        </div>
+        <p style="margin-top:12px">A <span class="haveit">Already included</span> tag means it likely works in the app already — just ask.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMFORT ===== -->
+  <section class="block" id="comfort">
+    <div class="sec-head"><span class="dot"></span><h2>The comfort layer</h2></div>
+    <p class="sec-sub">Set these up first. They're the little apps that make <strong>using</strong> Claude feel natural and fast — the biggest comfort jump comes from here.</p>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🎙️</div><div class="card-tt"><h3>FluidVoice</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">Talk to Claude out loud and it types for you — accurate, and it runs entirely on your Mac.</p>
+        <p class="why"><b>Why you'll like it:</b> describing a client situation by voice is far quicker than typing, and your hands stay free.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div>
+          <div class="cmd"><pre>brew install --cask fluidvoice</pre><button class="copy" aria-label="Copy" data-copy="brew install --cask fluidvoice">⧉</button></div>
+          <p class="path" style="margin-top:8px">No <span class="jt" tabindex="0" data-tip="Homebrew is a free app-installer for Mac. Claude can set it up for you if you ask.">Homebrew</span>? The website has a normal installer.</p>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://altic.dev/fluid" target="_blank" rel="noopener">Website ↗</a><a class="btn ghost" href="https://github.com/altic-dev/FluidVoice" target="_blank" rel="noopener">GitHub</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📋</div><div class="card-tt"><h3>FlashClip</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">A clipboard with a memory. Everything you copy is kept, so you can paste something from ten copies ago.</p>
+        <p class="why"><b>Why you'll like it:</b> keep your best prompts and stock replies one shortcut away instead of retyping them.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div>
+          <div class="cmd"><pre>brew tap srikat/flashclip
+brew install --cask flashclip</pre><button class="copy" aria-label="Copy" data-copy="brew tap srikat/flashclip
+brew install --cask flashclip">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://github.com/srikat/FlashClip" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🔋</div><div class="card-tt"><h3>OpenUsage</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">A tiny menu-bar meter showing how much Claude you have left in the current window — no login, no setup.</p>
+        <p class="why"><b>Why you'll like it:</b> never get surprised by a limit mid-task. It also powers the morning trick in Tips.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div>
+          <p class="path">Download from the site and drag it to Applications. It just appears in your menu bar.</p>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://www.openusage.ai/" target="_blank" rel="noopener">Get OpenUsage ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🔐</div><div class="card-tt"><h3>1Password</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">A vault for passwords and those free "API keys" some tools ask for. You may already have it through work.</p>
+        <p class="why"><b>Why you'll like it:</b> in finance you handle sensitive logins daily — keep them here, never in a note or email. An add-on lets Claude use a key safely without ever showing it in the chat.</p>
+        <div class="how"><div class="how-lbl">▹ Optional: let Claude use it</div>
+          <div class="cmd"><pre>claude mcp add 1password -- npx -y @jrejaud/op-mcp</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add 1password -- npx -y @jrejaud/op-mcp">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://1password.com/" target="_blank" rel="noopener">1Password ↗</a><a class="btn ghost" href="https://github.com/jrejaud/op-mcp" target="_blank" rel="noopener">The add-on</a></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== EVERYDAY ===== -->
+  <section class="block" id="everyday">
+    <div class="sec-head"><span class="dot"></span><h2>Everyday helpers</h2></div>
+    <p class="sec-sub">Connect Claude to the things you already work in. The one-click ones live in <strong>Settings → Connectors</strong> — flip them on and sign in.</p>
+<details class="seeit"><summary>See it in action — The Connectors shelf in the desktop app</summary><div class="seeit-body">
+<div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Claude — Settings › Connectors</span></div><div class="mock-body"><div class="mock-row"><span>✉️ Gmail</span><span class="mock-toggle on"></span></div><div class="mock-row"><span>📅 Google Calendar</span><span class="mock-toggle on"></span></div><div class="mock-row"><span>🗂️ Google Drive</span><span class="mock-toggle on"></span></div><div class="mock-row"><span>📝 Notion</span><span class="mock-toggle"></span></div><div class="mock-muted">One click each — sign in with Google and you're done.</div></div></div>
+</div></details>
+
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">✉️</div><div class="card-tt"><h3>Gmail</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">Claude reads, sorts, and drafts email for you — always as a draft you approve before anything sends.</p>
+        <p class="why"><b>Why you'll like it:</b> "draft a friendly chase to the broker about the outstanding valuation" — done in seconds, in your voice.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div><p class="path">Desktop → <b>Settings → Connectors → Gmail → Connect</b>. <span class="oneclick">One-click</span></p></div>
+        
+<details class="seeit"><summary>See it in action — Asking Claude to chase a broker</summary><div class="seeit-body">
+<div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Claude</span></div><div class="mock-body"><div class="mock-chat"><div class="mock-bubble u">Draft a friendly chase to the broker about the outstanding valuation on 14 Elm Street — warm but firm.</div><div class="mock-bubble ai">Here's a draft — it's saved in your Gmail drafts to review:<br><br><em>Subject: Valuation update — 14 Elm Street</em><br><em>Hi Tom, just checking in on the valuation report...</em><br><br><span class="mock-ok">✓ Draft created — nothing sends until you hit Send</span></div></div></div></div>
+</div></details>
+<div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Open Connectors ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📅</div><div class="card-tt"><h3>Calendar</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">Claude can see your day, find free slots, and add events when you ask.</p>
+        <p class="why"><b>Why you'll like it:</b> "book a callback with the client Thursday afternoon and hold 30 minutes" without leaving the chat.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div><p class="path"><b>Google Calendar</b> is one-click. Prefer <b>Fantastical</b>? It has an official connector too — Connectors → Browse → Fantastical. <span class="oneclick">One-click</span></p></div>
+        <div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Open Connectors ↗</a><a class="btn ghost" href="https://flexibits.com/fantastical/help/fantastical-connector-mcp-for-claude" target="_blank" rel="noopener">Fantastical</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🗂️</div><div class="card-tt"><h3>Google Drive &amp; Sheets</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">Let Claude open your documents and spreadsheets, pull figures, and draft new ones.</p>
+        <p class="why"><b>Why you'll like it:</b> point it at a loan-calc sheet and ask for a clean summary or a client-ready quote.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div><p class="path">Desktop → <b>Settings → Connectors → Google Drive</b>. <span class="oneclick">One-click</span></p></div>
+        <div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Open Connectors ↗</a><a class="btn ghost" href="https://github.com/taylorwilsdon/google_workspace_mcp" target="_blank" rel="noopener">Terminal version</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🔎</div><div class="card-tt"><h3>Web search (Tavily)</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">Gives Claude live, current web search so answers aren't stuck in the past.</p>
+        <p class="why"><b>Why you'll like it:</b> check a lender's current rates, a company at Companies House, or today's news before you reply.</p>
+        <div class="how"><div class="how-lbl">▹ Step 1 — free key at tavily.com (starts <code>tvly-</code>)</div>
+          <div class="how-lbl" style="margin-top:8px">▹ Step 2 — paste this, swap in your key</div>
+          <div class="cmd"><pre>claude mcp add tavily -e TAVILY_API_KEY=your-key-here -- npx -y tavily-mcp</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add tavily -e TAVILY_API_KEY=your-key-here -- npx -y tavily-mcp">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://tavily.com" target="_blank" rel="noopener">Get a key ↗</a><a class="btn ghost" href="https://github.com/tavily-ai/tavily-mcp" target="_blank" rel="noopener">GitHub</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🌐</div><div class="card-tt"><h3>Fetch a page</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">Hand Claude any web address and it reads the page for you. No key needed — it's the official one.</p>
+        <p class="why"><b>Why you'll like it:</b> "read this lender's criteria page and tell me if my client fits" — paste the link, get the answer.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div>
+          <div class="cmd"><pre>claude mcp add fetch -- uvx mcp-server-fetch</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add fetch -- uvx mcp-server-fetch">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://github.com/modelcontextprotocol/servers/tree/main/src/fetch" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📄</div><div class="card-tt"><h3>MarkItDown</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">Microsoft's converter: turns PDFs, Word, Excel and PowerPoint into clean text Claude reads easily (and cheaply).</p>
+        <p class="why"><b>Why you'll like it:</b> valuation reports, legal packs and lender forms become searchable, summarisable text in one step.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div>
+          <div class="cmd"><pre>pip install "markitdown[all]"</pre><button class="copy" aria-label="Copy" data-copy="pip install &quot;markitdown[all]&quot;">⧉</button></div>
+        </div>
+        
+<details class="seeit"><summary>See it in action — A 40-page valuation PDF, before and after</summary><div class="seeit-body">
+<div class="mock-split"><div class="mock-split-pane"><span class="mock-tag">Before</span><div class="mock-muted">📄 Valuation_Report_14Elm.pdf</div><div class="mock-muted">40 pages · scanned tables</div><div class="mock-muted">unsearchable</div></div><div class="mock-split-pane"><span class="mock-tag">After</span><div>Market value: £485,000</div><div>90-day value: £430,000</div><div>Key risks: flood zone C…</div><div class="mock-ok">✓ Searchable text Claude can quote</div></div></div>
+</div></details>
+<div class="card-foot"><a class="btn" href="https://github.com/microsoft/markitdown" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== DESIGN ===== -->
+  <section class="block" id="design">
+    <div class="sec-head"><span class="dot"></span><h2>Design &amp; making things look good</h2></div>
+    <p class="sec-sub">Claude is genuinely good at <strong>making things</strong> — polished documents, decks, charts, branded visuals, even full page designs. Some you may <span class="haveit">Already have</span> in the app; the rest are quick add-ons.</p>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📊</div><div class="card-tt"><h3>Documents, decks &amp; sheets</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">Turn a plain request into a real Word doc, PowerPoint deck, Excel sheet, or tidy PDF — properly formatted, not just text.</p>
+        <p class="why"><b>Why you'll like it:</b> "make this into a client-ready one-page PDF" or "build a deck summarising these three deals."</p>
+        <div class="how"><div class="how-lbl">▹ How to use it</div><p class="path">On the desktop app you can often just ask. <span class="haveit">Already included</span></p></div>
+        <div class="card-foot"><a class="btn" href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Skills repo ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📈</div><div class="card-tt"><h3>Charts &amp; dashboards</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">Anthropic's <b>data</b> plugin turns a spreadsheet into clean charts and can build a small visual dashboard.</p>
+        <p class="why"><b>Why you'll like it:</b> loan figures, monthly volumes or a pipeline become a clear picture you can drop into a report.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div>
+          <div class="cmd"><pre>/plugin marketplace add anthropics/knowledge-work-plugins</pre><button class="copy" aria-label="Copy" data-copy="/plugin marketplace add anthropics/knowledge-work-plugins">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://claude.com/plugins/data" target="_blank" rel="noopener">The data plugin ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🎨</div><div class="card-tt"><h3>Brand &amp; theme kit</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">Skills for a consistent look — colour palettes, fonts, a canvas for graphics, and brand-guideline helpers.</p>
+        <p class="why"><b>Why you'll like it:</b> everything you make can share the same tidy, on-brand style instead of looking thrown together.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div>
+          <div class="cmd"><pre>/plugin marketplace add anthropics/skills</pre><button class="copy" aria-label="Copy" data-copy="/plugin marketplace add anthropics/skills">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Skills repo ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">💅</div><div class="card-tt"><h3>ui-ux-pro-max</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">A "design brain" for building good-looking pages — 84 styles, palettes, font pairings and layout guidance.</p>
+        <p class="why"><b>Why you'll like it:</b> if you ever build a web page or form, it looks professionally designed rather than plain.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div>
+          <div class="cmd"><pre>/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
+/plugin install ui-ux-pro-max@ui-ux-pro-max-skill</pre><button class="copy" aria-label="Copy" data-copy="/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
+/plugin install ui-ux-pro-max@ui-ux-pro-max-skill">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">✨</div><div class="card-tt"><h3>frontend-design</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">An official Anthropic skill that polishes the look and feel of any web page Claude builds you.</p>
+        <p class="why"><b>Why you'll like it:</b> the difference between "a page a computer made" and "a page a designer made."</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div>
+          <div class="cmd"><pre>/plugin install frontend-design@claude-plugins-official</pre><button class="copy" aria-label="Copy" data-copy="/plugin install frontend-design@claude-plugins-official">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Skills repo ↗</a></div>
+      </article>
+
+      <article class="card adv">
+        <div class="card-top"><div class="card-ic">🗺️</div><div class="card-tt"><h3>design-for-ai</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">A full design workflow for a real project: research → plan → mock → build → review, with sign-off at each step.</p>
+        <p class="why"><b>Why you'll like it:</b> when a project matters, it stops Claude rushing and walks it through a proper process.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div>
+          <div class="cmd"><pre>/plugin marketplace add ryanthedev/rtd-claude-inn
+/plugin install design-for-ai@rtd</pre><button class="copy" aria-label="Copy" data-copy="/plugin marketplace add ryanthedev/rtd-claude-inn
+/plugin install design-for-ai@rtd">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://github.com/ryanthedev/rtd-claude-inn" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      <article class="card adv">
+        <div class="card-top"><div class="card-ic">🖼️</div><div class="card-tt"><h3>Figma</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">Connect Claude to your Figma files so it can read your actual designs — frames, colours and components.</p>
+        <p class="why"><b>Why you'll like it:</b> if a designer hands you a Figma file, Claude can turn it into a real page that matches.</p>
+        <div class="how"><div class="how-lbl">▹ Turn on Dev Mode in Figma, then:</div>
+          <div class="cmd"><pre>claude mcp add --transport http figma http://127.0.0.1:3845/mcp</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add --transport http figma http://127.0.0.1:3845/mcp">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://help.figma.com/hc/en-us/articles/39888612464151-Claude-Code-and-Figma-Set-up-the-MCP-server" target="_blank" rel="noopener">Figma setup ↗</a></div>
+      </article>
+
+      <article class="card adv">
+        <div class="card-top"><div class="card-ic">🧩</div><div class="card-tt"><h3>Mobbin &amp; Stitch</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what"><b>Mobbin</b> searches real, shipped-app screens for design inspiration; <b>Google Stitch</b> generates a UI from a sentence.</p>
+        <p class="why"><b>Why you'll like it:</b> a shortcut to "what does good look like?" before you build anything.</p>
+        <div class="how"><div class="how-lbl">▹ Add Mobbin (needs a Mobbin Pro plan)</div>
+          <div class="cmd"><pre>claude mcp add --transport http mobbin https://api.mobbin.com/mcp</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add --transport http mobbin https://api.mobbin.com/mcp">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://mobbin.com/mcp" target="_blank" rel="noopener">Mobbin ↗</a><a class="btn ghost" href="https://stitch.withgoogle.com" target="_blank" rel="noopener">Stitch</a></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== WAYS OF WORKING ===== -->
+  <section class="block" id="working">
+    <div class="sec-head"><span class="dot"></span><h2>Ways of working</h2></div>
+    <p class="sec-sub">These aren't installs — they're <strong>how</strong> you drive Claude. Three habits that make it safer, smarter, and much faster on big jobs.</p>
+    <div class="grid tri">
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📝</div><div class="card-tt"><h3>Plan mode</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">Claude reads things, writes a step-by-step plan, and <b>waits for your OK</b> before changing anything.</p>
+        <p class="why"><b>Why you'll like it:</b> a beginner's safety net — you see exactly what's about to happen and nothing is touched until you say yes.</p>
+        <div class="how"><div class="how-lbl">▹ How to turn it on</div>
+          <p class="path">Terminal: press <span class="kbd">Shift</span>+<span class="kbd">Tab</span> until the bar reads <b>"plan mode on"</b>. Desktop app: click the mode selector by the message box and pick <b>Plan</b>.</p>
+        </div>
+        
+<details class="seeit"><summary>See it in action — Plan mode: Claude asks before it acts</summary><div class="seeit-body">
+<div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Terminal — Claude Code</span></div><div class="mock-body"><div class="mock-term">> tidy up the loan-quote spreadsheet and add a summary tab<br><br>⏸ plan mode on<br>Here's my plan:<br>  1. Read Quotes_July.xlsx (no changes)<br>  2. Create a Summary tab with totals by lender<br>  3. Show you the result before saving<br><br>Approve this plan?  ▸ Yes  ▸ No, keep planning</div><span class="mock-muted">Nothing changes until you say yes.</span></div></div>
+</div></details>
+<div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/permission-modes" target="_blank" rel="noopener">Docs ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🧠</div><div class="card-tt"><h3>Pick the right model</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">Choose which Claude "brain" answers you — a quick one for everyday jobs, a powerhouse for the important stuff.</p>
+        <p class="why"><b>Why you'll like it:</b> fast answers day to day, and full power only when a task really matters (a fiddly calc, a document that must be exactly right).</p>
+        <div class="how"><div class="how-lbl">▹ Switch with one line (or the desktop model picker)</div>
+          <div class="cmd"><pre>/model opus     # powerhouse for important work
+/model fable    # the heavyweight, for the hardest jobs
+/fast           # make Opus reply faster</pre><button class="copy" aria-label="Copy" data-copy="/model opus
+/model fable
+/fast">⧉</button></div>
+          <p class="path" style="margin-top:8px">Everyday admin? The default (or <code>/model sonnet</code>) is plenty.</p>
+        </div>
+        
+<details class="seeit"><summary>See it in action — Switching brains with /model</summary><div class="seeit-body">
+<div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Terminal — Claude Code</span></div><div class="mock-body"><div class="mock-term">> /model<br> ◦ haiku    — quick & light<br> ◦ sonnet   — everyday all-rounder<br> ● opus     — powerhouse for important work<br> ◦ fable    — heavyweight, hardest jobs<br><br>> /model opusplan<br>✓ Plans on Opus, builds on Sonnet — automatically</div></div></div>
+</div></details>
+<div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/model-config" target="_blank" rel="noopener">Docs ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">👥</div><div class="card-tt"><h3>Send out a team of agents</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">For big jobs, Claude can split the work across several <b>helper agents</b> at once — faster, and they cross-check each other.</p>
+        <p class="why"><b>Why you'll like it:</b> "check every doc in this folder for a missing signature" gets shared out and double-checked — fewer things slip through.</p>
+        <div class="how"><div class="how-lbl">▹ Just ask (copy &amp; edit this)</div>
+          <div class="cmd"><pre>use a workflow to review every file in this
+folder and flag anything incomplete</pre><button class="copy" aria-label="Copy" data-copy="use a workflow to review every file in this folder and flag anything incomplete">⧉</button></div>
+          <p class="path" style="margin-top:8px">Power words: <b>ultrathink</b> (think harder) · <b>ultracode</b> (go all-out). Watch progress with <code>/workflows</code>, or try <code>/deep-research</code>.</p>
+        </div>
+        
+<details class="seeit"><summary>See it in action — A team of helpers fanning out</summary><div class="seeit-body">
+<div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Claude — /workflows</span></div><div class="mock-body"><ul class="mock-tree"><li>📋 Check 24 client files for missing completion dates<ul><li>✅ Agent 1 — files 1–8 · 2 flagged</li><li>✅ Agent 2 — files 9–16 · none missing</li><li>⏳ Agent 3 — files 17–24 · checking…</li></ul></li></ul><span class="mock-ok">✓ Cross-checked before anything is reported</span></div></div>
+</div></details>
+<div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/workflows" target="_blank" rel="noopener">Docs ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🎯</div><div class="card-tt"><h3>Plan smart, build cheap</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">Do the <b>thinking</b> with a powerful model, then let a <b>fast, cheap</b> one do the legwork — so you pay top rates only for the short planning bit.</p>
+        <p class="why"><b>Why you'll like it:</b> a tricky deal doc gets a careful, approved plan first, then quick helpers carry it out — accurate <em>and</em> affordable.</p>
+        <div class="how"><div class="how-lbl">▹ The recipe</div>
+          <div class="cmd"><pre>/model fable     # 1. plan with the top brain (or opus)
+#   …read the plan, approve it, then:
+/model sonnet    # 2. build with a fast, cheap model
+#   "carry out the approved plan, using a workflow"</pre><button class="copy" aria-label="Copy" data-copy="/model fable
+/model sonnet
+carry out the approved plan, using a workflow">⧉</button></div>
+          <p class="path" style="margin-top:8px">Shortcut: <code>/model opusplan</code> does the swap for you — plans on Opus, builds on Sonnet automatically.</p>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/model-config" target="_blank" rel="noopener">Docs ↗</a></div>
+      </article>
+
+    </div>
+    <div class="callout amber" style="margin-top:16px">
+      <span class="cico">💡</span>
+      <div class="cbody"><p style="margin:0"><b>One caution on the team-of-agents trick:</b> lots of helpers use more of your daily Claude allowance, so try a big job on a small slice first (one folder, not the whole drive) — and only point them at files you're allowed to share.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== ACCOUNTS ===== -->
+  <section class="block" id="accounts">
+    <div class="sec-head"><span class="dot"></span><h2>Connect your accounts</h2></div>
+    <p class="sec-sub">You most likely have <strong>GitHub</strong> and <strong>Cloudflare</strong> connected already in a basic way. Notion is one-click; and you can let Claude do <strong>much more</strong> in GitHub &amp; Cloudflare by giving it an <strong>API key</strong> — the how (and where to keep keys safely) is in <a href="#keys">Keys &amp; 1Password</a> right below.</p>
+    <div class="grid tri">
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📝</div><div class="card-tt"><h3>Notion</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">Read and write your Notion pages, notes and databases straight from Claude.</p>
+        <p class="why"><b>Why you'll like it:</b> "add this to my deals page in Notion" or "what did I write about that client?"</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div><p class="path">Desktop → <b>Settings → Connectors → Notion → Connect</b>. <span class="oneclick">One-click</span></p></div>
+        <div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Connect ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🐙</div><div class="card-tt"><h3>GitHub</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">A filing cabinet with a time machine: dated backups of everything Claude helps you build, plus a to-do list ("issues") it can manage.</p>
+        <p class="why"><b>Why you'll like it:</b> nothing's ever lost — roll back to any earlier version of a letter or sheet, and let Claude track "chase the valuation on 14 Elm St" for you.</p>
+        <div class="how"><div class="how-lbl">▹ Easiest start</div>
+          <p class="path">Ask Claude: <em>"connect my GitHub account and walk me through it."</em> It'll set up the sign-in with you — no password typed into the chat.</p>
+          <p class="path" style="margin-top:8px">↑ For full save-and-version power, add an API key — see <a href="#keys">Keys</a>.</p>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://support.claude.com/en/articles/10167454-use-the-github-integration" target="_blank" rel="noopener">GitHub setup ↗</a><a class="btn ghost" href="https://github.com/github/github-mcp-server" target="_blank" rel="noopener">The server</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">☁️</div><div class="card-tt"><h3>Cloudflare</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">Put a simple website online (Cloudflare Pages) or check and tidy a domain's settings — Claude handles the fiddly bits.</p>
+        <p class="why"><b>Why you'll like it:</b> "put the site in this folder online" or "show me the DNS for mydomain.co.uk" in plain English.</p>
+        <div class="how"><div class="how-lbl">▹ Add the official plugin, then sign in</div>
+          <div class="cmd"><pre>/plugin install cloudflare@claude-plugins-official</pre><button class="copy" aria-label="Copy" data-copy="/plugin install cloudflare@claude-plugins-official">⧉</button></div>
+          <p class="path" style="margin-top:8px">↑ For deeper control, add an API token — see <a href="#keys">Keys</a>.</p>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://developers.cloudflare.com/agent-setup/claude-code/" target="_blank" rel="noopener">Setup guide ↗</a></div>
+      </article>
+
+    </div>
+    <div class="callout amber" style="margin-top:16px">
+      <span class="cico">⚠️</span>
+      <div class="cbody"><p style="margin:0"><b>Cloudflare handles live websites &amp; email.</b> A wrong <span class="jt" tabindex="0" data-tip="DNS is the internet's address book — it points your domain name at your website and email. Changing it affects the live site.">DNS</span> change can take a real site or company email offline — so always have Claude <b>show you the change and explain it first</b>, then approve it yourself. Never let it change DNS unattended.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== KEYS & 1PASSWORD ===== -->
+  <section class="block adv" id="keys">
+    <div class="sec-head"><span class="dot"></span><h2>Keys &amp; 1Password</h2></div>
+    <p class="sec-sub">To let Claude <strong>do</strong> more in a service you own — save file versions on GitHub, publish a site or edit DNS on Cloudflare — you give it an <strong>API key</strong>, and 1Password is the safe place to keep those keys. This is the most "grown-up" section; take it slowly, or hand any step to Claude with the 🪄 trick.</p>
+
+    <div class="callout gray">
+      <span class="cico">🗝️</span>
+      <div class="cbody">
+        <h3>What's an API key?</h3>
+        <p>Think of it as a <b>spare key-card for a building you already have an office in</b>. Your normal login is <em>you</em> walking in the front door; an API key is a limited card you print for Claude so it can do specific jobs on your behalf. Two things keep it safe: it's <b>scoped</b> (you choose exactly which doors it opens) and <b>revocable</b> (delete it any time and it stops working, your real password untouched).</p>
+      </div>
+    </div>
+
+    <div class="grid tri" style="margin-top:16px">
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🐙</div><div class="card-tt"><h3>Make a GitHub key</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">A <span class="jt" tabindex="0" data-tip="A long code that acts like a limited password — it only allows the exact things you tick, and you can cancel it anytime.">"fine-grained personal access token"</span> — GitHub's safe, tightly-scoped kind.</p>
+        <ol class="steps">
+          <li>Go to <b>github.com/settings/personal-access-tokens</b> → <b>Generate new token</b> (fine-grained).</li>
+          <li>Name it "Claude", set an expiry, and choose <b>only the repo(s)</b> you want.</li>
+          <li>Under Permissions, switch <b>Contents</b> and <b>Issues</b> (and <b>Pull requests</b>) to <b>Read &amp; write</b>.</li>
+          <li>Generate, then copy the <code>github_pat_…</code> — shown once — straight into 1Password.</li>
+        </ol>
+        
+<details class="seeit"><summary>See it in action — Making a GitHub key (the safe kind)</summary><div class="seeit-body">
+<div class="mock-win">
+  <div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">GitHub — New fine-grained token</span></div>
+  <div class="mock-body">
+    <div class="mock-row">Token name <span class="mock-muted">Claude – docs</span></div>
+    <div class="mock-row">Expiration <span class="mock-muted">90 days</span></div>
+    <div class="mock-row">Repository access <span class="mock-muted">Only: berkeley-app</span></div>
+    <div class="mock-row">Contents — Read & write <span class="mock-toggle on"></span></div>
+    <div class="mock-row">Issues — Read & write <span class="mock-toggle on"></span></div>
+    <div class="mock-term">github_pat_11ABC…  (shown once — copy into 1Password now)</div>
+    <div class="mock-ok">✓ Scoped · expiring · revocable</div>
+  </div>
+</div>
+</div></details>
+<div class="card-foot"><a class="btn" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">Create it ↗</a><a class="btn ghost" href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens" target="_blank" rel="noopener">Guide</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">☁️</div><div class="card-tt"><h3>Make a Cloudflare token</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">A scoped Cloudflare API Token — you pick which permissions and which site.</p>
+        <ol class="steps">
+          <li>Go to <b>dash.cloudflare.com/profile/api-tokens</b> → <b>Create Token</b>.</li>
+          <li>Use a <b>template</b> (e.g. "Edit zone DNS") or a custom one with <b>Pages</b> / <b>DNS</b> edit.</li>
+          <li>Point it at your <b>specific site</b>, not "All zones".</li>
+          <li>Create, then copy the token — shown once — straight into 1Password.</li>
+        </ol>
+        <div class="card-foot"><a class="btn" href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" rel="noopener">Create it ↗</a><a class="btn ghost" href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/" target="_blank" rel="noopener">Guide</a></div>
+      </article>
+    </div>
+
+    <h3 style="margin:26px 0 4px; font-size:1.14rem">1Password — three safe ways to hand Claude a key</h3>
+    <p class="sec-sub" style="margin-top:6px">The golden idea: you should <strong>never type a real key into the chat</strong>. 1Password lets Claude <em>use</em> a secret while it stays locked in your vault — three ways, for three situations.</p>
+
+    <div class="grid tri">
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🔌</div><div class="card-tt"><h3>1 · The MCP connection</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">Claude fetches a specific secret from your vault <b>the moment it's needed</b> — you never paste anything.</p>
+        <p class="why"><b>Best for:</b> letting Claude grab your GitHub/Cloudflare key mid-task in the app. It's a community add-on — ask Claude or a techy friend to install it.</p>
+        <div class="card-foot"><a class="btn" href="https://github.com/jrejaud/op-mcp" target="_blank" rel="noopener">op-mcp ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">⌨️</div><div class="card-tt"><h3>2 · The op command</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">1Password's command-line tool feeds a key into a command using a pointer like <code>op://Vault/Item/field</code> — the real value never shows.</p>
+        <p class="why"><b>Best for:</b> the safest option when Claude runs terminal commands for you. Developer-level — worth knowing it exists.</p>
+        <div class="card-foot"><a class="btn" href="https://developer.1password.com/docs/cli/secret-references/" target="_blank" rel="noopener">Docs ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🧩</div><div class="card-tt"><h3>3 · 1Password for Claude</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">The browser-extension feature: when Claude hits a login, 1Password fills your username, password &amp; code <b>into the page — and Claude never sees them</b>. You approve each with Touch ID.</p>
+        <p class="why"><b>Best for you:</b> everyday web sign-ins, no terminal. Desktop app → <b>Customize → Connectors → 1Password → Connect</b>. <span class="haveit">Mac · newest</span></p>
+        
+<details class="seeit"><summary>See it in action — 1Password approves — Claude never sees it</summary><div class="seeit-body">
+<div class="mock-dialog">
+  <div><b>🔐 1Password</b></div>
+  <div>Claude would like to sign in to <b>lenderportal.co.uk</b></div>
+  <div class="mock-row">Login: cleo@berkeleycredit.co.uk <span class="mock-tag">work</span></div>
+  <div><span class="mock-btn">Approve with Touch ID</span> <span class="mock-btn">Deny</span></div>
+  <div class="mock-muted">The password is filled straight into the page — Claude never sees it.</div>
+</div>
+</div></details>
+<div class="card-foot"><a class="btn" href="https://support.1password.com/1password-claude/" target="_blank" rel="noopener">Set it up ↗</a></div>
+      </article>
+    </div>
+
+    <div class="tblwrap" style="margin-top:16px">
+      <table class="tbl">
+        <thead><tr><th>You want to…</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td>Let Claude sign in to a website for you — no code</td><td>3 · 1Password for Claude</td></tr>
+          <tr><td>Let Claude grab an API key mid-task in the app</td><td>1 · The MCP connection</td></tr>
+          <tr><td>Use a key in a terminal command, zero exposure</td><td>2 · The op command</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout amber" style="margin-top:16px">
+      <span class="cico">🔒</span>
+      <div class="cbody">
+        <span class="lbl">The golden rule for keys</span>
+        <p>A key or token is <b>exactly like a password</b> — never paste one into a chat, an email, or anywhere public. It's shown <b>once</b>, so save it into <b>1Password</b> the moment you see it. Scope it narrowly, give it an expiry, and delete any you've stopped using. If one ever leaks, just delete it and make a new one — instant and free.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===== APP / RESEND ===== -->
+  <section class="block" id="app">
+    <div class="sec-head"><span class="dot"></span><h2>📮 For the app you're building</h2></div>
+    <p class="sec-sub">Since you're building an app for Berkeley Credit, one more tool is made for exactly that: <strong>Resend</strong> — the postman for <span class="jt" tabindex="0" data-tip="Email an app sends by itself when something happens — a receipt, a confirmation, a reminder. Different from you writing an email in Gmail.">transactional email</span>. Your Gmail is <em>your</em> inbox; Resend is how <em>the app itself</em> sends email automatically.</p>
+
+    <div class="panels">
+      <div class="panel">
+        <h3>✉️ What the app could send</h3>
+        <p>Quote confirmations the moment a client completes the form · "application received" notes · polite document-request nudges ("we still need the valuation report") · completion-day reminders. All automatic, all in your brand's voice.</p>
+      </div>
+      <div class="panel">
+        <h3>💷 What it costs: almost certainly £0</h3>
+        <p>Resend's free tier covers <b>3,000 emails a month</b> (up to 100 a day, one sending domain) — far more than a bridging app will send. If the business ever outgrows that, the next plan is $20/month. No card needed to start.</p>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:16px">
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📧</div><div class="card-tt"><h3>What the client receives</h3><span class="badge b-easy"><span class="bdot"></span>Example</span></div></div>
+        <div class="how" style="margin-top:12px">
+<div class="mock-email">
+  <div class="mock-email-head">
+    <div>From: quotes@berkeleycredit.co.uk</div>
+    <div>To: client@example.co.uk</div>
+    <div><b>Subject: Your bridging quote — Berkeley Credit</b></div>
+  </div>
+  <p>Hi Sam,</p>
+  <p>Your quote for 14 Elm Street is attached: £485,000 facility, 9 months.</p>
+  <p>Questions? Just reply — we're happy to help.</p>
+  <p class="mock-ok">✓ Sent automatically by the app · logged in Resend</p>
+</div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-top"><div class="card-ic">⚙️</div><div class="card-tt"><h3>How the app sends it</h3><span class="badge b-easy"><span class="bdot"></span>Example</span></div></div>
+        <div class="how" style="margin-top:12px">
+<div class="mock-win">
+  <div class="mock-bar">
+    <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+    <span class="mock-title">Berkeley app</span>
+  </div>
+  <div class="mock-body">
+    <div class="mock-chat">
+      <div class="mock-bubble u">Client completes the quote form 📋</div>
+      <div class="mock-bubble ai">App asks Resend to send the confirmation ✉️</div>
+      <div class="mock-bubble ai"><span class="mock-ok">✓ Delivered · 0.4s · free tier (3,000/month)</span></div>
+    </div>
+  </div>
+</div>
+        </div>
+      </article>
+    </div>
+
+    <div class="callout" style="margin-top:16px">
+      <span class="cico">🚀</span>
+      <div class="cbody">
+        <h3>Setting it up (10 minutes, with Claude's help)</h3>
+        <ol class="steps">
+          <li>Make a free account at <a href="https://resend.com" target="_blank" rel="noopener">resend.com</a> and create an <b>API key</b> — copy it straight into <b>1Password</b> (it's shown once).</li>
+          <li>Tell Claude: <em>"add the Resend email tool and help me connect my key"</em> — or paste:</li>
+        </ol>
+        <div class="cmd"><pre>claude mcp add resend -e RESEND_API_KEY=your-key-here -- npx -y resend-mcp</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add resend -e RESEND_API_KEY=your-key-here -- npx -y resend-mcp">⧉</button></div>
+        <p>To send from <b>@berkeleycredit.co.uk</b> you'll verify the domain by adding two <span class="jt" tabindex="0" data-tip="DNS is the internet's address book — it points your domain name at your website and email. Changing it affects the live site.">DNS</span> records — and since the domain likely sits in Cloudflare, <b>Claude can add them for you</b> (see the Cloudflare card above).</p>
+      </div>
+    </div>
+
+    <div class="card-foot" style="margin-top:14px;padding:0">
+      <a class="btn" href="https://resend.com" target="_blank" rel="noopener">Resend ↗</a>
+      <a class="btn ghost" href="https://resend.com/pricing" target="_blank" rel="noopener">Pricing</a>
+      <a class="btn ghost" href="https://github.com/resend/mcp-send-email" target="_blank" rel="noopener">The Claude tool</a>
+    </div>
+  </section>
+
+  <!-- ===== BROWSER ===== -->
+  <section class="block" id="browser">
+    <div class="sec-head"><span class="dot"></span><h2>Claude &amp; your browser <span style="font-weight:500;color:var(--ink-faint);font-size:1rem">— which is which?</span></h2></div>
+    <p class="sec-sub">A few "Claude can use a browser" things share almost the same name, which is genuinely confusing. One question sorts them all: <strong>does it use your real, logged-in browser, or a separate blank one?</strong></p>
+
+    <div class="callout">
+      <span class="cico">🧭</span>
+      <div class="cbody">
+        <h3>The one thing to remember</h3>
+        <p>Only the <b>Claude for Chrome extension</b> works inside <b>your real Chrome</b>, using logins you're already signed into. The desktop app's built-in browser, the terminal, and VS Code all use a <b>separate, blank browser</b> — unless you deliberately pair that extension.</p>
+      </div>
+    </div>
+
+    
+<details class="seeit" open><summary>See it in action — Your real Chrome vs Claude's blank browser</summary><div class="seeit-body">
+<div class="mock-split">
+  <div class="mock-split-pane">
+    <span class="mock-tag">Your Chrome + extension</span>
+    <div>🌍 chrome — you're signed in</div>
+    <div>✓ Gmail · ✓ Lender portal</div>
+    <div class="mock-muted">Claude acts as you — with your approval</div>
+  </div>
+  <div class="mock-split-pane">
+    <span class="mock-tag">Desktop app's browser</span>
+    <div>🧪 blank profile — no logins</div>
+    <div>For previewing what Claude builds</div>
+    <div class="mock-muted">Knows nothing about your accounts</div>
+  </div>
+</div>
+</div></details>
+
+    <div class="tblwrap" style="margin-top:16px">
+      <table class="tbl">
+        <thead><tr><th>Where</th><th>Your real logins?</th><th>What it's for</th><th>Turn it on</th></tr></thead>
+        <tbody>
+          <tr><td>Claude for Chrome <span style="font-weight:400;color:var(--ink-soft)">(extension)</span></td><td><span class="yes">Yes</span></td><td>Claude acting <em>as you</em> on real sites (Gmail, a portal, forms)</td><td>Install from the Chrome Web Store — needs a paid plan</td></tr>
+          <tr><td>Desktop app browser <span style="font-weight:400;color:var(--ink-soft)">(built-in pane)</span></td><td><span class="no">No — blank profile</span></td><td>Previewing &amp; testing a site Claude builds; docs beside your work</td><td>Already in the app — <code>Cmd+Shift+B</code></td></tr>
+          <tr><td>Terminal <span style="font-weight:400;color:var(--ink-soft)">(Claude Code CLI)</span></td><td><span class="no">Borrows one</span></td><td>Coding + browsing from the command line</td><td>No browser built in — pair the extension (<code>/chrome</code>) or add a browser tool</td></tr>
+          <tr><td>VS Code <span style="font-weight:400;color:var(--ink-soft)">(editor extension)</span></td><td><span class="no">Borrows one</span></td><td>Coding + browsing inside the editor</td><td>Pair the extension (<code>@browser</code>) or add a browser tool</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout amber" style="margin-top:16px">
+      <span class="cico">⚠️</span>
+      <div class="cbody"><p style="margin:0"><b>Two cautions.</b> The real-Chrome extension can act in your actual accounts — so don't point it at anything high-stakes like online banking, and glance at what it's about to do. And this whole area is in <b>beta and changes fast</b>, so exact menus and shortcuts may look a little different by the time you try them.</p></div>
+    </div>
+
+    <div class="card-foot" style="margin-top:16px;padding:0">
+      <a class="btn" href="https://claude.com/claude-for-chrome" target="_blank" rel="noopener">Claude for Chrome ↗</a>
+      <a class="btn ghost" href="https://code.claude.com/docs/en/chrome" target="_blank" rel="noopener">Terminal + VS Code</a>
+      <a class="btn ghost" href="https://code.claude.com/docs/en/desktop" target="_blank" rel="noopener">Desktop browser</a>
+    </div>
+  </section>
+
+  <!-- ===== SMARTER ===== -->
+  <section class="block" id="smarter">
+    <div class="sec-head"><span class="dot"></span><h2>Make Claude smarter &amp; nicer</h2></div>
+    <p class="sec-sub">These change how Claude <strong>thinks, writes and remembers</strong>. Small additions, surprisingly big difference.</p>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🦸</div><div class="card-tt"><h3>Superpowers</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">A well-loved pack that teaches Claude to brainstorm properly, work step-by-step, and stop rushing.</p>
+        <p class="why"><b>Why you'll like it:</b> it makes Claude ask the right questions first, so you get thought-through answers, not guesses.</p>
+        <div class="how"><div class="how-lbl">▹ Paste into Claude's message box</div>
+          <div class="cmd"><pre>/plugin install superpowers@claude-plugins-official</pre><button class="copy" aria-label="Copy" data-copy="/plugin install superpowers@claude-plugins-official">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://github.com/obra/superpowers" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">✍️</div><div class="card-tt"><h3>Stop Slop</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">A writing skill that strips the robotic "AI voice" out of anything Claude writes, so it sounds like a real person.</p>
+        <p class="why"><b>Why you'll like it:</b> client emails and letters read warm and human — no "delve", no "in today's fast-paced world".</p>
+        <div class="how"><div class="how-lbl">▹ Easiest way</div><p class="path">Paste the GitHub link into Claude and say <em>"add this as a skill for me."</em></p></div>
+        <div class="card-foot"><a class="btn" href="https://github.com/hardikpandya/stop-slop" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📌</div><div class="card-tt"><h3>A memory file</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">A plain note Claude reads every time, holding your preferences. Not an install — just a habit.</p>
+        <p class="why"><b>Why you'll like it:</b> tell it once — "I'm at Berkeley Credit, use UK English, keep a warm professional tone" — and never repeat yourself.</p>
+        <div class="how"><div class="how-lbl">▹ How to start one</div><p class="path">Tell Claude: <em>"Remember for next time: …"</em> or <em>"set up a CLAUDE.md with my preferences."</em></p></div>
+        <div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener">How memory works ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🧵</div><div class="card-tt"><h3>claude-mem</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">Goes further than a memory file: it quietly remembers past sessions and brings them back next time.</p>
+        <p class="why"><b>Why you'll like it:</b> pick up a case from last week without re-explaining it — Claude already has the thread.</p>
+        <div class="how"><div class="how-lbl">▹ How to add it</div>
+          <div class="cmd"><pre>/plugin marketplace add thedotmack/claude-mem
+/plugin install claude-mem@thedotmack</pre><button class="copy" aria-label="Copy" data-copy="/plugin marketplace add thedotmack/claude-mem
+/plugin install claude-mem@thedotmack">⧉</button></div>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== ADVANCED ===== -->
+  <section class="block adv" id="advanced">
+    <div class="sec-head"><span class="dot"></span><h2>Advanced — when you're ready</h2></div>
+    <p class="sec-sub">No rush on any of these. Powerful, but more involved — perfect for the <strong>"ask Claude to install it for me"</strong> trick. Skip until you're curious.</p>
+    <div class="grid tri">
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🌍</div><div class="card-tt"><h3>Claude in Chrome</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">An official extension that lets Claude see and act in your browser — click, fill and read pages with you.</p>
+        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://claude.com/claude-for-chrome" target="_blank" rel="noopener">Get it ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🖱️</div><div class="card-tt"><h3>Browser automation</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">Lets Claude drive a website for you — fill a form, pull data from a portal.</p>
+        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/williamkapke/kapture" target="_blank" rel="noopener">Kapture ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📄</div><div class="card-tt"><h3>PDF form tools</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">Fill, split, merge and <span class="jt" tabindex="0" data-tip="OCR turns a scanned picture of a document into real, searchable text.">OCR</span> PDF forms — handy for lender packs. Ask Claude to pick a maintained one.</p>
+        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener">Directory ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">💬</div><div class="card-tt"><h3>WhatsApp</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">Read and send WhatsApp messages through Claude. Powerful, but a couple of setup steps.</p>
+        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/lharries/whatsapp-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📓</div><div class="card-tt"><h3>NotebookLM</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">Ties Claude to Google's research notebooks for digging through big piles of documents.</p>
+        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/jacob-bd/notebooklm-mcp-cli" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">📉</div><div class="card-tt"><h3>Google Analytics</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">Ask plain-English questions about website traffic. Google's official server (pip <code>analytics-mcp</code>).</p>
+        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/googleanalytics/google-analytics-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🔧</div><div class="card-tt"><h3>Chrome DevTools</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">Let Claude inspect and debug a live website — speed, errors, network. The Chrome team's official server.</p>
+        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🤝</div><div class="card-tt"><h3>Second opinion (Codex)</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">Brings in OpenAI's Codex as a second set of eyes when a task is tricky.</p>
+        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/openai/codex-plugin-cc" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🤗</div><div class="card-tt"><h3>Hugging Face</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
+        <p class="what">Search AI models, datasets and demos. Add the hosted server at <code>huggingface.co/mcp</code> with a free token.</p>
+        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/huggingface/hf-mcp-server" target="_blank" rel="noopener">GitHub ↗</a></div>
+      </article>
+
+      
+
+      <article class="card">
+        <div class="card-top"><div class="card-ic">🧭</div><div class="card-tt"><h3>Browse for more</h3><span class="badge b-easy"><span class="bdot"></span>Easy</span></div></div>
+        <p class="what">Hundreds more exist. These two directories are the safe places to explore.</p>
+        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://claude.com/connectors" target="_blank" rel="noopener">Connectors ↗</a><a class="btn ghost" href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener">Directory</a></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== TIPS ===== -->
+  <section class="block" id="tips">
+    <div class="sec-head"><span class="dot"></span><h2>Two habits &amp; one rule</h2></div>
+    <p class="sec-sub">Small things that make Claude fit your workday — plus the one line to remember given the information you handle.</p>
+
+    <div class="callout" style="margin-top:4px">
+      <span class="cico">⏰</span>
+      <div class="cbody">
+        <h3>Line up your 5-hour window with your day</h3>
+        <p>Claude refills on a rolling <b>~5-hour window</b> that starts on your <b>first message</b> — so if you begin at 9am, you might run low mid-afternoon. The fix: have a tiny task run before you arrive, so the refill lands to suit your hours.</p>
+        <div class="winbox">
+          <div class="timeline">
+            <div class="tl-row"><span class="lab">9:00 first msg</span><div class="bar bad" style="width:82%">window runs 9 → 2pm · refills at 2pm 😕 mid-afternoon</div></div>
+            <div class="tl-row"><span class="lab">7:00 auto-task</span><div class="bar pre" style="width:34%">quiet start</div></div>
+            <div class="tl-row"><span class="lab">→ your day</span><div class="bar good" style="width:92%">window refills ~noon · fresh for the afternoon 🎉</div></div>
+          </div>
+          <ul class="clean">
+            <li><span class="tick">→</span><span>Desktop app → <b>Scheduled tasks</b> → add a small morning one (even "Good morning, list today's calendar") a couple of hours before you start.</span></li>
+            <li><span class="tick">→</span><span>Watch it play out with <b>OpenUsage</b> in your menu bar until the timing feels right.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="panels" style="margin-top:16px">
+      <div class="panel">
+        <h3>🎙️ Voice + clipboard = fast</h3>
+        <p>Dictate with <b>FluidVoice</b>, keep your go-to prompts in <b>FlashClip</b>. Together they turn "typing at a chat box" into something closer to talking to a colleague.</p>
+      </div>
+      <div class="panel">
+        <h3>📌 Let it remember you</h3>
+        <p>The first thing worth doing: tell Claude who you are and how you like to write (the memory cards above). Everything after lands closer to right the first time.</p>
+      </div>
+    </div>
+
+    <div class="callout amber" style="margin-top:16px">
+      <span class="cico">🛟</span>
+      <div class="cbody">
+        <span class="lbl">One rule, because you work in finance</span>
+        <p>Be thoughtful with <b>client personal and financial details</b>. Connectors that stay inside your own Gmail, Drive and Calendar are fine — that's your data in your accounts. But don't paste a client's private information into random third-party tools, and keep sensitive files local rather than uploading them somewhere new. Keep logins and keys in <b>1Password</b>. When in doubt, ask Marshal — better a quick question than a wrong guess.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <h2 style="font-size:1.3rem">You've got this 🌱</h2>
+    <p class="sec-sub" style="margin-bottom:6px">Do one card, notice how it feels, then do the next. And remember — Claude itself is the friendliest instruction manual you have. Ask it anything.</p>
+    <div class="foot-links">
+      <a href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="noopener">Getting started</a>
+      <a href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">Adding tools (MCP)</a>
+      <a href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">Plugins &amp; skills</a>
+      <a href="https://code.claude.com/docs/en/workflows" target="_blank" rel="noopener">Workflows</a>
+      <a href="https://claude.com/connectors" target="_blank" rel="noopener">Connector directory</a>
+    </div>
+    <p class="signoff">Made for Cleo by Marshal ♥ — every tool here is one he actually uses. Nothing on this page can see your data unless you connect it yourself.</p>
+  </div>
+</footer>
+
+<script>
+  // ----- Simple / Advanced mode -----
+  function cleoApplyMode(m){
+    document.body.classList.toggle('mode-advanced', m === 'advanced');
+    document.querySelectorAll('.seg button').forEach(function(b){ b.classList.toggle('act', b.dataset.mode === m); });
+  }
+  (function(){
+    var saved = 'simple';
+    try { saved = localStorage.getItem('cleoMode') || 'simple'; } catch(e) {}
+    cleoApplyMode(saved);
+    document.querySelectorAll('.seg button').forEach(function(b){
+      b.addEventListener('click', function(){
+        try { localStorage.setItem('cleoMode', b.dataset.mode); } catch(e) {}
+        cleoApplyMode(b.dataset.mode);
+      });
+    });
+  })();
+
+  // ----- copy buttons -----
+  document.querySelectorAll('.cmd .copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var text = btn.getAttribute('data-copy') || '';
+      var done = function(){ var old = btn.textContent; btn.textContent='✓'; btn.classList.add('ok'); setTimeout(function(){ btn.textContent=old; btn.classList.remove('ok'); },1400); };
+      if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done).catch(function(){ fallbackCopy(text); done(); }); }
+      else { fallbackCopy(text); done(); }
+    });
+  });
+  function fallbackCopy(text){ var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); }
+
+  // ----- smooth scroll; auto-switch to Advanced if target is hidden -----
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var el = document.querySelector(a.getAttribute('href'));
+      if(!el) return;
+      e.preventDefault();
+      if(el.closest('.adv') && !document.body.classList.contains('mode-advanced')){
+        try { localStorage.setItem('cleoMode','advanced'); } catch(err) {}
+        cleoApplyMode('advanced');
+      }
+      el.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'});
+    });
+  });
+</script>
+
 </body>
 </html>
