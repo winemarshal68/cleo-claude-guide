@@ -43,13 +43,22 @@
 
   /* ---- header / nav ---- */
   .nav{ position:sticky; top:0; z-index:50; background:rgba(255,255,255,.86); backdrop-filter:saturate(1.4) blur(10px); border-bottom:1px solid var(--line); }
-  .nav-inner{ display:flex; align-items:center; gap:6px 15px; max-width:var(--maxw); margin:0 auto; padding:13px 26px; flex-wrap:wrap; }
-  .nav-brand{ display:flex; align-items:center; gap:9px; font-weight:700; font-size:.95rem; color:var(--ink); margin-right:auto; letter-spacing:-.01em; }
-  .nav-brand .mark{ width:26px; height:26px; border-radius:7px; background:var(--accent); color:#fff; display:grid; place-items:center; }
+  .nav-inner{ display:flex; align-items:center; gap:8px 16px; max-width:var(--maxw); margin:0 auto; padding:12px 26px; }
+  .nav-brand{ display:flex; align-items:center; gap:9px; font-weight:700; font-size:.95rem; color:var(--ink); letter-spacing:-.01em; flex:0 0 auto; }
+  .nav-brand .mark{ width:26px; height:26px; border-radius:7px; background:var(--accent); color:#fff; display:grid; place-items:center; flex:0 0 auto; }
   .nav-brand .mark svg.ic{ width:15px; height:15px; }
-  .nav a.lnk{ font-size:.86rem; font-weight:500; color:var(--ink-3); letter-spacing:-.005em; }
+  .nav-links{ display:flex; align-items:center; gap:16px; flex:1 1 auto; min-width:0; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; }
+  .nav-links::-webkit-scrollbar{ display:none; }
+  .nav a.lnk{ font-size:.86rem; font-weight:500; color:var(--ink-3); letter-spacing:-.005em; white-space:nowrap; }
   .nav a.lnk:hover{ color:var(--ink); text-decoration:none; }
-  .seg{ display:inline-flex; border:1px solid var(--line-2); border-radius:8px; overflow:hidden; flex:0 0 auto; margin-left:4px; background:var(--paper); }
+  .seg{ display:inline-flex; border:1px solid var(--line-2); border-radius:8px; overflow:hidden; flex:0 0 auto; background:var(--paper); }
+  @media (max-width:860px){
+    .nav-inner{ flex-wrap:wrap; padding:9px 18px; gap:8px 14px; }
+    .nav-brand{ margin-right:auto; }
+    .seg{ order:1; }
+    .nav-links{ order:2; flex-basis:100%; flex-grow:0; }
+  }
+  @media (max-width:560px){ .brand-txt{ display:none; } }
   .seg button{ border:0; background:transparent; color:var(--ink-3); font:inherit; font-size:.78rem; font-weight:600; padding:5px 13px; cursor:pointer; transition:background .13s,color .13s; }
   .seg button.act{ background:var(--accent); color:#fff; }
   .seg button:not(.act):hover{ background:var(--paper-2); color:var(--ink); }
@@ -84,7 +93,7 @@
 
   /* ---- sections ---- */
   section.block{ padding:56px 0 6px; scroll-margin-top:72px; }
-  @media (max-width:640px){ section.block{ scroll-margin-top:150px; } }
+  @media (max-width:860px){ section.block{ scroll-margin-top:104px; } }
   .sec-head{ display:flex; align-items:center; gap:14px; margin:0 0 3px; padding-bottom:16px; border-bottom:1px solid var(--line); }
   .sec-head .dot{ width:4px; height:24px; border-radius:3px; background:var(--accent); flex:0 0 auto; }
   .sec-head h2{ font-size:clamp(1.5rem,3vw,1.95rem); }
@@ -558,8 +567,8 @@
 
 <nav class="nav">
   <div class="nav-inner">
-    <span class="nav-brand"><span class="mark"><svg class="ic" aria-hidden="true"><use href="#i-sparkle"></use></svg></span> Cleo&#39;s Claude Starter Kit</span>
-    <a class="lnk" href="#start">Start</a>
+    <span class="nav-brand"><span class="mark"><svg class="ic" aria-hidden="true"><use href="#i-sparkle"></use></svg></span><span class="brand-txt">Cleo&#39;s Claude Starter Kit</span></span>
+    <nav class="nav-links"><a class="lnk" href="#start">Start</a>
     <a class="lnk" href="#comfort">Comfort</a>
     <a class="lnk" href="#everyday">Everyday</a>
     <a class="lnk" href="#design">Design</a>
@@ -570,7 +579,7 @@
     <a class="lnk" href="#browser">Browser</a>
     <a class="lnk" href="#smarter">Smarter</a>
     <a class="lnk adv" href="#advanced">Advanced</a>
-    <a class="lnk" href="#tips">Tips</a>
+    <a class="lnk" href="#tips">Tips</a></nav>
     <span class="seg" role="group" aria-label="Detail level"><button type="button" data-mode="simple" class="act">Simple</button><button type="button" data-mode="advanced">Advanced</button></span>
   </div>
 </nav>
