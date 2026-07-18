@@ -275,6 +275,9 @@
   .mt-pill.ok{ color:var(--accent); border-color:var(--accent-tint); background:var(--accent-tint); }
   .mock-foot{ display:flex; align-items:center; gap:7px; font-size:11px; color:var(--ink-4); }
   .mock-foot .db-dot{ width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px var(--accent-tint); flex:0 0 auto; }
+  .mock-chips{ display:flex; gap:6px; flex-wrap:wrap; }
+  .mock-chips span{ font-size:10.5px; font-weight:600; color:var(--ink-3); background:var(--paper-2); border:1px solid var(--line); border-radius:999px; padding:3px 9px; white-space:nowrap; }
+  .mock-chips span.mc-on{ background:var(--accent); color:#fff; border-color:var(--accent); }
 
   /* ---- advanced detail blocks ---- */
   .detail{ display:none; margin:16px 0 0; padding:2px 0 0; border-top:1px solid var(--line); }
@@ -562,7 +565,7 @@
 <path d="M9 4.5H5a1.5 1.5 0 0 0-1.5 1.5v13A1.5 1.5 0 0 0 5 20.5h13a1.5 1.5 0 0 0 1.5-1.5v-4"/>
 <path d="M13.5 3.5H20v6.5M20 3.5l-9 9"/>
 </symbol>
-</svg>
+<symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7.5" ry="3"/><path d="M4.5 6v12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3V6"/><path d="M4.5 12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3"/></symbol></svg>
 
 
 <nav class="nav">
@@ -596,7 +599,7 @@
       </div>
       <p class="hero-trust"><svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg> Nothing is sent, filed, or changed without a human saying yes first. Your data stays yours, and every action is reviewed before it goes anywhere.</p>
     </div>
-    <div class="hero-shot"><div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Berkeley Credit — Deals dashboard</span></div><div class="mock-body"><div class="mock-kpis"><div class="mock-kpi"><span class="k-lbl">Live deals</span><span class="k-val">12</span></div><div class="mock-kpi"><span class="k-lbl">In underwriting</span><span class="k-val">&pound;4.2m</span></div><div class="mock-kpi"><span class="k-lbl">Completing wk</span><span class="k-val">3</span></div></div><div class="mock-bars"><span style="height:38%"></span><span style="height:55%"></span><span style="height:43%"></span><span style="height:71%"></span><span style="height:60%"></span><span style="height:88%"></span></div><div class="mock-tbl"><div class="mt-row mt-head"><span>Property</span><span>Facility</span><span>Stage</span></div><div class="mt-row"><span>14 Elm Street</span><span>&pound;485k</span><span class="mt-pill">Valuation</span></div><div class="mt-row"><span>7 Canal Wharf</span><span>&pound;1.2m</span><span class="mt-pill">Underwriting</span></div><div class="mt-row"><span>22 Prospect Rd</span><span>&pound;310k</span><span class="mt-pill ok">Completing</span></div></div><div class="mock-foot"><span class="db-dot"></span>Live from your Postgres database &middot; updated just now</div></div></div></div>
+    <div class="hero-shot"><div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Cadence — Pipeline</span></div><div class="mock-body"><div class="mock-kpis"><div class="mock-kpi"><span class="k-lbl">In pipeline</span><span class="k-val">5</span></div><div class="mock-kpi"><span class="k-lbl">Gross exposure</span><span class="k-val">&pound;3.04m</span></div><div class="mock-kpi"><span class="k-lbl">Needs attention</span><span class="k-val">1</span></div></div><div class="mock-chips"><span class="mc-on">All stages</span><span>Enquiry</span><span>KYC/AML</span><span>Valuation</span><span>Underwriting</span><span>Offer</span></div><div class="mock-tbl"><div class="mt-row mt-head"><span>Case</span><span>Gross loan</span><span>Stage</span></div><div class="mt-row"><span>Okonkwo_Reading</span><span>&pound;485,000</span><span class="mt-pill">Underwriting</span></div><div class="mt-row"><span>Whitfield_Harrogate</span><span>&pound;1,250,000</span><span class="mt-pill">Valuation</span></div><div class="mt-row"><span>Ashworth_Bath</span><span>&pound;780,000</span><span class="mt-pill ok">Offer issued</span></div></div><div class="mock-foot"><span class="db-dot"></span>Live from your Postgres database &middot; updated just now</div></div></div></div>
   </div>
 </header>
 <div class="trust-strip"><div class="wrap"><span class="tl">Works with the tools you already use</span><span class="item"><svg class="ic" aria-hidden="true"><use href="#i-mail"></use></svg>Gmail</span><span class="item"><svg class="ic" aria-hidden="true"><use href="#i-folder"></use></svg>Google Drive</span><span class="item"><svg class="ic" aria-hidden="true"><use href="#i-edit"></use></svg>Notion</span><span class="item"><svg class="ic" aria-hidden="true"><use href="#i-github"></use></svg>GitHub</span><span class="item"><svg class="ic" aria-hidden="true"><use href="#i-cloud"></use></svg>Cloudflare</span></div></div>
@@ -1217,7 +1220,28 @@ carry out the approved plan, using a workflow">⧉</button></div>
   <!-- ===== APP / RESEND ===== -->
   <section class="block" id="app">
     <div class="sec-head"><span class="dot"></span><h2>For the app you're building</h2></div>
-    <p class="sec-sub">Since you're building an app for Berkeley Credit, one more tool is made for exactly that: <strong>Resend</strong> — the postman for <span class="jt" tabindex="0" data-tip="Email an app sends by itself when something happens — a receipt, a confirmation, a reminder. Different from you writing an email in Gmail.">transactional email</span>. Your Gmail is <em>your</em> inbox; Resend is how <em>the app itself</em> sends email automatically.</p>
+    <p class="sec-sub">You&#39;re building <strong>Cadence</strong> &mdash; Berkeley Credit&#39;s operations platform. Claude can plug straight into it in two places: your <strong>Postgres database</strong>, and the <strong>email it sends</strong>.</p>
+    <div class="grid">
+      <article class="card">
+        <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-database"></use></svg></div><div class="card-tt"><h3>Your app&#39;s database (Postgres)</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
+        <p class="what">Let Claude explore and query Cadence&#39;s Postgres database &mdash; read the schema, write SQL, and help you build features. Connect it <b>read-only</b> first, so it can look but never change anything.</p>
+        <p class="why"><b>Why you&#39;ll like it:</b> ask &ldquo;what tables do I have?&rdquo; or &ldquo;write a query for every case in Underwriting over &pound;500k&rdquo; and build against your real data, safely.</p>
+        <div class="how"><div class="how-lbl">&#9657; Connect it read-only (or ask Claude to help)</div>
+          <div class="cmd"><pre>claude mcp add postgres -e DATABASE_URI=&quot;your-connection-string&quot; -- uvx postgres-mcp --access-mode=restricted</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add postgres -e DATABASE_URI="your-connection-string" -- uvx postgres-mcp --access-mode=restricted">&#10697;</button></div>
+          <p class="path" style="margin-top:8px">Keep the connection string in <b>1Password</b>, never in the command or a file.</p>
+        </div>
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-database"></use></svg> In depth</div>
+          <h4>How it works</h4><p>A Postgres MCP server sits between Claude and your database. You give it a connection string; Claude can then read your schema and run SQL through it. In <b>restricted</b> (read-only) mode it can inspect data and structure but cannot change or delete anything &mdash; the safe way to start.</p>
+          <h4>Setting it up in full</h4><ol><li>Find your database <b>connection string</b> from your host (Supabase, Neon, Railway, or your own Postgres). It looks like <code>postgresql://user:pass@host:5432/dbname</code>.</li><li>Store it in <b>1Password</b>, not in a plain file or the chat.</li><li>Run the command on the card, or just ask Claude: &ldquo;connect my Postgres database read-only.&rdquo; The <code>--access-mode=restricted</code> flag keeps it read-only.</li><li>Confirm it worked: ask &ldquo;list my tables&rdquo; and check you see Cadence&#39;s tables (cases, people, loans&hellip;).</li><li>For extra safety, create a dedicated <b>read-only database user</b> and use that connection string.</li></ol>
+          <h4>Where it fits at Berkeley Credit</h4><p>Explore Cadence&#39;s data while you build &mdash; &ldquo;show me the cases table&rdquo;, &ldquo;how many are in KYC?&rdquo;. Prototype a report query before wiring it into the UI. Sanity-check figures before a change. Ask Claude to help design a new table or an index without leaving your editor.</p>
+          <h4>Good to know</h4><ul><li><b>Use crystaldba/postgres-mcp</b>, the maintained server. The old official <code>@modelcontextprotocol/server-postgres</code> was retired for a security flaw &mdash; don&#39;t use it.</li><li>Start <b>read-only</b>. Only allow writes once you trust the setup, and be very careful pointing it at production data.</li><li>It is a <b>real database</b>: a bad write can lose data. Restricted mode and a read-only user are your seatbelts.</li><li>Keep the connection string secret &mdash; 1Password, never the chat or a committed file.</li></ul>
+          <h4>Try saying</h4><ul class="tryq"><li>&ldquo;Connect my Postgres database read-only and list the tables.&rdquo;</li><li>&ldquo;Write a query for every case in Underwriting with a gross loan over &pound;500,000.&rdquo;</li><li>&ldquo;Look at my cases table and suggest an index to speed up the pipeline view.&rdquo;</li></ul>
+        </div>
+        <div class="card-foot"><a class="btn" href="https://github.com/crystaldba/postgres-mcp" target="_blank" rel="noopener">Postgres MCP &#8599;</a></div>
+      </article>
+    </div>
+
+    <p class="sec-sub">For the email Cadence sends automatically, there&#39;s <strong>Resend</strong> — the postman for <span class="jt" tabindex="0" data-tip="Email an app sends by itself when something happens — a receipt, a confirmation, a reminder. Different from you writing an email in Gmail.">transactional email</span>. Your Gmail is <em>your</em> inbox; Resend is how <em>the app itself</em> sends email automatically.</p>
 
     <div class="panels">
       <div class="panel">
