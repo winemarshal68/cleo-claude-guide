@@ -267,6 +267,18 @@
   .mock-foot{ display:flex; align-items:center; gap:7px; font-size:11px; color:var(--ink-4); }
   .mock-foot .db-dot{ width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px var(--accent-tint); flex:0 0 auto; }
 
+  /* ---- advanced detail blocks ---- */
+  .detail{ display:none; margin:16px 0 0; padding:2px 0 0; border-top:1px solid var(--line); }
+  body.mode-advanced .detail{ display:block; }
+  .detail-lbl{ display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:.62rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--accent); margin:14px 0 2px; }
+  .detail h4{ font-family:var(--sans); font-size:.76rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--ink); margin:16px 0 6px; }
+  .detail p{ margin:0 0 9px; font-size:.92rem; color:var(--ink-2); line-height:1.62; }
+  .detail ul,.detail ol{ margin:5px 0 11px; padding-left:20px; }
+  .detail li{ font-size:.92rem; color:var(--ink-2); margin:5px 0; line-height:1.55; }
+  .detail code{ font-family:var(--mono); font-size:.84em; background:var(--paper-2); padding:1px 5px; border-radius:4px; border:1px solid var(--line); }
+  .detail ul.tryq{ list-style:none; padding-left:0; margin-top:6px; }
+  .detail ul.tryq li{ padding:8px 12px; background:var(--paper-2); border:1px solid var(--line); border-radius:7px; color:var(--ink-2); font-style:italic; margin:6px 0; }
+
   @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } .card:hover{ transform:none; } }
 </style>
 </head>
@@ -588,6 +600,8 @@
     <p class="sec-sub">You've <strong>already got the desktop app</strong> ✅ — so you're set up. Two spots worth finding inside it: <strong>Settings → Connectors</strong> (the one-click tool shelf) and <strong>Scheduled tasks</strong> (we'll use that in Tips). You've also got <strong>GitHub</strong> and <strong>Cloudflare</strong> accounts — there are cards for both under <a href="#accounts">Accounts</a>.</p>
     <div class="aside-note"><div class="avatar">M</div><div><p>Cleo — this is built around the work you already do; have a look and tell me what's missing.</p><p class="sig">— Marshal</p></div></div>
 
+    <div class="callout"><span class="cico"><svg class="ic"><use href="#i-layout"></use></svg></span><div class="cbody"><span class="lbl">Two depths, one switch</span><p><b>Simple</b> is a quick tour — a line or two per tool. <b>Advanced</b> (the switch at the top-right) opens a full, in-depth explanation on every tool: how it works, the complete set-up, where it fits your day at Berkeley Credit, and the honest caveats. Flip it any time — nothing is lost either way.</p></div></div>
+
     <div class="callout green">
       <span class="cico"><svg class="ic" aria-hidden="true"><use href="#i-wand"></use></svg></span>
       <div class="cbody">
@@ -634,7 +648,11 @@
           <div class="cmd"><pre>brew install --cask fluidvoice</pre><button class="copy" aria-label="Copy" data-copy="brew install --cask fluidvoice">⧉</button></div>
           <p class="path" style="margin-top:8px">No <span class="jt" tabindex="0" data-tip="Homebrew is a free app-installer for Mac. Claude can set it up for you if you ask.">Homebrew</span>? The website has a normal installer.</p>
         </div>
-        <div class="card-foot"><a class="btn" href="https://altic.dev/fluid" target="_blank" rel="noopener">Website ↗</a><a class="btn ghost" href="https://github.com/altic-dev/FluidVoice" target="_blank" rel="noopener">GitHub</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>FluidVoice runs speech recognition entirely on your Mac's own processor, so the audio never leaves the machine or touches a server. While the app is active, whatever you say into a microphone is transcribed and typed straight into whichever text field has focus — a Claude chat window, an email, anything. Because the model runs locally, there's a short pause for processing but no network round-trip, and it keeps working without an internet connection.</p><h4>Setting it up in full</h4><ol><li>Run the Homebrew command shown above to install the FluidVoice cask. Homebrew downloads and places the app in your Applications folder.</li><li>Open FluidVoice from Applications or Spotlight. macOS will prompt for Microphone access — approve it, otherwise dictation stays silent.</li><li>Grant Accessibility permission when prompted (System Settings, Privacy & Security, Accessibility). This is what lets the app type into other applications rather than just its own window.</li><li>Set or confirm the dictation hotkey in FluidVoice's preferences.</li><li>Test it: click into any text field, hold the hotkey, speak a sentence, and confirm the words appear correctly. If nothing appears, re-check the two permissions above.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Dictate a fast case summary into Claude after a call with a broker rather than typing it up from notes. Talk through a complex exit strategy or adverse-credit history while it's still fresh, instead of writing bullet points later. Useful for anyone who thinks better out loud, especially when drafting the first rough version of a valuation note or client update.</p><h4>Good to know</h4><ul><li>Mac only — there is no Windows equivalent bundled with this tool.</li><li>Accuracy drops with strong background noise, overlapping speech, or heavy accents on financial jargon and place names; always proofread before it goes anywhere client-facing.</li><li>Running on-device is genuinely good for confidentiality since no audio is sent anywhere, but the typed text still ends up wherever you dictated it, so treat it with the same care as typed text.</li><li>Requires an Accessibility permission grant, which some company IT policies restrict; check before rolling it out on a managed device.</li></ul><ul class="tryq"><li>"Summarise what I've just dictated into a short case note for the file."</li><li>"Turn this into a professional email to the broker, keep my tone but tidy the grammar."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://altic.dev/fluid" target="_blank" rel="noopener">Website ↗</a><a class="btn ghost" href="https://github.com/altic-dev/FluidVoice" target="_blank" rel="noopener">GitHub</a></div>
       </article>
 
       <article class="card">
@@ -646,7 +664,11 @@
 brew install --cask flashclip</pre><button class="copy" aria-label="Copy" data-copy="brew tap srikat/flashclip
 brew install --cask flashclip">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://github.com/srikat/FlashClip" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>FlashClip sits quietly in the background and records everything you copy — text, and often images — into a searchable history, not just the single item macOS normally remembers. A menu-bar icon or hotkey opens that history so you can scroll or search back through past copies and paste any of them again, even ones from several actions ago.</p><h4>Setting it up in full</h4><ol><li>Run the Homebrew command shown above to install the app.</li><li>Launch it from Applications; it will add itself to the menu bar and may ask to start automatically at login — accept if you want it always running.</li><li>Grant Accessibility permission if prompted, which lets it paste directly into the active application via its shortcut.</li><li>Set your preferred hotkey for opening the clipboard history in preferences.</li><li>Test it: copy three or four different pieces of text, then trigger the history and confirm you can find and paste an earlier one.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Keep your best-performing Claude prompts, such as the checklist you use for reviewing a credit file, ready to paste back in without retyping. Store a few stock client replies (delay notice, document request, offer confirmation) and reuse them across cases. Also handy mid-task: copy several figures from a valuation report in sequence, then paste them into Claude one after another without losing the earlier ones.</p><h4>Good to know</h4><ul><li>Mac only.</li><li>Clipboard history is stored locally on your machine, but that still means client financial details, account numbers, or personal data you copy can sit in that history for a while — clear it periodically if you handle sensitive information often.</li><li>Some clipboard managers offer a free tier with a paid upgrade for longer history or extra features; check FlashClip's own terms rather than assuming it's entirely free.</li><li>Not a Claude feature — it's a general Mac utility that happens to make working with Claude faster.</li></ul><ul class="tryq"><li>"Using the checklist I just pasted, review this credit file and flag anything missing."</li><li>"Rewrite this stock reply so it fits a bridging case instead of a term mortgage."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/srikat/FlashClip" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
@@ -656,7 +678,11 @@ brew install --cask flashclip">⧉</button></div>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
           <p class="path">Download from the site and drag it to Applications. It just appears in your menu bar.</p>
         </div>
-        <div class="card-foot"><a class="btn" href="https://www.openusage.ai/" target="_blank" rel="noopener">Get OpenUsage ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>OpenUsage is a small menu-bar utility that estimates how much of your current Claude usage allowance you have left and when it resets, without you having to open Claude and check manually. It's a community-built tool rather than an official Anthropic product, so it works from locally available usage signals rather than requiring a separate login — treat its numbers as a useful estimate rather than a guaranteed exact figure.</p><h4>Setting it up in full</h4><ol><li>Run the Homebrew command shown above to install it.</li><li>Open the app once from Applications; it should place an icon in the menu bar and continue running quietly from then on.</li><li>Click the menu-bar icon to see the current reading, typically a percentage or a time until reset.</li><li>Leave it running in the background; no account linking or sign-in is needed.</li><li>Confirm it's tracking correctly by comparing its reading against any usage warning Claude itself shows during a long session.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Glance at it before starting a long document review or a big multi-case catch-up, so you're not caught out mid-task by hitting a limit. It's also what makes the morning scheduled-task trick work well: running your heaviest jobs early, right after the usage window resets, rather than in the afternoon when you might already be running low.</p><h4>Good to know</h4><ul><li>Mac only.</li><li>Unofficial and community-maintained; figures are estimates and can lag behind what Claude itself is tracking internally.</li><li>No account credentials or sensitive data are involved, so the risk of running it is low.</li><li>It doesn't do anything on its own — it's purely informational, there to help you plan your own use.</li></ul><ul class="tryq"><li>"I've only got a little of my usage window left, what's the highest-priority thing to get through first?"</li><li>"Give me the shortest possible version of this summary, I'm close to my limit."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://www.openusage.ai/" target="_blank" rel="noopener">Get OpenUsage ↗</a></div>
       </article>
 
       <article class="card">
@@ -666,7 +692,11 @@ brew install --cask flashclip">⧉</button></div>
         <div class="how"><div class="how-lbl">▹ Optional: let Claude use it</div>
           <div class="cmd"><pre>claude mcp add 1password -- npx -y @jrejaud/op-mcp</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add 1password -- npx -y @jrejaud/op-mcp">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://1password.com/" target="_blank" rel="noopener">1Password ↗</a><a class="btn ghost" href="https://github.com/jrejaud/op-mcp" target="_blank" rel="noopener">The add-on</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>1Password is an encrypted vault for logins, secure notes, and API keys, unlocked by a master password (and, on Mac, Touch ID). The relevant add-on lets Claude retrieve a named secret, for example an API key stored for a search tool, directly at the point it's needed, so the actual value is read into the command being run and never appears as plain text in the visible chat transcript.</p><h4>Setting it up in full</h4><ol><li>Install the 1Password app if you don't already have it, and sign in to your account.</li><li>Run the command shown above to install the 1Password CLI, which is what lets other tools, including Claude, request a stored item by reference.</li><li>Sign in to the CLI once from Terminal so it's linked to your vault.</li><li>Create an item for each key or credential you want Claude to use, giving it a clear, memorable name.</li><li>Enable the relevant connector or integration so Claude can see that a vault is available.</li><li>Test it by asking Claude to use one stored item and confirming the task completes without the value ever being printed back to you.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Store lender portal logins, e-signature platform passwords, and any free API keys, such as a search tool's, in one place instead of scattered across notes or memory. It's also the right home for anything a task needs Claude to authenticate with, since the credential itself stays inside the vault rather than being typed into a chat message.</p><h4>Good to know</h4><ul><li>A paid subscription product, though many people already have it for personal use.</li><li>Works on both Mac and Windows.</li><li>The safety benefit only holds if you consistently use it instead of ever pasting a password or key into chat by hand; one slip undoes the protection.</li><li>Never enter your 1Password master password itself into any chat, form, or field outside the official app.</li></ul><ul class="tryq"><li>"Use the API key stored in 1Password to run that search, don't ask me to paste it."</li><li>"Check whether I already have a saved login for this lender's broker portal."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://1password.com/" target="_blank" rel="noopener">1Password ↗</a><a class="btn ghost" href="https://github.com/jrejaud/op-mcp" target="_blank" rel="noopener">The add-on</a></div>
       </article>
 
     </div>
@@ -691,7 +721,11 @@ brew install --cask flashclip">⧉</button></div>
 <details class="seeit"><summary>See it in action — Asking Claude to chase a broker</summary><div class="seeit-body">
 <div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Claude</span></div><div class="mock-body"><div class="mock-chat"><div class="mock-bubble u">Draft a friendly chase to the broker about the outstanding valuation on 14 Elm Street — warm but firm.</div><div class="mock-bubble ai">Here's a draft — it's saved in your Gmail drafts to review:<br><br><em>Subject: Valuation update — 14 Elm Street</em><br><em>Hi Tom, just checking in on the valuation report...</em><br><br><span class="mock-ok">✓ Draft created — nothing sends until you hit Send</span></div></div></div></div>
 </div></details>
-<div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Open Connectors ↗</a></div>
+
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>The Gmail connector uses Google's own sign-in (OAuth) to grant Claude a defined level of access to your inbox: reading and searching messages, and composing drafts. It cannot send anything on its own; every message it produces sits in your Drafts folder until you personally review it and press send, which is a deliberate safety gate rather than a technical limitation.</p><h4>Setting it up in full</h4><ol><li>Open Claude's connector settings and choose to connect Gmail.</li><li>You'll be taken to Google's standard consent screen; sign in and review exactly what access is being requested before approving.</li><li>Select which Google account to link, if you have more than one.</li><li>Confirm the connector shows as connected in Claude's settings.</li><li>Test it by asking Claude to find a specific recent email; if it returns the right thread, the connection is working.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Ask Claude to draft a chase to a broker who hasn't sent requested documents, in your usual tone. Get a quick summary of everything that landed overnight from lenders before your first coffee. Draft a client update once a valuation has been instructed, ready for you to check and send. Sort a cluttered inbox by which threads relate to which live case.</p><h4>Good to know</h4><ul><li>Nothing sends automatically; you always approve the final draft, which matters when dealing with client-sensitive financial correspondence.</li><li>The access granted is often broader than a single thread, since it can search across the inbox, so it's worth knowing what you approved on the consent screen.</li><li>You can revoke access at any time from your Google account's security settings, not just from Claude.</li><li>Cloud-based, so it behaves identically on Mac and Windows.</li></ul><ul class="tryq"><li>"Find the last email from the broker on the Oak Street case and draft a polite chase for the missing bank statements."</li><li>"Summarise every email from lenders that came in overnight."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Open Connectors ↗</a></div>
       </article>
 
       <article class="card">
@@ -699,7 +733,11 @@ brew install --cask flashclip">⧉</button></div>
         <p class="what">Claude can see your day, find free slots, and add events when you ask.</p>
         <p class="why"><b>Why you'll like it:</b> "book a callback with the client Thursday afternoon and hold 30 minutes" without leaving the chat.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div><p class="path"><b>Google Calendar</b> is one-click. Prefer <b>Fantastical</b>? It has an official connector too — Connectors → Browse → Fantastical. <span class="oneclick">One-click</span></p></div>
-        <div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Open Connectors ↗</a><a class="btn ghost" href="https://flexibits.com/fantastical/help/fantastical-connector-mcp-for-claude" target="_blank" rel="noopener">Fantastical</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>The Calendar connector, Google Calendar, with a separate one available for Fantastical, grants Claude access to your events so it can check free and busy time and, when you ask it to, create a new event directly. Unlike the email connector, calendar changes are generally applied straight away rather than sitting as an unconfirmed draft, so it pays to be specific about time, date, and attendees in the request.</p><h4>Setting it up in full</h4><ol><li>Open Claude's connector settings and connect Google Calendar (or Fantastical, if that's what you use).</li><li>Authorise via the sign-in screen and review what access is being granted.</li><li>Choose which calendar or calendars to expose if you keep more than one.</li><li>Confirm the connection is active in settings.</li><li>Test it by asking Claude what your afternoon looks like, and check the answer matches your actual calendar.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Book a callback slot with a client to talk through their exit strategy without switching apps mid-conversation. Find a gap to speak to a broker about a stalled case. Get a surveyor's inspection booked in against a completion deadline. Ask what free time you actually have this week before promising a call-back slot you can't keep.</p><h4>Good to know</h4><ul><li>Events are usually created immediately once you confirm the request, so check the details Claude proposes before saying yes.</li><li>Which connector to use depends on which calendar app you actually live in day to day, Google Calendar or Fantastical.</li><li>Access can be revoked at any time from your Google account settings, independent of Claude.</li><li>Cloud-based, so it works the same on Mac and Windows.</li></ul><ul class="tryq"><li>"Find me a 30-minute slot tomorrow afternoon to call the broker on the Oak Street case."</li><li>"Add a callback with the client at 3pm Thursday to discuss their exit strategy."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Open Connectors ↗</a><a class="btn ghost" href="https://flexibits.com/fantastical/help/fantastical-connector-mcp-for-claude" target="_blank" rel="noopener">Fantastical</a></div>
       </article>
 
       <article class="card">
@@ -707,7 +745,11 @@ brew install --cask flashclip">⧉</button></div>
         <p class="what">Let Claude open your documents and spreadsheets, pull figures, and draft new ones.</p>
         <p class="why"><b>Why you'll like it:</b> point it at a loan-calc sheet and ask for a clean summary or a client-ready quote.</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div><p class="path">Desktop → <b>Settings → Connectors → Google Drive</b>. <span class="oneclick">One-click</span></p></div>
-        <div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Open Connectors ↗</a><a class="btn ghost" href="https://github.com/taylorwilsdon/google_workspace_mcp" target="_blank" rel="noopener">Terminal version</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>These connectors grant Claude access to files stored in your Google Drive and let it read, and when asked write, values in Google Sheets. That means it can open a specific document or spreadsheet, read the actual figures in it, and produce a summary or draft based on live data rather than something you've copied and pasted in manually.</p><h4>Setting it up in full</h4><ol><li>Open Claude's connector settings and connect Google Drive and Sheets.</li><li>Sign in and review the access being requested; some setups let you limit Claude to specific files rather than your whole Drive.</li><li>Confirm the connectors show as active.</li><li>Test it by asking Claude to open a named spreadsheet and read back a specific cell or range, to confirm it can see the right file.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Point Claude at a loan-to-value calculator sheet and ask for a clean, client-ready quote summary based on the figures already in it. Pull the latest numbers from a live pipeline tracker instead of asking a colleague to export it. Draft a new one-page case summary from notes and documents already sitting in a case folder in Drive.</p><h4>Good to know</h4><ul><li>Depending on the access level chosen when connecting, Claude may see only files you've explicitly shared with it, or your whole Drive; check which you set up.</li><li>Writes to a sheet are generally applied directly rather than held as a draft, so review what's changed afterwards.</li><li>Client financial figures pass through Claude's systems during that session, so treat it with the same care you'd give any cloud-based tool handling that data.</li><li>Works the same on Mac and Windows.</li></ul><ul class="tryq"><li>"Open the LTV calculator sheet and work out the maximum loan for a GDV of £450,000."</li><li>"Summarise this month's pipeline tracker into a one-page update for the team."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Open Connectors ↗</a><a class="btn ghost" href="https://github.com/taylorwilsdon/google_workspace_mcp" target="_blank" rel="noopener">Terminal version</a></div>
       </article>
 
       <article class="card">
@@ -718,7 +760,11 @@ brew install --cask flashclip">⧉</button></div>
           <div class="how-lbl" style="margin-top:8px">▹ Step 2 — paste this, swap in your key</div>
           <div class="cmd"><pre>claude mcp add tavily -e TAVILY_API_KEY=your-key-here -- npx -y tavily-mcp</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add tavily -e TAVILY_API_KEY=your-key-here -- npx -y tavily-mcp">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://tavily.com" target="_blank" rel="noopener">Get a key ↗</a><a class="btn ghost" href="https://github.com/tavily-ai/tavily-mcp" target="_blank" rel="noopener">GitHub</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>Tavily is a search API built specifically for feeding results to an AI rather than a person: it returns clean, ranked snippets and source links instead of raw web pages. Once a key is added, Claude can call it mid-conversation whenever it needs information more current than its training data, run a query, and bring the results straight back into the answer with sources attached.</p><h4>Setting it up in full</h4><ol><li>Sign up for a free Tavily account and generate an API key from their dashboard.</li><li>Store that key somewhere safe, ideally 1Password rather than a plain text file.</li><li>Run the command shown above to add the key to Claude.</li><li>Confirm it worked by asking Claude something that needs current information and checking that it actually searches rather than answering from memory alone.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Check a lender's currently advertised bridging rates before quoting a client. Look up a company's registered status and directors before relying on figures in an application. Check recent news on a property market or area relevant to a valuation. Confirm a solicitor or broker firm is genuinely who it says it is before proceeding on a case.</p><h4>Good to know</h4><ul><li>The free tier has a limited number of searches per month; check current allowances on Tavily's own site rather than assuming it's unlimited.</li><li>Queries go to a third party, so avoid putting client-identifying details directly into the search text itself.</li><li>The API key must be kept secret; store it in 1Password rather than pasting it into a chat message.</li><li>Works identically on Mac and Windows, since it's just an API key rather than an installed app.</li></ul><ul class="tryq"><li>"Search for [Lender]'s current bridging loan rates and summarise the key figures."</li><li>"Check Companies House for [Company Name]'s registered status and directors."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://tavily.com" target="_blank" rel="noopener">Get a key ↗</a><a class="btn ghost" href="https://github.com/tavily-ai/tavily-mcp" target="_blank" rel="noopener">GitHub</a></div>
       </article>
 
       <article class="card">
@@ -728,7 +774,11 @@ brew install --cask flashclip">⧉</button></div>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
           <div class="cmd"><pre>claude mcp add fetch -- uvx mcp-server-fetch</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add fetch -- uvx mcp-server-fetch">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://github.com/modelcontextprotocol/servers/tree/main/src/fetch" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>This is Anthropic's own web-fetch tool: give Claude a web address and it retrieves the live page, strips it down to readable text, and reads that text as part of the conversation. There is no account and nothing to install, it is switched on by default. It only reads what is publicly visible on the page at that moment; it cannot log in, click through, or see anything behind a paywall or portal login.</p><h4>Setting it up in full</h4><ol><li>Nothing to install. Paste the web address into the chat, or ask Claude to look something up and give it the link shown on the card.</li><li>Claude fetches the page and summarises what it found. Check the summary against the page yourself the first few times so you trust what it is reading.</li><li>If the page needs a login, such as a lender intranet, Claude will say it cannot reach the content. That confirms the tool's limit rather than a fault.</li><li>For a PDF criteria pack rather than a web page, use MarkItDown (card 9) instead, since fetch is built for HTML pages.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Pulling a lender's published criteria page to check a scenario against it, reading a public Land Registry or planning portal page for a property, checking a solicitor's or valuer's public profile, or keeping across a lender's rate or news page without revisiting it manually.</p><ul><li>Only reads public pages, no lender portals or logged-in dashboards.</li><li>Heavily JavaScript-rendered or paywalled pages may come back incomplete.</li><li>Always sense-check figures and criteria against the source; treat this as a fast first read, not a substitute for the underwriting manual.</li><li>Free, built in, works identically on Mac and Windows.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Read this lender's bridging criteria page and tell me if a semi-commercial property at 65% LTV fits."</li><li>"Check this solicitor's firm page and confirm they handle commercial conveyancing."</li><li>"Fetch this planning portal page and summarise the application status for this address."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/modelcontextprotocol/servers/tree/main/src/fetch" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
@@ -742,7 +792,11 @@ brew install --cask flashclip">⧉</button></div>
 <details class="seeit"><summary>See it in action — A 40-page valuation PDF, before and after</summary><div class="seeit-body">
 <div class="mock-split"><div class="mock-split-pane"><span class="mock-tag">Before</span><div class="mock-muted">📄 Valuation_Report_14Elm.pdf</div><div class="mock-muted">40 pages · scanned tables</div><div class="mock-muted">unsearchable</div></div><div class="mock-split-pane"><span class="mock-tag">After</span><div>Market value: £485,000</div><div>90-day value: £430,000</div><div>Key risks: flood zone C…</div><div class="mock-ok">✓ Searchable text Claude can quote</div></div></div>
 </div></details>
-<div class="card-foot"><a class="btn" href="https://github.com/microsoft/markitdown" target="_blank" rel="noopener">GitHub ↗</a></div>
+
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>MarkItDown is a Microsoft open-source converter that Claude can call to turn PDFs, Word, Excel, and PowerPoint files into clean, structured text and tables. Instead of Claude trying to interpret a raw PDF's layout (which is expensive and error-prone with scanned valuation reports and long legal packs), MarkItDown does the extraction first, so Claude reads a tidy text version and spends far fewer tokens getting to the substance.</p><h4>Setting it up in full</h4><ol><li>It runs as a local command-line tool, installed once via the file-to-markdown skill or the Finder Quick Action mentioned on the card, nothing to sign up for, no account.</li><li>Drop the document onto the Quick Action, or point Claude at the file path and ask it to convert it.</li><li>Claude runs the conversion and gets back Markdown text; open the .md output once to confirm tables and figures have carried over correctly, since complex tables in scanned PDFs can still lose structure.</li><li>Keep the original file too. MarkItDown produces a companion text version, it does not replace the source document for compliance or audit purposes.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Turning a valuer's PDF report into text Claude can search and summarise for underwriting notes, converting a solicitor's legal pack into something Claude can question, for example whether it mentions restrictive covenants, or pulling figures out of a lender's Excel rate sheet without retyping them.</p><ul><li>Works best on text-based PDFs; scanned image-only documents need OCR first and may convert poorly.</li><li>Free and local, nothing is uploaded to a third party during conversion.</li><li>Mac setup here is a Finder Quick Action; Windows users would run the same underlying tool from a command line instead.</li><li>It converts formatting and structure, not meaning; always read the converted summary against the original for anything that will inform a lending decision.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Convert this valuation report to Markdown and summarise the key figures and any red flags."</li><li>"Turn this legal pack into text and tell me if there are any restrictive covenants."</li><li>"Pull the loan figures out of this Excel rate sheet and list them by LTV band."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/microsoft/markitdown" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
     </div>
@@ -759,7 +813,11 @@ brew install --cask flashclip">⧉</button></div>
         <p class="what">Turn a plain request into a real Word doc, PowerPoint deck, Excel sheet, or tidy PDF — properly formatted, not just text.</p>
         <p class="why"><b>Why you'll like it:</b> "make this into a client-ready one-page PDF" or "build a deck summarising these three deals."</p>
         <div class="how"><div class="how-lbl">▹ How to use it</div><p class="path">On the desktop app you can often just ask. <span class="haveit">Already included</span></p></div>
-        <div class="card-foot"><a class="btn" href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Skills repo ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>Claude has built-in skills for producing real Office and PDF files rather than just formatted chat text, a genuine .docx with styled headings, a .pptx with laid-out slides, an .xlsx with working formulas, or a properly typeset PDF. It builds the file using the same open document formats Word, PowerPoint, and Excel use, so what you get opens and edits normally in those programs.</p><h4>Setting it up in full</h4><ol><li>Nothing to install; ask for the document type you want directly, describing the content and how it should be structured.</li><li>Claude drafts the content and produces the file; it will usually offer it as a download.</li><li>Open the file in Word, PowerPoint, or Excel and check formatting, page breaks, and any figures before sending it anywhere; treat the first draft as a strong starting point, not a finished client document.</li><li>Ask for specific revisions in plain English, for example make the header navy or tighten the summary to one paragraph, rather than trying to edit the file yourself first.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Turning loan terms into a client-ready one-page PDF summary, building a short deck comparing three live deals for an investment committee, producing an Excel amortisation or fee schedule for a borrower, or drafting a Word memo for a credit file.</p><ul><li>Good for first drafts and routine documents; complex brand templates or pixel-perfect layouts may still need a manual polish pass.</li><li>No data leaves your conversation to a third-party service, the document is generated by Claude directly.</li><li>Always proofread figures and terms before anything goes to a client or lender; this generates the document, it does not check the numbers against your systems.</li><li>Works the same on Mac and Windows since the output is a standard file, not an app.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Turn these loan terms into a client-ready one-page PDF summary."</li><li>"Build a short PowerPoint deck comparing these three bridging deals for the investment committee."</li><li>"Create an Excel fee and interest schedule for this 12-month bridge at 0.85% per month."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Skills repo ↗</a></div>
       </article>
 
       <article class="card">
@@ -769,7 +827,11 @@ brew install --cask flashclip">⧉</button></div>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
           <div class="cmd"><pre>/plugin marketplace add anthropics/knowledge-work-plugins</pre><button class="copy" aria-label="Copy" data-copy="/plugin marketplace add anthropics/knowledge-work-plugins">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://claude.com/plugins/data" target="_blank" rel="noopener">The data plugin ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>This is Anthropic's data analysis plugin: give Claude a spreadsheet or a set of figures and it writes and runs code behind the scenes to clean the data and render charts, then shows you the finished image or a small interactive dashboard rather than a wall of numbers. It is doing real calculation, not guessing, the chart reflects what is actually in the data you gave it.</p><h4>Setting it up in full</h4><ol><li>No separate sign-up; it activates automatically when you attach a spreadsheet or paste tabular figures and ask for a chart or dashboard.</li><li>Upload the file or paste the data, then describe what you want to see, a trend line, a comparison, a monthly breakdown.</li><li>Claude processes the data and returns the chart; check the axis labels and totals against the source spreadsheet, since a wrong column mapping will produce a confident-looking but wrong chart.</li><li>For a dashboard with several charts, ask for the specific views you need rather than everything, a focused set is easier to check and to present.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Turning monthly completion volumes into a trend chart for a partner update, visualising the loan book by LTV band or product type for a board pack, or building a small dashboard of pipeline figures ahead of a lender review meeting.</p><ul><li>Quality depends entirely on the input data; messy or inconsistent spreadsheets need tidying first.</li><li>Best for internal reporting and first-draft visuals; a design-critical client-facing chart may still want a manual pass.</li><li>Data is processed within the conversation; do not paste anything more sensitive than you would otherwise share with Claude.</li><li>Works the same on Mac and Windows since it runs in the chat, not as a separate application.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Chart our monthly bridging completions for the last 12 months from this spreadsheet."</li><li>"Build a small dashboard showing the loan book split by LTV band and product type."</li><li>"Turn this pipeline sheet into a chart of expected completions by month."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://claude.com/plugins/data" target="_blank" rel="noopener">The data plugin ↗</a></div>
       </article>
 
       <article class="card">
@@ -779,7 +841,11 @@ brew install --cask flashclip">⧉</button></div>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
           <div class="cmd"><pre>/plugin marketplace add anthropics/skills</pre><button class="copy" aria-label="Copy" data-copy="/plugin marketplace add anthropics/skills">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Skills repo ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>This is a set of Anthropic skills that keep everything Claude produces visually consistent: a brand-guidelines skill that stores your colours, fonts, and logo rules once and reuses them; a theme-factory skill that generates a matching palette and type system from a starting point; and a canvas-design skill for laying out standalone graphics. Together they mean Claude does not reinvent the look every time you ask for something new.</p><h4>Setting it up in full</h4><ol><li>Tell Claude your brand basics once, company name, primary colours with hex codes if you have them, logo file, and preferred fonts.</li><li>Claude stores these as a reusable reference so future documents, decks, and graphics pull from the same definitions automatically.</li><li>Ask for a themed asset, a one-pager, a social graphic, a deck cover, and Claude applies the stored palette and fonts without you repeating them.</li><li>Review the first two or three outputs closely; once the palette and fonts are confirmed correct, later requests need far less checking.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Keeping client-facing PDFs, decks, and social graphics all in Berkeley Credit's colours and fonts without manually restating them each time, producing a quick branded graphic for a case study or completed deal, or giving a new team member consistent branded templates from day one.</p><ul><li>Only as good as the brand information you provide; vague or missing details produce generic defaults.</li><li>Best for supporting materials and quick graphics; a full brand refresh or logo design still needs a designer.</li><li>No cost beyond your existing Claude plan; nothing to install.</li><li>Works identically on Mac and Windows since it is all inside the conversation.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Here are our brand colours and font, remember these for anything you design for us."</li><li>"Make a branded one-page graphic announcing this completed deal, using our colours."</li><li>"Build a deck cover slide in our brand style for this quarter's update."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Skills repo ↗</a></div>
       </article>
 
       <article class="card">
@@ -791,7 +857,11 @@ brew install --cask flashclip">⧉</button></div>
 /plugin install ui-ux-pro-max@ui-ux-pro-max-skill</pre><button class="copy" aria-label="Copy" data-copy="/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
 /plugin install ui-ux-pro-max@ui-ux-pro-max-skill">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>ui-ux-pro-max is a community-built skill pack that gives Claude structured design judgement when it builds a page or form, sensible colour palettes, font pairings that actually work together, spacing and layout rules, and named design patterns to draw on, rather than picking defaults at random. It is reference knowledge Claude applies while generating HTML and CSS, not a separate design tool with its own interface.</p><h4>Setting it up in full</h4><ol><li>This is a skill, not an app; it needs to be installed into your Claude setup once via the plugin mechanism shown on the card, after that it is available automatically.</li><li>Ask Claude to build a web page, form, or landing page as you normally would; the skill's guidance is applied without you needing to invoke it by name.</li><li>Review the result in a browser, check colour contrast, spacing, and how it looks on a phone-sized screen, since automated design guidance still benefits from a human eye.</li><li>If you want a different feel, more formal or more playful, say so directly, this steers the skill's choices rather than fighting them.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Building a quick client enquiry form, an internal calculator page for deal terms, or a simple landing page for a new product line that looks considered rather than default-Bootstrap.</p><ul><li>Community-made, not an official Anthropic product; quality and maintenance depend on that community, not Anthropic support.</li><li>Improves the starting point; it does not replace a professional designer for anything client-facing at scale or brand-critical.</li><li>No extra cost beyond installation; runs inside your normal Claude usage.</li><li>Works the same on Mac and Windows since the output is just a web page.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Build a client enquiry form for bridging loans, and make it look professionally designed."</li><li>"Create a simple internal calculator page for deal terms with a clean, modern layout."</li><li>"Design a landing page for our new development finance product."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
@@ -801,7 +871,11 @@ brew install --cask flashclip">⧉</button></div>
         <div class="how"><div class="how-lbl">▹ How to add it</div>
           <div class="cmd"><pre>/plugin install frontend-design@claude-plugins-official</pre><button class="copy" aria-label="Copy" data-copy="/plugin install frontend-design@claude-plugins-official">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Skills repo ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>frontend-design is an official Anthropic skill focused purely on visual polish: once Claude has built a working page, this skill reviews and adjusts spacing, typography, colour use, and layout details so the result reads as intentionally designed rather than functionally assembled. It does not change what the page does, only how it looks and feels.</p><h4>Setting it up in full</h4><ol><li>Nothing to install separately from your normal Claude setup; it is an official skill Claude can call on automatically when building or refining a page's look.</li><li>Ask Claude to build a page, or ask it to improve the visual design of an existing one you already built together.</li><li>Claude applies the polish pass and shows you the result; open it in a browser and check it at both desktop and mobile widths.</li><li>Ask for targeted adjustments, for example more whitespace around the form or a stronger heading hierarchy, rather than starting again, this skill responds well to specific feedback.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Turning a functional but plain internal tool, such as a deal calculator or a status tracker, into something that looks properly finished, or giving a client-facing enquiry page the last polish before it goes live.</p><ul><li>It refines look and feel, not underlying logic or data handling; a broken calculation will still be broken, just better-looking.</li><li>Official Anthropic skill, so reasonably well supported, but still needs a human check on contrast and readability for anyone with visual impairments.</li><li>No extra cost; included in normal Claude usage.</li><li>Works the same on Mac and Windows since it produces standard web page code.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Polish the visual design of this deal calculator page, it works but looks unfinished."</li><li>"Improve the typography and spacing on this client enquiry form."</li><li>"Give this internal dashboard page a proper visual hierarchy."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Skills repo ↗</a></div>
       </article>
 
       <article class="card adv">
@@ -813,7 +887,11 @@ brew install --cask flashclip">⧉</button></div>
 /plugin install design-for-ai@rtd</pre><button class="copy" aria-label="Copy" data-copy="/plugin marketplace add ryanthedev/rtd-claude-inn
 /plugin install design-for-ai@rtd">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://github.com/ryanthedev/rtd-claude-inn" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>design-for-ai is a staged workflow skill that forces a proper design process instead of one rushed pass: it moves Claude through research on what the project is for and who it is for, planning, a cheap mock-up for you to react to, the full build, and a review, asking for your sign-off at each stage before moving to the next. It exists because a single-shot request skips steps a real design project would never skip.</p><h4>Setting it up in full</h4><ol><li>Nothing to install beyond having the skill available; invoke it, or ask Claude to use a proper design process, when starting a project that matters enough to get right.</li><li>Answer the research-stage questions honestly, covering purpose, audience, tone, and constraints, vague answers here weaken every later stage.</li><li>Review the plan and the cheap mock-up before approving the full build; this is the checkpoint that catches a wrong direction while it is still cheap to change.</li><li>After the build, go through the review stage properly rather than rubber-stamping it; it is there to catch issues before the work is called finished.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Building a new client-facing product page or portal that will represent the brand for a long time, redesigning the main enquiry funnel, or any project where quick and rough would create rework later.</p><ul><li>Slower than a one-shot request by design; reserve it for work worth the extra time, not routine internal tools.</li><li>Each sign-off step needs genuine input from you; skipping through them defeats the point of the skill.</li><li>No extra cost; the time investment is the real cost, in back-and-forth rounds.</li><li>Works the same on Mac and Windows since it is a conversation-driven process.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Let's properly design a new client-facing enquiry portal, start with research questions."</li><li>"Run the full design process for redesigning our main lead capture page."</li><li>"Use the staged design workflow for this new product landing page, I want to review each step."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/ryanthedev/rtd-claude-inn" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card adv">
@@ -823,7 +901,11 @@ brew install --cask flashclip">⧉</button></div>
         <div class="how"><div class="how-lbl">▹ Turn on Dev Mode in Figma, then:</div>
           <div class="cmd"><pre>claude mcp add --transport http figma http://127.0.0.1:3845/mcp</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add --transport http figma http://127.0.0.1:3845/mcp">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://help.figma.com/hc/en-us/articles/39888612464151-Claude-Code-and-Figma-Set-up-the-MCP-server" target="_blank" rel="noopener">Figma setup ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>This connects Claude directly to your Figma account via an official integration, so it can read an actual design file, the frames, layers, colours, spacing values, and named components a designer built, rather than working from a screenshot or a written description. Claude can then generate code or a page that matches those real design decisions, not an approximation of them.</p><h4>Setting it up in full</h4><ol><li>Use the link on the card to connect your Figma account; this is an OAuth-style authorisation, so you approve it in a browser and Claude never sees your Figma password.</li><li>Open or share the specific Figma file or frame you want Claude to read.</li><li>Ask Claude to read the design; it will pull the metadata, colours, and component structure directly from Figma's API rather than guessing from a picture.</li><li>Ask it to build the matching page or component, then compare the result side by side with the Figma frame to confirm spacing, colours, and text match.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Turning a designer's Figma mock-up of a new client portal or enquiry form into working code without a manual hand-off, checking that a built page still matches the approved design after changes, or extracting exact brand colours and spacing from an existing Figma design system.</p><ul><li>Requires an active Figma account with access to the relevant file; Claude can only read what your account can see.</li><li>Best for files with proper components and named layers; a loosely organised, unlabelled Figma file gives Claude less to work with.</li><li>This is a read connection for design data, it is not editing or commenting inside Figma itself.</li><li>Works the same on Mac and Windows since Figma and the connection are both browser and cloud based.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Read this Figma frame and build a matching HTML page for our enquiry form."</li><li>"Pull the colours and spacing values from our Figma design system file."</li><li>"Check whether this page I built matches the Figma design the client signed off."</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://help.figma.com/hc/en-us/articles/39888612464151-Claude-Code-and-Figma-Set-up-the-MCP-server" target="_blank" rel="noopener">Figma setup ↗</a></div>
       </article>
 
       <article class="card adv">
@@ -833,7 +915,11 @@ brew install --cask flashclip">⧉</button></div>
         <div class="how"><div class="how-lbl">▹ Add Mobbin (needs a Mobbin Pro plan)</div>
           <div class="cmd"><pre>claude mcp add --transport http mobbin https://api.mobbin.com/mcp</pre><button class="copy" aria-label="Copy" data-copy="claude mcp add --transport http mobbin https://api.mobbin.com/mcp">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://mobbin.com/mcp" target="_blank" rel="noopener">Mobbin ↗</a><a class="btn ghost" href="https://stitch.withgoogle.com" target="_blank" rel="noopener">Stitch</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>Mobbin is a searchable library of screenshots captured from real, shipped apps - onboarding flows, empty states, settings screens - so you can see how established products solved a screen before you design your own. Google Stitch works differently: you describe an interface in a sentence and it generates a first-pass UI layout and visual style from that description. Neither is Claude itself; you use them as reference and starting-point tools, then hand the result to Claude to build as a real, working page.</p><h4>Setting it up in full</h4><ol><li>Open the Mobbin link on the card and sign up with an email address; the free tier covers browsing, a paid tier adds filtering by industry and unlimited saves.</li><li>Search Mobbin for the exact flow you need, for example "loan status tracker" or "document upload", and save a few screens that show the pattern clearly.</li><li>Open the Google Stitch link on the card and sign in with a Google account.</li><li>Type a plain description of the screen you want, for example "a client dashboard showing loan status, next steps, and a document upload button", and let Stitch generate a draft.</li><li>Screenshot or export whichever result fits best, then paste or describe it to Claude and ask it to build the real page from that reference.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Use Mobbin to see how other finance apps present a status tracker or checklist before asking Claude to build one for a client portal. Use Stitch to sketch an internal deal-tracking dashboard or a broker-facing quote calculator quickly, before committing developer time to it.</p><h4>Good to know</h4><ul><li>Both are third-party web tools with their own sign-in, separate from your Claude account and any Claude subscription.</li><li>Mobbin's full search and filtering sit behind a paid plan; the free tier is limited.</li><li>Stitch output is a starting sketch, not production code - it still needs Claude or a developer to turn it into a real, working site.</li><li>Never paste real client names, loan amounts, or personal data into either tool when describing a screen.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Here is a Mobbin screenshot of a loan tracker - build me something similar for our client portal"</li><li>"I generated this dashboard layout in Stitch, turn it into a real page"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://mobbin.com/mcp" target="_blank" rel="noopener">Mobbin ↗</a><a class="btn ghost" href="https://stitch.withgoogle.com" target="_blank" rel="noopener">Stitch</a></div>
       </article>
 
     </div>
@@ -856,7 +942,11 @@ brew install --cask flashclip">⧉</button></div>
 <details class="seeit"><summary>See it in action — Plan mode: Claude asks before it acts</summary><div class="seeit-body">
 <div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Terminal — Claude Code</span></div><div class="mock-body"><div class="mock-term">> tidy up the loan-quote spreadsheet and add a summary tab<br><br>⏸ plan mode on<br>Here's my plan:<br>  1. Read Quotes_July.xlsx (no changes)<br>  2. Create a Summary tab with totals by lender<br>  3. Show you the result before saving<br><br>Approve this plan?  ▸ Yes  ▸ No, keep planning</div><span class="mock-muted">Nothing changes until you say yes.</span></div></div>
 </div></details>
-<div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/permission-modes" target="_blank" rel="noopener">Docs ↗</a></div>
+
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>Plan mode changes how Claude behaves before it acts: instead of editing files or running commands immediately, it first reads what it needs, writes out a numbered plan of exactly what it intends to do, and stops. Nothing is changed on disk, no file is written, no command runs, until you read the plan and explicitly approve it. It is a mode of the conversation itself, not a separate tool, so you can turn it on for anything you consider risky or unfamiliar and turn it off for routine work.</p><h4>Setting it up in full</h4><ol><li>Press Shift+Tab (or open the mode menu in the desktop app) to cycle into plan mode - the interface will show you are in planning mode.</li><li>Give Claude the task as normal, for example "reorganise these loan files by lender" or "update this spreadsheet's formulas".</li><li>Wait for Claude to finish reading and thinking; it will present a plan as a list of concrete steps rather than doing the work.</li><li>Read the plan properly - check it is touching the right files and not skipping something you care about.</li><li>Approve it to let Claude execute step by step, or reply with corrections and ask it to revise the plan first.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Use it before any bulk change to client files, spreadsheets, or completion documents, where an unreviewed mistake would be costly. Use it when asking Claude to touch anything compliance-sensitive, such as reorganising KYC records or drafting mass client communications, so you see the approach before anything moves.</p><h4>Good to know</h4><ul><li>It costs a little more time up front because you read and approve a plan, but it is the main safeguard against Claude doing something unwanted.</li><li>It does not stop Claude from making mistakes in the plan itself - you still need to actually read it, not just click approve.</li><li>Works the same on Mac and Windows and in the desktop app or terminal.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Plan mode: reorganise the Elm St deal folder by document type before you touch anything"</li><li>"Before you edit the completion checklist, show me your plan"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/permission-modes" target="_blank" rel="noopener">Docs ↗</a></div>
       </article>
 
       <article class="card">
@@ -875,7 +965,11 @@ brew install --cask flashclip">⧉</button></div>
 <details class="seeit"><summary>See it in action — Switching brains with /model</summary><div class="seeit-body">
 <div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Terminal — Claude Code</span></div><div class="mock-body"><div class="mock-term">> /model<br> ◦ haiku    — quick & light<br> ◦ sonnet   — everyday all-rounder<br> ● opus     — powerhouse for important work<br> ◦ fable    — heavyweight, hardest jobs<br><br>> /model opusplan<br>✓ Plans on Opus, builds on Sonnet — automatically</div></div></div>
 </div></details>
-<div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/model-config" target="_blank" rel="noopener">Docs ↗</a></div>
+
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>Claude is not one fixed system - Anthropic offers several model tiers that trade off speed, cost, and depth of reasoning. Haiku is the fastest and cheapest, best for quick, low-stakes questions. Sonnet is the balanced default, capable enough for most day-to-day work. Opus is stronger and slower, suited to harder analysis. Fable is the current top-tier model, reserved for the most demanding or important tasks. The <code>/model</code> command switches which one answers your next messages in that conversation.</p><h4>Setting it up in full</h4><ol><li>Type <code>/model</code> in the chat as shown on the card.</li><li>Choose from the list presented - haiku, sonnet, opus, or fable (naming may vary slightly by interface version).</li><li>Confirm the change; Claude will use that model for the rest of the conversation, or until you switch again.</li><li>Check the response quality and speed for a task or two to confirm the switch took effect and suits the task.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Use haiku or sonnet for routine work: drafting a quick email, formatting a table, answering a simple question about a lender's criteria. Reserve opus or fable for work where getting it wrong is expensive: reviewing a complex facility agreement, cross-checking numbers across a completion statement, or drafting something that goes out under the firm's name.</p><h4>Good to know</h4><ul><li>Higher-tier models cost more per use where usage is metered, and can be noticeably slower to respond - there is a real trade-off, not just a quality dial.</li><li>For most everyday bridging admin, sonnet is already more than adequate; reaching for the top tier by default wastes time and money.</li><li>Model availability and exact names can change as Anthropic releases new versions, so check what <code>/model</code> currently lists rather than assuming.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"/model - switch to something quick, this is just a formatting job"</li><li>"/model fable - I need your best possible read on this loan agreement clause"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/model-config" target="_blank" rel="noopener">Docs ↗</a></div>
       </article>
 
       <article class="card">
@@ -891,7 +985,11 @@ folder and flag anything incomplete</pre><button class="copy" aria-label="Copy" 
 <details class="seeit"><summary>See it in action — A team of helpers fanning out</summary><div class="seeit-body">
 <div class="mock-win"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-title">Claude — /workflows</span></div><div class="mock-body"><ul class="mock-tree"><li>📋 Check 24 client files for missing completion dates<ul><li>✅ Agent 1 — files 1–8 · 2 flagged</li><li>✅ Agent 2 — files 9–16 · none missing</li><li>⏳ Agent 3 — files 17–24 · checking…</li></ul></li></ul><span class="mock-ok">✓ Cross-checked before anything is reported</span></div></div>
 </div></details>
-<div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/workflows" target="_blank" rel="noopener">Docs ↗</a></div>
+
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>Instead of one Claude working through a job in sequence, a workflow splits it into pieces and runs several Claude agents on them in parallel, each working from the same instructions but on a different slice of the task. Some workflow setups also have agents check each other's output before reporting back, which catches mistakes a single pass might miss. You trigger this by asking Claude to use a workflow, and can watch progress with <code>/workflows</code> while it runs.</p><h4>Setting it up in full</h4><ol><li>Describe the job as a batch task with a clear, repeatable check, for example "check every file in this folder for a missing signature page".</li><li>Say "use a workflow" (or similar) so Claude splits the work across multiple agents rather than doing it one file at a time.</li><li>Run <code>/workflows</code> to see the agents in progress, including which files or items each one is handling.</li><li>Wait for all agents to finish and report; review the combined summary rather than each agent's raw output.</li><li>Spot-check a sample of the results yourself before treating the batch as fully verified, especially the first time you use this on a given task type.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Use it to sweep a folder of signed loan agreements checking every one has the required signature page, or to check a batch of valuation reports for a missing figure or inconsistent date format. Cross-checking agents make it more suited to compliance-style sweeps than single-pass review.</p><h4>Good to know</h4><ul><li>This is heavier and slower to set up than asking Claude to do a task directly - worth it for a genuine batch job, not a single document.</li><li>Running several agents at once typically costs more than one agent doing the same total work sequentially.</li><li>It reduces but does not eliminate the risk of a missed error - genuinely important compliance checks still warrant a human final check.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Use a workflow to check every file in the Q3 completions folder for a missing signature page"</li><li>"/workflows - show me how far through the valuation batch it's got"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/workflows" target="_blank" rel="noopener">Docs ↗</a></div>
       </article>
 
       <article class="card">
@@ -907,7 +1005,11 @@ folder and flag anything incomplete</pre><button class="copy" aria-label="Copy" 
 carry out the approved plan, using a workflow">⧉</button></div>
           <p class="path" style="margin-top:8px">Shortcut: <code>/model opusplan</code> does the swap for you — plans on Opus, builds on Sonnet automatically.</p>
         </div>
-        <div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/model-config" target="_blank" rel="noopener">Docs ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>This is a two-stage way of working that matches model strength to what each stage actually needs: Claude uses a powerful model (Opus) to think through and write the plan, where reasoning quality matters most, then hands the actual step-by-step execution to a faster, cheaper model (Sonnet), where following an already-agreed plan matters more than raw reasoning power. Typing <code>/model opusplan</code> sets this up automatically so you do not have to switch models manually partway through.</p><h4>Setting it up in full</h4><ol><li>Type <code>/model opusplan</code> as shown on the card.</li><li>Give Claude the task; it will plan using the stronger model first, following the same review-before-acting behaviour as plan mode.</li><li>Read and approve the plan as you normally would.</li><li>Claude then executes the approved plan using the faster, cheaper model automatically - no further switching needed from you.</li><li>Check the finished work as usual; if something in execution looks off, you can still ask Claude to re-plan with the stronger model.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Use it for tasks with a genuinely hard planning problem but simple execution once the approach is settled - restructuring a complex set of lender criteria into a checklist, then having the fast model apply that checklist to twenty deals. It suits any job where thinking through the approach is the hard part and doing it is comparatively mechanical.</p><h4>Good to know</h4><ul><li>The saving is real but only shows up on longer jobs - for a short task the planning stage itself may cost more than just running one model throughout.</li><li>It is still two model calls under the hood, so it is not automatically cheaper than a single sonnet pass for something simple.</li><li>Exact model names and this combination's availability may change as Anthropic updates its lineup.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"/model opusplan - work out how to reconcile these three lenders' criteria, then apply it across all open deals"</li><li>"/model opusplan and then rebuild the deal-tracking spreadsheet's formulas"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/model-config" target="_blank" rel="noopener">Docs ↗</a></div>
       </article>
 
     </div>
@@ -928,7 +1030,11 @@ carry out the approved plan, using a workflow">⧉</button></div>
         <p class="what">Read and write your Notion pages, notes and databases straight from Claude.</p>
         <p class="why"><b>Why you'll like it:</b> "add this to my deals page in Notion" or "what did I write about that client?"</p>
         <div class="how"><div class="how-lbl">▹ How to add it</div><p class="path">Desktop → <b>Settings → Connectors → Notion → Connect</b>. <span class="oneclick">One-click</span></p></div>
-        <div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Connect ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>Notion is an external notes and database app; connecting it to Claude via the one-click connector gives Claude permission to read and write your Notion pages and databases directly, rather than you copying text back and forth. Once connected, you can ask Claude to pull up what a page says, add a new entry to a database, or update a note, and it acts on your actual Notion workspace over the connector, subject to whatever access you grant when you connect it.</p><h4>Setting it up in full</h4><ol><li>Use the one-click connector link or button shown on the card.</li><li>Sign in to Notion if you are not already, and choose which workspace to connect.</li><li>Notion will ask which pages or the whole workspace Claude may access - pick deliberately rather than granting everything by default.</li><li>Approve the connection; Claude should now be able to see and search the pages you granted.</li><li>Test it with something low-stakes first, such as asking Claude to summarise a page you know the contents of, to confirm the connection is live and reading the right content.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Use it to keep a live deals page updated - ask Claude to add a new entry when a deal progresses, or to check what was last written about a particular client without you opening Notion yourself. It suits teams already using Notion as the shared record for deal status, lender notes, or client history.</p><h4>Good to know</h4><ul><li>Access is workspace- and page-scoped at connection time - if you cannot see a page you expect, the connection may not have been granted access to it.</li><li>Notion requires its own account and, for team workspaces, its own paid plan; the connector does not change Notion's own pricing.</li><li>Writing to Notion through Claude is still writing to a live shared workspace - a mistaken edit affects whatever your colleagues see too, so review before asking Claude to make sweeping changes.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Add a new entry to my deals page for the Elm St bridging loan"</li><li>"What did I write in Notion about the Fernwood Court client last month?"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Connect ↗</a></div>
       </article>
 
       <article class="card">
@@ -939,7 +1045,11 @@ carry out the approved plan, using a workflow">⧉</button></div>
           <p class="path">Ask Claude: <em>"connect my GitHub account and walk me through it."</em> It'll set up the sign-in with you — no password typed into the chat.</p>
           <p class="path" style="margin-top:8px">↑ For full save-and-version power, add an API key — see <a href="#keys">Keys</a>.</p>
         </div>
-        <div class="card-foot"><a class="btn" href="https://support.claude.com/en/articles/10167454-use-the-github-integration" target="_blank" rel="noopener">GitHub setup ↗</a><a class="btn ghost" href="https://github.com/github/github-mcp-server" target="_blank" rel="noopener">The server</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>GitHub is a code and document hosting service built around version control: every change is saved as a dated snapshot, so you can always see or restore an earlier version rather than only ever having the latest one. It also has an issues feature - a simple to-do list attached to a project - which Claude can read from and write to, letting it track open tasks like a chased valuation or a missing document alongside the files themselves.</p><h4>Setting it up in full</h4><ol><li>Sign up for a GitHub account if you do not have one, and create a private repository (a project folder with history) for the files you want tracked.</li><li>Connect Claude to GitHub using the method shown on the card - typically an OAuth sign-in or an official connector.</li><li>Grant access to the specific repository, not your whole account, where the option exists.</li><li>Ask Claude to save a first version of your files into the repository to confirm the connection works and history is being recorded.</li><li>Create an issue for a real outstanding task, such as "chase valuation - 14 Elm St", and confirm Claude can see and update it.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Use the version history to roll back a completion pack or checklist to an earlier state if a later edit turns out to be wrong. Use issues as a running to-do list Claude can help manage - tracking a chased valuation, an outstanding signature, or a document still owed by a broker, each as its own trackable item.</p><h4>Good to know</h4><ul><li>GitHub was built for code, not for people who have never used version control - the interface and terminology (commits, repositories, issues) will feel unfamiliar at first.</li><li>Private repositories are free for individuals within generous limits, but a team plan costs money once you need finer-grained permissions.</li><li>It is not a client-facing tool and should not be used to store anything you would not want a colleague with repository access to see - it is not a substitute for your case management or compliance systems.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Roll the completion pack back to yesterday's version"</li><li>"Create an issue to track chasing the valuation on 14 Elm St"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://support.claude.com/en/articles/10167454-use-the-github-integration" target="_blank" rel="noopener">GitHub setup ↗</a><a class="btn ghost" href="https://github.com/github/github-mcp-server" target="_blank" rel="noopener">The server</a></div>
       </article>
 
       <article class="card">
@@ -950,7 +1060,11 @@ carry out the approved plan, using a workflow">⧉</button></div>
           <div class="cmd"><pre>/plugin install cloudflare@claude-plugins-official</pre><button class="copy" aria-label="Copy" data-copy="/plugin install cloudflare@claude-plugins-official">⧉</button></div>
           <p class="path" style="margin-top:8px">↑ For deeper control, add an API token — see <a href="#keys">Keys</a>.</p>
         </div>
-        <div class="card-foot"><a class="btn" href="https://developers.cloudflare.com/agent-setup/claude-code/" target="_blank" rel="noopener">Setup guide ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>Cloudflare Pages takes a folder of website files and hosts them online with a public web address, handling the server side so you do not need your own hosting. Cloudflare also manages DNS - the records that tell the internet which server a domain name points to - for domains you control there. The official Cloudflare plugin gives Claude the ability to deploy a folder as a live site or read and adjust DNS records directly, once you have signed in.</p><h4>Setting it up in full</h4><ol><li>Install the official Cloudflare plugin using the method shown on the card.</li><li>Sign in with your Cloudflare account credentials when prompted; this authorises the plugin against your account, not just this one conversation.</li><li>Point Claude at the folder containing the site files you want published, and ask it to deploy to Cloudflare Pages.</li><li>Once deployed, Claude can give you the live URL - open it to confirm the site is actually up.</li><li>For DNS, ask Claude to show the records for a specific domain first before asking it to change anything, so you can check the current state.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Use it to put a simple client-facing page or document portal online quickly from a folder of files, without needing separate web hosting. Use the DNS side to check or adjust where a domain points - useful if you are troubleshooting why a client-facing page or email address is not resolving correctly.</p><h4>Good to know</h4><ul><li>DNS changes affect a live, working domain - a mistake can take down email or an existing site, so review any proposed DNS change carefully before approving it, and treat it as an explicit-approval action, not a routine one.</li><li>Cloudflare's free tier covers Pages hosting for most simple sites; DNS management for a domain you already own is also free, but advanced security or performance features sit behind paid plans.</li><li>This connects Claude directly to a real account with real infrastructure - only install and authorise it if you understand that Claude will then be able to act on that account, not just view it.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Put the site in this folder online with Cloudflare Pages"</li><li>"Show me the current DNS records for our domain before we change anything"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://developers.cloudflare.com/agent-setup/claude-code/" target="_blank" rel="noopener">Setup guide ↗</a></div>
       </article>
 
     </div>
@@ -998,7 +1112,11 @@ carry out the approved plan, using a workflow">⧉</button></div>
   </div>
 </div>
 </div></details>
-<div class="card-foot"><a class="btn" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">Create it ↗</a><a class="btn ghost" href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens" target="_blank" rel="noopener">Guide</a></div>
+
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>A fine-grained personal access token is GitHub's modern, scoped alternative to a classic all-access token. Rather than a key that can touch every repository you own, you pick exactly one repository and exactly which permissions it can use, typically Contents (read/write) and Issues (read/write). GitHub displays the token string once, at creation, and never shows it again.</p><h4>Setting it up in full</h4><ol><li>Use the link on the card to open GitHub's fine-grained token creation page.</li><li>Name the token clearly (e.g. the repo it is for) and set an expiry, 90 days is a reasonable default rather than leaving it open-ended.</li><li>Under Repository access, choose "Only select repositories" and pick the single repo Claude needs. Never grant "All repositories".</li><li>Under Permissions, set Contents to Read and write and Issues to Read and write; leave everything else at No access.</li><li>Click Generate token and copy the string immediately, it begins with <code>github_pat_</code> and disappears once you navigate away.</li><li>Store it as an item in 1Password rather than in chat or a file. Confirm it works by asking Claude to read a file from the repo or list its issues.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Useful once working files live in a GitHub repo, for example versioned rate sheets, quote templates, or a lender-criteria tracker, so Claude can save a new version and log an issue when something needs a human check. Suits internal tooling and documentation, not client files.</p><h4>Good to know</h4><ul><li>Treat the token as a secret with real write access to that repo; do not paste it into chat.</li><li>Scoped to one repo only, it cannot reach other repositories even if compromised.</li><li>Expiry means it must be renewed periodically, GitHub will email a reminder.</li><li>Setup happens entirely in a browser; no terminal required.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Save this updated rate sheet as a new version in the repo"</li><li>"Open an issue noting that the criteria doc needs a lender review"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">Create it ↗</a><a class="btn ghost" href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens" target="_blank" rel="noopener">Guide</a></div>
       </article>
 
       <article class="card">
@@ -1010,7 +1128,11 @@ carry out the approved plan, using a workflow">⧉</button></div>
           <li>Point it at your <b>specific site</b>, not "All zones".</li>
           <li>Create, then copy the token — shown once — straight into 1Password.</li>
         </ol>
-        <div class="card-foot"><a class="btn" href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" rel="noopener">Create it ↗</a><a class="btn ghost" href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/" target="_blank" rel="noopener">Guide</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>A Cloudflare API Token is a scoped credential you generate in the Cloudflare dashboard, restricted to specific permission groups (such as Pages or DNS) and, ideally, to one zone or site rather than the whole account. Claude uses it to call Cloudflare's API directly on your behalf, for example to redeploy a site or adjust a DNS record, without you handing over your actual account password.</p><h4>Setting it up in full</h4><ol><li>Use the link on the card to open the Cloudflare API Tokens page and choose "Create Token", then "Custom token" rather than a broad template.</li><li>Name it for its purpose (e.g. the site it manages).</li><li>Add only the permissions actually needed, commonly Zone:DNS:Edit and/or Account:Cloudflare Pages:Edit. Resist ticking extra boxes.</li><li>Under Zone Resources, restrict to the specific site rather than "All zones", where the account structure allows it.</li><li>Set a Client IP filter or TTL/expiry if you want extra containment; otherwise leave defaults and review the summary.</li><li>Click Continue to summary, then Create Token. Copy the value shown, it is displayed exactly once.</li><li>Store it in 1Password immediately. Confirm it works with a low-risk read-only call, such as listing DNS records, before trusting it with changes.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Relevant once the firm's website or client portal runs on Cloudflare, letting Claude push a content update, fix a DNS record, or redeploy a Pages site without a developer standing by. Not something every reader needs, this is for whoever owns the firm's web infrastructure.</p><h4>Good to know</h4><ul><li>This is a technical, developer-facing setup step, not for general staff use.</li><li>Scope it as tightly as possible: a token with account-wide Edit access is a serious liability if leaked.</li><li>Cloudflare accounts are usually free for DNS and Pages hosting, though paid plans add features.</li><li>Setup is browser-only; storing and using the token safely is the part that needs care.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Update the DNS record for the new client subdomain"</li><li>"Redeploy the Pages site with the latest content changes"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" rel="noopener">Create it ↗</a><a class="btn ghost" href="https://developers.cloudflare.com/fundamentals/api/get-started/create-token/" target="_blank" rel="noopener">Guide</a></div>
       </article>
     </div>
 
@@ -1022,14 +1144,22 @@ carry out the approved plan, using a workflow">⧉</button></div>
         <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-plug"></use></svg></div><div class="card-tt"><h3>1 · The MCP connection</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Claude fetches a specific secret from your vault <b>the moment it's needed</b> — you never paste anything.</p>
         <p class="why"><b>Best for:</b> letting Claude grab your GitHub/Cloudflare key mid-task in the app. It's a community add-on — ask Claude or a techy friend to install it.</p>
-        <div class="card-foot"><a class="btn" href="https://github.com/jrejaud/op-mcp" target="_blank" rel="noopener">op-mcp ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>This is a community-built MCP connector (op-mcp) that lets Claude ask your 1Password vault for a secret at the exact moment a task needs it, rather than you copying and pasting the value into the conversation. Claude requests the item by name, 1Password serves the value straight into the tool call, and the raw secret is never typed into chat or stored in the conversation transcript.</p><h4>Setting it up in full</h4><ol><li>Follow the link on the card to the op-mcp project and read its setup instructions, since it is a third-party add-on rather than an official Anthropic or 1Password product.</li><li>Install it per its documentation, typically registering it as an MCP server in Claude's configuration alongside your other connectors.</li><li>Authorise it against your 1Password account (desktop app integration or a service account token, depending on the version).</li><li>Restart Claude so the new MCP server is picked up, then confirm it appears in your list of connected tools.</li><li>Test it by asking Claude to fetch a known, low-risk item from a vault and confirm it retrieves the right one without ever printing the secret value itself.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Most valuable for whoever manages the firm's technical accounts, letting Claude pull a GitHub or Cloudflare key mid-task to deploy a site update or manage a repo, without that key ever appearing on screen. Not relevant to day-to-day broker or underwriting work.</p><h4>Good to know</h4><ul><li>Community-made, not an official 1Password or Anthropic product, so support and updates depend on an independent maintainer.</li><li>Techy to set up: expect some configuration file editing, not a one-click install.</li><li>Still requires trusting the connector with vault access, review its source or reputation first.</li><li>Overlaps with the simpler op command-line approach (see the next card); most users only need one of the two.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Grab the Cloudflare token from 1Password and redeploy the site"</li><li>"Use the GitHub key in my vault to open this issue"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/jrejaud/op-mcp" target="_blank" rel="noopener">op-mcp ↗</a></div>
       </article>
 
       <article class="card">
         <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-terminal"></use></svg></div><div class="card-tt"><h3>2 · The op command</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">1Password's command-line tool feeds a key into a command using a pointer like <code>op://Vault/Item/field</code> — the real value never shows.</p>
         <p class="why"><b>Best for:</b> the safest option when Claude runs terminal commands for you. Developer-level — worth knowing it exists.</p>
-        <div class="card-foot"><a class="btn" href="https://developer.1password.com/docs/cli/secret-references/" target="_blank" rel="noopener">Docs ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>The <code>op</code> command is 1Password's official command-line tool. Instead of pasting a secret into a command, you reference it by a pointer such as <code>op://Vault/Item/field</code>, and <code>op</code> substitutes the real value only at the moment the command runs, in memory, never printed to screen or saved to a file. Claude can run these commands via its terminal tool while still never seeing the underlying key in plain text in the conversation.</p><h4>Setting it up in full</h4><ol><li>Install the 1Password CLI, available from 1Password's own site or via a package manager such as Homebrew on a Mac.</li><li>Sign in once with <code>op signin</code>, which links the CLI to your existing 1Password account and desktop app.</li><li>Confirm it works with a simple read, using the command shown on the card, which resolves a pointer like <code>op://Vault/Item/field</code> to a value without displaying it in your terminal history.</li><li>From then on, ask Claude to pipe that pointer directly into whatever command needs the secret, for example authenticating a <code>curl</code> request or a deployment tool, rather than typing the key anywhere.</li><li>Verify success by checking the command's own output (e.g. an API responds correctly) rather than by checking the secret itself.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>The right approach whenever Claude is running terminal commands that need an API key, such as deploying the firm's website, calling a lender API, or managing GitHub. It is the safest pattern available when secrets and automation meet.</p><h4>Good to know</h4><ul><li>This is developer-level: it assumes comfort with a terminal and command-line tools.</li><li>Free to use if you already have a 1Password subscription; no extra cost.</li><li>Works identically on Mac, Windows, and Linux, unlike some GUI-only options.</li><li>Requires 1Password desktop app or biometric unlock configured for the CLI to authenticate.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Use the Cloudflare token from 1Password to check the site's DNS records"</li><li>"Pull the GitHub key from my vault and push this file update"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://developer.1password.com/docs/cli/secret-references/" target="_blank" rel="noopener">Docs ↗</a></div>
       </article>
 
       <article class="card">
@@ -1046,7 +1176,11 @@ carry out the approved plan, using a workflow">⧉</button></div>
   <div class="mock-muted">The password is filled straight into the page — Claude never sees it.</div>
 </div>
 </div></details>
-<div class="card-foot"><a class="btn" href="https://support.1password.com/1password-claude/" target="_blank" rel="noopener">Set it up ↗</a></div>
+
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>This is a feature of the 1Password browser extension: when Claude is driving the browser (via the Chrome extension) and lands on a login page, 1Password fills in the username and password itself, directly into the page. Claude sees that a form was filled and submitted, not the actual credential values, and each fill is approved individually with Touch ID or your device passcode before it happens.</p><h4>Setting it up in full</h4><ol><li>Make sure the 1Password browser extension is installed and unlocked in the browser Claude uses (this depends on Claude's Chrome integration being set up first).</li><li>Open 1Password's settings and enable the relevant "allow Claude/AI agents to use saved logins" style setting, using the link on the card as your starting point, since exact wording changes between 1Password versions.</li><li>Confirm biometric approval (Touch ID) is set up on the Mac, since this is the gate that gives explicit consent for each fill.</li><li>Test it on a low-stakes site: ask Claude to log into an account, approve the Touch ID prompt when it appears, and confirm you land on the logged-in page.</li><li>Treat any site or prompt you weren't expecting as a reason to decline the Touch ID request rather than approve on reflex.</li></ol><h4>Where it fits at Berkeley Credit</h4><p>Useful for everyday web sign-ins Claude needs to complete on your behalf, such as a lender portal, a CRM, or a document-signing platform, without ever exposing the password to the AI or requiring a terminal. Good for non-technical staff who want automation without any command-line setup.</p><h4>Good to know</h4><ul><li>Mac only at present, and it is one of 1Password's newest features, so expect rougher edges and rapid change.</li><li>Requires the 1Password browser extension and Claude's own Chrome extension both installed and connected.</li><li>Each fill needs a live Touch ID approval, it is not a silent, unattended process.</li><li>Only covers browser logins; it does not help with terminal commands or API keys, use the <code>op</code> command for those.</li></ul><h4>Try saying</h4><ul class="tryq"><li>"Log into the lender portal and pull this month's rate sheet"</li><li>"Sign into the CRM and check this client's file"</li></ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://support.1password.com/1password-claude/" target="_blank" rel="noopener">Set it up ↗</a></div>
       </article>
     </div>
 
@@ -1212,7 +1346,31 @@ carry out the approved plan, using a workflow">⧉</button></div>
         <div class="how"><div class="how-lbl">▹ Paste into Claude's message box</div>
           <div class="cmd"><pre>/plugin install superpowers@claude-plugins-official</pre><button class="copy" aria-label="Copy" data-copy="/plugin install superpowers@claude-plugins-official">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://github.com/obra/superpowers" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4>
+<p>Superpowers is a plugin bundle of skills that changes how Claude approaches a task before it writes anything. Instead of jumping straight to a draft, it prompts Claude to ask clarifying questions, break the job into steps, and check its own reasoning as it goes — a structured thinking layer bundled as an add-on, not a new model or connection.</p>
+<h4>Setting it up in full</h4>
+<ol>
+<li>Open Claude Code and run the <code>/plugin</code> command shown on the card to open the plugin browser.</li>
+<li>Search for "Superpowers" in the marketplace list and select it to install — this copies the skill files into your Claude configuration folder, no separate download or account needed.</li>
+<li>Start a new Claude Code session (or restart the current one) so the new skills load.</li>
+<li>Confirm it worked by giving Claude a vague, multi-part task — for example, "help me review this bridging application" — and checking that it asks a follow-up question or lays out a short plan before diving in, rather than guessing at an answer immediately.</li>
+</ol>
+<h4>Where it fits at Berkeley Credit</h4>
+<p>Useful for anything with several moving parts: structuring a loan summary for underwriting, drafting a client explanation of an exit strategy, or working through lender criteria methodically instead of pattern-matching to a plausible-looking answer.</p>
+<ul>
+<li>It slows Claude down slightly on simple requests — for quick one-liners it can feel like overkill.</li>
+<li>It changes behaviour, not knowledge — Claude still needs the correct source documents or figures to get the substance right.</li>
+<li>Free to install and works identically on Mac and Windows since it runs inside Claude Code itself.</li>
+</ul>
+<h4>Try saying</h4>
+<ul class="tryq">
+<li>"Help me put together a bridging quote for this case — ask me what you need first."</li>
+<li>"Walk through this development exit case step by step before giving me a recommendation."</li>
+</ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/obra/superpowers" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
@@ -1220,7 +1378,32 @@ carry out the approved plan, using a workflow">⧉</button></div>
         <p class="what">A writing skill that strips the robotic "AI voice" out of anything Claude writes, so it sounds like a real person.</p>
         <p class="why"><b>Why you'll like it:</b> client emails and letters read warm and human — no "delve", no "in today's fast-paced world".</p>
         <div class="how"><div class="how-lbl">▹ Easiest way</div><p class="path">Paste the GitHub link into Claude and say <em>"add this as a skill for me."</em></p></div>
-        <div class="card-foot"><a class="btn" href="https://github.com/hardikpandya/stop-slop" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4>
+<p>Stop Slop is a writing skill — a set of instructions Claude follows while drafting or editing text — that strips out the tics that mark writing as machine-generated: stock openers, false-balance hedging, over-use of words like "delve" or "leverage", and the habit of restating the question before answering it. It doesn't add facts or change meaning; it edits tone and rhythm so the result reads like something a person actually wrote.</p>
+<h4>Setting it up in full</h4>
+<ol>
+<li>Load the skill as shown on the card, either by name in a prompt or via the skill picker in Claude Code.</li>
+<li>Give Claude the text you want written or a rough draft to clean up, and mention you want the AI-sounding phrasing removed.</li>
+<li>Claude drafts, then re-reads its own output against the skill's checklist of common AI tells and rewrites the flagged lines.</li>
+<li>Check the result reads naturally aloud — no stiff transitions, no repeated sentence shapes, no jargon that wouldn't appear in a normal email — and ask for another pass if a phrase still feels off.</li>
+</ol>
+<h4>Where it fits at Berkeley Credit</h4>
+<p>Client-facing emails, quote cover notes, and broker correspondence benefit most — text that needs to sound like it came from a person at Berkeley Credit, not a chatbot. Also useful for tidying internal case notes or valuation summaries before they go into a file.</p>
+<ul>
+<li>It is a style pass, not a fact-checker — it will not catch a wrong rate or an incorrect LTV, only clunky phrasing.</li>
+<li>Free and built into Claude — no separate account or cost.</li>
+<li>Works the same on Mac and Windows; it is just a prompt-level instruction set.</li>
+<li>Best used as a final polish step, after the substance of the email or document is already right.</li>
+</ul>
+<h4>Try saying</h4>
+<ul class="tryq">
+<li>"Rewrite this client email so it doesn't sound like AI wrote it."</li>
+<li>"Clean up this valuation summary — make it read like I wrote it, not a bot."</li>
+</ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/hardikpandya/stop-slop" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
@@ -1228,7 +1411,33 @@ carry out the approved plan, using a workflow">⧉</button></div>
         <p class="what">A plain note Claude reads every time, holding your preferences. Not an install — just a habit.</p>
         <p class="why"><b>Why you'll like it:</b> tell it once — "I'm at Berkeley Credit, use UK English, keep a warm professional tone" — and never repeat yourself.</p>
         <div class="how"><div class="how-lbl">▹ How to start one</div><p class="path">Tell Claude: <em>"Remember for next time: …"</em> or <em>"set up a CLAUDE.md with my preferences."</em></p></div>
-        <div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener">How memory works ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4>
+<p>CLAUDE.md is a plain text file that Claude automatically reads at the start of every session in a given folder or project. There is no install: you simply create the file and write your preferences into it — your role, how you like things written, recurring facts about your work — and Claude treats it as standing context every time it opens that project.</p>
+<h4>Setting it up in full</h4>
+<ol>
+<li>Create a file named exactly <code>CLAUDE.md</code> in the folder you work from most (or use the location shown on the card).</li>
+<li>Write short, plain statements: who you are, what you do at Berkeley Credit, tone preferences ("keep emails brief, no jargon"), and any standing facts Claude should never have to be told twice (lender panel, typical deal sizes, terms you always use).</li>
+<li>Save the file as plain text — no special formatting required, though simple headings and bullet points help keep it scannable.</li>
+<li>Confirm it worked by starting a fresh conversation in that folder and asking Claude something that depends on the note (for example, "what's my usual tone for client emails?") — it should answer from the file without you repeating it.</li>
+<li>Update the file whenever a preference changes; Claude re-reads it every session, so edits take effect immediately next time.</li>
+</ol>
+<h4>Where it fits at Berkeley Credit</h4>
+<p>One-time note covering your writing style, standard disclaimers, common lender criteria, or house terminology means every future quote, email draft, or case summary starts from the right baseline without you re-explaining it each time.</p>
+<ul>
+<li>It is only read for sessions started in or under that folder — a note saved elsewhere on the computer will not be picked up.</li>
+<li>It is plain text Claude trusts as instructions, so avoid putting anything sensitive (client data, passwords) in it — treat it as a preferences note, not a case file.</li>
+<li>No cost, no install, works identically on Mac and Windows since it is just a file.</li>
+<li>It shapes tone and habits, not facts — it will not remember a specific client's numbers unless you write them in.</li>
+</ul>
+<h4>Try saying</h4>
+<ul class="tryq">
+<li>"Create a CLAUDE.md for this folder with my email tone and our standard bridging disclaimers."</li>
+<li>"Add a note to my CLAUDE.md that I always want LTV shown as a percentage, not a ratio."</li>
+</ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener">How memory works ↗</a></div>
       </article>
 
       <article class="card">
@@ -1240,7 +1449,32 @@ carry out the approved plan, using a workflow">⧉</button></div>
 /plugin install claude-mem@thedotmack</pre><button class="copy" aria-label="Copy" data-copy="/plugin marketplace add thedotmack/claude-mem
 /plugin install claude-mem@thedotmack">⧉</button></div>
         </div>
-        <div class="card-foot"><a class="btn" href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4>
+<p>claude-mem is a plugin that saves a summary of what happened in each Claude Code session to a local memory store, then automatically feeds relevant past sessions back into a new conversation when it starts. Unlike CLAUDE.md, which holds fixed preferences you write once, claude-mem captures what you actually did — the case you were working on, decisions made, where you left off — without you writing anything down.</p>
+<h4>Setting it up in full</h4>
+<ol>
+<li>Run <code>/plugin</code> as shown on the card and install claude-mem from the marketplace list.</li>
+<li>Use Claude Code as normal for a session on a piece of work — the plugin records a summary in the background as you go, no extra steps needed mid-session.</li>
+<li>Start a new session later on the same project and ask Claude to recall the earlier work — it should pull the relevant summary back in automatically.</li>
+<li>Confirm it worked by checking Claude references specifics from the earlier session (case name, decisions made) without you re-explaining them.</li>
+</ol>
+<h4>Where it fits at Berkeley Credit</h4>
+<p>Picking a bridging case back up after a week away, resuming a half-finished valuation review, or continuing a multi-day client correspondence thread without re-typing the background each time.</p>
+<ul>
+<li>Community-made plugin, not an official Anthropic product — reasonably mature but worth treating as a convenience layer, not a system of record.</li>
+<li>Memory is stored locally on the machine it ran on; it will not follow you to a different computer without extra setup.</li>
+<li>Do not rely on it for anything that must be auditable — keep case files and compliance records in your proper systems, not just in Claude's memory.</li>
+<li>Free to install; works on Mac and Windows since it runs inside Claude Code.</li>
+</ul>
+<h4>Try saying</h4>
+<ul class="tryq">
+<li>"Pick up where we left off on the Smith bridging case."</li>
+<li>"What did we decide about the exit strategy on that development deal last week?"</li>
+</ul>
+        </div>
+      <div class="card-foot"><a class="btn" href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
     </div>
@@ -1255,55 +1489,154 @@ carry out the approved plan, using a workflow">⧉</button></div>
       <article class="card">
         <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-globe"></use></svg></div><div class="card-tt"><h3>Claude in Chrome</h3><span class="badge b-med"><span class="bdot"></span>Medium</span></div></div>
         <p class="what">An official extension that lets Claude see and act in your browser — click, fill and read pages with you.</p>
-        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://claude.com/claude-for-chrome" target="_blank" rel="noopener">Get it ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4>
+<p>Claude in Chrome is an official browser extension that gives Claude a live view of your actual Chrome tab and lets it click, type, scroll, and read the page on your behalf — it is controlling your real browser session, with your logins and cookies, rather than a sandboxed copy. Each action it takes on a site is visible to you as it happens, and it asks for approval before doing anything consequential.</p>
+<h4>Setting it up in full</h4>
+<ol>
+<li>Follow the link on the card to install the Claude in Chrome extension from the Chrome Web Store.</li>
+<li>Sign in with the Claude account tied to your paid plan — the extension requires a paid subscription, it is not available on the free tier.</li>
+<li>Pin the extension and grant it permission to access the sites you want Claude to work on, either per-site or generally, when Chrome prompts you.</li>
+<li>Confirm it worked by opening a site and asking Claude to read the page or click something small and reversible — you should see the extension highlight the action and ask you to confirm before it proceeds on anything that matters.</li>
+</ol>
+<h4>Where it fits at Berkeley Credit</h4>
+<p>Logging into a lender portal to check a live decision, pulling comparable valuations from a property site, or filling in a repetitive online form using data you already have open in another tab — anywhere the task is "do this on a website I'm already logged into."</p>
+<ul>
+<li>Requires a paid Claude plan — check which tier includes it before promising it to the team.</li>
+<li>It acts with your real login sessions, so treat every approval prompt seriously, especially on banking, lender, or client-data sites.</li>
+<li>Not suitable for anything requiring you to enter card numbers, passwords, or ID documents — that stays a human-only action regardless of the tool.</li>
+<li>Chrome-only; there is no equivalent for Safari or Firefox at present.</li>
+</ul>
+<h4>Try saying</h4>
+<ul class="tryq">
+<li>"Open the lender portal and check the current status of case reference 4471."</li>
+<li>"Go to this property listing and pull the asking price and square footage into a note for me."</li>
+</ul>
+        </div>
+      <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://claude.com/claude-for-chrome" target="_blank" rel="noopener">Get it ↗</a></div>
       </article>
 
       <article class="card">
         <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-cursor"></use></svg></div><div class="card-tt"><h3>Browser automation</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Lets Claude drive a website for you — fill a form, pull data from a portal.</p>
-        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/williamkapke/kapture" target="_blank" rel="noopener">Kapture ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4>
+<p>This connects Claude to a browser automation MCP server — a small background program that gives Claude programmatic control of a web page: reading its structure, filling fields, clicking buttons, and extracting data. It is a more technical, scriptable cousin of Claude in Chrome, aimed at repeatable tasks on a specific portal rather than ad-hoc browsing.</p>
+<h4>Setting it up in full</h4>
+<ol>
+<li>Use the link or command on the card to add a browser automation MCP server to Claude — this usually means running an install command once in a terminal, or adding the server through Claude's settings if a one-click option is offered.</li>
+<li>Restart Claude so it picks up the new server and its tools appear in the available toolset.</li>
+<li>Point Claude at the specific portal or form you want automated and describe the repetitive task in plain language (for example, "log into this portal and download the last five statements").</li>
+<li>Watch the first run closely and confirm the data it pulls back or the fields it fills match what you expect before trusting it to run unattended.</li>
+</ol>
+<h4>Where it fits at Berkeley Credit</h4>
+<p>A lender or valuation portal that has to be checked or updated the same way every day, pulling a batch of case statuses into a spreadsheet, or repeatedly submitting the same style of application form with different case details each time.</p>
+<ul>
+<li>This is a technical setup — it typically needs a one-off terminal command, so it suits someone comfortable with basic setup steps, or a short session with IT.</li>
+<li>Portals change their layout without notice, which can break an automation until it is re-checked — do not assume a working script stays working forever.</li>
+<li>Credentials for the portal still need handling carefully; never have Claude type a password directly — use a password manager integration where one exists.</li>
+<li>Works on Mac and Windows, since MCP servers run locally regardless of operating system.</li>
+</ul>
+<h4>Try saying</h4>
+<ul class="tryq">
+<li>"Log into the valuation portal and pull today's completed reports into a table."</li>
+<li>"Fill in this lender's online application form using the details from this case file."</li>
+</ul>
+        </div>
+      <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/williamkapke/kapture" target="_blank" rel="noopener">Kapture ↗</a></div>
       </article>
 
       <article class="card">
         <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-file-text"></use></svg></div><div class="card-tt"><h3>PDF form tools</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Fill, split, merge and <span class="jt" tabindex="0" data-tip="OCR turns a scanned picture of a document into real, searchable text.">OCR</span> PDF forms — handy for lender packs. Ask Claude to pick a maintained one.</p>
-        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener">Directory ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4>
+<p>A PDF MCP server gives Claude direct tools for manipulating PDF files on disk — filling in form fields, splitting or merging documents, running OCR on scanned pages so the text becomes searchable and selectable, and reading structure out of forms. Claude calls these tools locally rather than uploading files to a third-party web service.</p>
+<h4>Setting it up in full</h4>
+<ol>
+<li>Ask Claude to find and set up a maintained PDF MCP server, as suggested on the card — Claude can search current options and recommend one with active upkeep rather than you having to vet it yourself.</li>
+<li>Follow the install step Claude gives you, typically a one-off terminal command that registers the server with Claude.</li>
+<li>Restart Claude so the PDF tools appear in its available toolset.</li>
+<li>Test it on a low-stakes file first — a blank lender form or an old scanned document — asking Claude to fill a field or OCR a page, and check the output PDF opens correctly and the text is right.</li>
+</ol>
+<h4>Where it fits at Berkeley Credit</h4>
+<p>Filling in a lender application pack once the details are known, merging a valuation report with supporting documents into a single completion pack, splitting a large scanned bundle into individual documents, or OCR-ing an old scanned title document so its text can be searched and quoted.</p>
+<ul>
+<li>Needs a one-off technical setup step — best done once with IT help or by someone comfortable with a terminal.</li>
+<li>OCR accuracy on poor scans or handwriting varies — always check figures and names against the original rather than trusting the extracted text outright.</li>
+<li>Files stay local to your machine when processed this way, which is generally better for client data than an online PDF converter, but confirm which specific server you installed before treating it as fully private.</li>
+<li>Not a substitute for a proper document management system — useful for one-off manipulation, not long-term storage.</li>
+</ul>
+<h4>Try saying</h4>
+<ul class="tryq">
+<li>"Fill in this lender application PDF using the details from this case."</li>
+<li>"OCR this scanned title document so I can search and copy the text."</li>
+</ul>
+        </div>
+      <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener">Directory ↗</a></div>
       </article>
 
       <article class="card">
         <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-message"></use></svg></div><div class="card-tt"><h3>WhatsApp</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Read and send WhatsApp messages through Claude. Powerful, but a couple of setup steps.</p>
-        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/lharries/whatsapp-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>This isn't an official Anthropic or Meta integration — it's a community-built MCP server that pairs with a small Go program (a "bridge") which logs into WhatsApp Web using your phone's QR code, exactly like linking WhatsApp Web in a browser. The bridge keeps a local session and message store on your machine; the MCP server then lets Claude query that store and send messages through the same linked session. Because it rides on WhatsApp Web's linking mechanism, your phone must stay connected to the internet for it to keep working.</p><h4>Setting it up in full</h4><ol><li>Install the prerequisites (Go and the WhatsApp bridge project) using the command shown on the card — this pulls down the bridge binary and the MCP server code.</li><li>Run the bridge once from a terminal; it prints a QR code.</li><li>Open WhatsApp on your phone, go to Linked Devices, and scan the QR code to link the bridge as a new device.</li><li>Add the MCP server entry to Claude's configuration file as shown on the card, then restart Claude.</li><li>Confirm it worked by asking Claude to list your recent WhatsApp chats — if a real chat list comes back, the link is live.</li></ol><h4>Where it fits at Berkeley Credit</h4><ul><li>Pulling up a broker or client's WhatsApp thread before a call without unlocking your phone.</li><li>Drafting a status update on a completion and sending it from Claude once you've approved the wording.</li><li>Searching across chats for a specific figure a client sent you (a valuation number, a solicitor's name).</li></ul><h4>Good to know</h4><ul><li>Community-made, not supported by WhatsApp or Anthropic — treat it as a hobby project with real access to your messages.</li><li>Requires Go and comfort with a terminal to install; not a one-click app.</li><li>Your phone must stay online, and WhatsApp can in principle flag or unlink automated-looking sessions.</li><li>Message content and contacts sit in a local store on your Mac or PC — be mindful of client confidentiality.</li><li>Claude will always ask before sending a message on your behalf.</li></ul><ul class="tryq"><li>"Show me my last five messages from the broker at Kuflink"</li><li>"Draft a WhatsApp reply to Sarah confirming completion is set for Friday"</li></ul>
+        </div>
+      <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/lharries/whatsapp-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
         <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-book"></use></svg></div><div class="card-tt"><h3>NotebookLM</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Ties Claude to Google's research notebooks for digging through big piles of documents.</p>
-        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/jacob-bd/notebooklm-mcp-cli" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>NotebookLM is Google's tool for uploading a pile of documents (PDFs, transcripts, reports) and having Gemini answer questions strictly grounded in them, with citations back to source. This card connects Claude to NotebookLM via an unofficial MCP server, so Claude can create notebooks, add sources, run queries, and pull back the grounded answers — effectively letting Claude drive NotebookLM's research workflow instead of you clicking through the browser interface.</p><h4>Setting it up in full</h4><ol><li>Install and configure the MCP server using the command shown on the card.</li><li>Authenticate with your Google account when prompted — the server needs to act on your NotebookLM account, so it will open a browser-based Google sign-in.</li><li>Add the resulting server entry to Claude's configuration and restart Claude.</li><li>Test it by asking Claude to list your existing NotebookLM notebooks; a real list confirms the connection.</li><li>Create or point it at a notebook with a few source documents and ask a grounded question to confirm answers come back with citations.</li></ol><h4>Where it fits at Berkeley Credit</h4><ul><li>Loading a pack of lender criteria documents and asking Claude to compare LTV limits across lenders, with citations to which document said what.</li><li>Digesting a long due-diligence bundle (surveys, title reports, leases) into a single answer to a specific underwriting question.</li><li>Building a running research notebook per deal that a colleague can also query later.</li></ul><h4>Good to know</h4><ul><li>Unofficial — it's reverse-engineering NotebookLM's web interface, so it can break when Google changes that interface, with no support line to call.</li><li>Requires signing in with a Google account, and documents you upload live in that Google account's NotebookLM notebooks, not locally.</li><li>Best for grounded Q&A over documents you've already gathered, not for open-ended web research.</li><li>Free to use at normal volumes on a personal Google account, but Google may rate-limit heavy or automated-looking use.</li></ul><ul class="tryq"><li>"Create a notebook from these three lender policy PDFs and tell me which ones allow second-charge bridging"</li><li>"Ask my due diligence notebook what the survey says about the roof condition"</li></ul>
+        </div>
+      <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/jacob-bd/notebooklm-mcp-cli" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
         <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-line-chart"></use></svg></div><div class="card-tt"><h3>Google Analytics</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Ask plain-English questions about website traffic. Google's official server (pip <code>analytics-mcp</code>).</p>
-        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/googleanalytics/google-analytics-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>This is Google's own official MCP server for Google Analytics (installed via the Python package manager, <code>pip</code>), so it talks directly to your GA4 property using the same reporting API that powers the Analytics dashboard. Claude turns a plain-English question into the correct report request — traffic by source, conversions, page performance — and returns the numbers, without you having to build a report by hand in the GA interface.</p><h4>Setting it up in full</h4><ol><li>Install Python if you don't already have it, then run the install command shown on the card to pull in the analytics-mcp package.</li><li>Authenticate with the Google account that has access to your GA4 property, using the sign-in flow the setup triggers.</li><li>Add the MCP server entry to Claude's configuration using the details shown on the card, then restart Claude.</li><li>Confirm access by asking Claude for your GA4 property's account summary — a real property name and ID coming back means it's connected.</li><li>Ask a simple real question (last 7 days' sessions) to confirm live data flows through correctly.</li></ol><h4>Where it fits at Berkeley Credit</h4><ul><li>Checking which pages on the company site attract the most enquiries before a marketing push.</li><li>Spotting a traffic drop on a landing page (e.g. a specific loan-product page) without opening the GA dashboard.</li><li>Reporting month-on-month visitor and enquiry-form trends for a partner or investor update.</li></ul><h4>Good to know</h4><ul><li>Official Google server, so it's well maintained, but it only works if you already have GA4 (not the old Universal Analytics) set up on the site.</li><li>Requires Python and a one-off pip install — mildly technical but a known, repeatable process.</li><li>You need Google account access to the GA4 property; it won't create that access for you.</li><li>Read-only in practice — it reports on data, it doesn't change your Analytics configuration.</li></ul><ul class="tryq"><li>"What were our top 5 landing pages by sessions last month?"</li><li>"Show me conversion rate by traffic source for the bridging loans page"</li></ul>
+        </div>
+      <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/googleanalytics/google-analytics-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
         <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-wrench"></use></svg></div><div class="card-tt"><h3>Chrome DevTools</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Let Claude inspect and debug a live website — speed, errors, network. The Chrome team's official server.</p>
-        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>This is the official Chrome DevTools MCP server, built by the Chrome team. It drives a real instance of Chrome under the hood and gives Claude the same inspection tools a developer would use manually — network waterfall, console errors, performance traces, page structure — so Claude can navigate to a URL, watch what happens, and reason about why a page is slow or broken rather than guessing from the page's visible content alone.</p><h4>Setting it up in full</h4><ol><li>Make sure Chrome is installed on the machine — the server launches and controls a real Chrome browser.</li><li>Add the MCP server entry to Claude's configuration using the command shown on the card; no separate account or sign-in is needed.</li><li>Restart Claude so it picks up the new server.</li><li>Confirm it worked by asking Claude to open a URL and report any console errors — a real Chrome window (or headless instance) launching and returning results confirms the connection.</li></ol><h4>Where it fits at Berkeley Credit</h4><ul><li>Working out why the online application form or calculator on the company site loads slowly for a broker on a poor connection.</li><li>Checking why a lender-facing microsite is throwing JavaScript errors after a template change.</li><li>Auditing page load speed before a marketing campaign drives traffic to a landing page.</li></ul><ul></ul><h4>Good to know</h4><ul><li>Official and actively maintained by the Chrome team, but it is a developer tool — most useful when paired with someone who can act on the technical findings.</li><li>Launches a real (or headless) browser instance, which uses noticeably more memory and CPU than a normal chat.</li><li>Only inspects what's happening in the browser it controls, not the live production traffic across all your visitors.</li><li>Works on Mac and Windows equally, since it drives Chrome directly rather than relying on OS-specific hooks.</li></ul><ul class="tryq"><li>"Open our loan calculator page and tell me why it's loading slowly"</li><li>"Check the console for errors on the broker portal login page"</li></ul>
+        </div>
+      <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/ChromeDevTools/chrome-devtools-mcp" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
         <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-compare"></use></svg></div><div class="card-tt"><h3>Second opinion (Codex)</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Brings in OpenAI's Codex as a second set of eyes when a task is tricky.</p>
-        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/openai/codex-plugin-cc" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>This plugin wires OpenAI's Codex CLI into Claude as a callable tool, so on a genuinely hard or ambiguous task Claude can hand the problem to Codex, get back an independent answer, and compare the two before deciding what to tell you. It's a second model from a different vendor looking at the same problem, not a merge of the two — useful specifically because the two systems sometimes reason differently and disagree in informative ways.</p><h4>Setting it up in full</h4><ol><li>Run <code>/plugin</code> inside Claude and choose the Codex option shown on the card to install it.</li><li>Make sure you have a valid OpenAI account and API access, since Codex calls run against OpenAI's own service and are billed separately from your Claude usage.</li><li>Provide the OpenAI API key when the plugin asks for it during setup.</li><li>Confirm it worked by asking Claude to get a second opinion from Codex on a small test task and checking that a distinct, clearly-labelled response comes back.</li></ol><h4>Where it fits at Berkeley Credit</h4><ul><li>Sanity-checking an unusual lending-criteria interpretation before it goes into client-facing guidance.</li><li>Getting a second read on a tricky spreadsheet formula or calculation logic before it's relied on for a quote.</li><li>Cross-checking a drafted compliance-sensitive explanation for anything Claude may have got subtly wrong.</li></ul><h4>Good to know</h4><ul><li>Requires your own separate OpenAI account and API billing — this is not covered by your Claude subscription.</li><li>Adds latency and cost, so it's for genuinely hard or high-stakes tasks, not routine ones.</li><li>Codex can be wrong too; a second opinion is a prompt to think harder, not a tie-breaker to trust blindly.</li><li>Best used sparingly and deliberately, since running two models on everything defeats the point of using either efficiently.</li></ul><ul class="tryq"><li>"Get a second opinion from Codex on this LTV calculation before I send it"</li><li>"Ask Codex to check this compliance wording for anything I might have missed"</li></ul>
+        </div>
+      <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/openai/codex-plugin-cc" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       <article class="card">
         <div class="card-top"><div class="card-ic"><svg class="ic" aria-hidden="true"><use href="#i-smile"></use></svg></div><div class="card-tt"><h3>Hugging Face</h3><span class="badge b-techy"><span class="bdot"></span>Techy</span></div></div>
         <p class="what">Search AI models, datasets and demos. Add the hosted server at <code>huggingface.co/mcp</code> with a free token.</p>
-        <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/huggingface/hf-mcp-server" target="_blank" rel="noopener">GitHub ↗</a></div>
+        
+        <div class="detail"><div class="detail-lbl"><svg class="ic" style="width:13px;height:13px"><use href="#i-book"></use></svg> In depth</div>
+<h4>How it works</h4><p>Hugging Face is the largest public hub of AI models, datasets, and live demo apps ("Spaces"). This card connects Claude to Hugging Face's own hosted MCP server, so Claude can search that catalogue on your behalf — finding models built for a particular task, checking what a dataset contains, or looking up a demo — using a free personal access token tied to your Hugging Face account rather than any local install.</p><h4>Setting it up in full</h4><ol><li>Create a free Hugging Face account if you don't already have one, at the site the card links to.</li><li>Generate a personal access token from your Hugging Face account settings — a read-only token is enough for searching and browsing.</li><li>Add the hosted MCP server using the link on the card, pasting in your token when asked.</li><li>Restart Claude so the connection takes effect.</li><li>Confirm it worked by asking Claude to search for a well-known model (e.g. a speech-to-text model) and checking that real results with names and descriptions come back.</li></ol><h4>Where it fits at Berkeley Credit</h4><ul><li>Scoping whether an off-the-shelf AI model exists for a specific task before commissioning custom development — for example, document OCR for solicitor packs.</li><li>Checking what a speech-to-text or summarisation model is actually capable of before recommending it to be built into a tool.</li><li>General due diligence on AI vendor claims — seeing what's genuinely available versus marketing language.</li></ul><h4>Good to know</h4><ul><li>Browsing and searching are free; actually running or fine-tuning models can require paid compute depending on what you choose to do next.</li><li>This connects to a public catalogue — it doesn't run models for you or process your firm's data by default.</li><li>Aimed more at technical scoping than day-to-day case work; useful occasionally, not a daily tool.</li><li>The token only grants search/browse access unless you deliberately generate one with write permissions — don't do that unless a specific task needs it.</li></ul><ul class="tryq"><li>"Find models that can extract text from scanned mortgage documents"</li><li>"Search Hugging Face for open datasets on UK property price trends"</li></ul>
+        </div>
+      <div class="card-foot" style="padding-top:14px"><a class="btn" href="https://github.com/huggingface/hf-mcp-server" target="_blank" rel="noopener">GitHub ↗</a></div>
       </article>
 
       
